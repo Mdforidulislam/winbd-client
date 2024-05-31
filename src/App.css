@@ -1,0 +1,22 @@
+@keyframes bottomToTop {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .bottom-to-top {
+    animation: bottomToTop 1s ease-out;
+  }
+
+
+
+
+  .transition-right-slow {
+    transition: right 4.5s ease-in-out;
+  }
+  
