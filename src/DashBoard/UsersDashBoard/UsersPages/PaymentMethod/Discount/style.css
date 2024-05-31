@@ -1,0 +1,48 @@
+.discount-badge {
+  position: relative;
+  display: inline-block;
+  background-color: #ff0000;
+  color: white;
+  padding: 2px 2px 2px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 10% 100%, 22% 50%, 10% 0%);
+  animation: slide-in 0.9s ease-in-out forwards;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.tracking {
+  letter-spacing: -0.09em;
+}
+
+/* New: Animation definition */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+    /* Start from off-screen to the right */
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    /* Slide into view from the right */
+  }
+}
+
+.discount-badge-text {
+  position: relative;
+  z-index: 0;
+}
+
+.discount-badge:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 10px;
+  height: 2px;
+  background-color: yellow;
+  transform: translateY(-50%);
+}
