@@ -28,36 +28,31 @@ const Register = () => {
     // const [name, setName] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
-    
-    
-    console.log(role, 'from login page');
-    
-useEffect(() => {
-      
 
-    // Function to get the value of a URL parameter
-    const getUrlParameter = (name) => {
-        const urlParams = new URLSearchParams(location.search);
-        return urlParams.get(name);
-    }
+    useEffect(() => {
+        // Function to get the value of a URL parameter
+        const getUrlParameter = (name) => {
+            const urlParams = new URLSearchParams(location.search);
+            return urlParams.get(name);
+        }
 
-    // Extract the 'ref' parameter value
-    const refValue = getUrlParameter('ref');
+        // Extract the 'ref' parameter value
+        const refValue = getUrlParameter('ref');
 
-    // Check if refValue is not null and convert to number if needed
-    const refNumber = refValue ? parseInt(refValue, 10) : null;
+        // Check if refValue is not null and convert to number if needed
+        const refNumber = refValue ? parseInt(refValue, 10) : null;
 
-    // Store data in localStorage
-    if (refNumber) {
-        localStorage.setItem('registerAuthrId', JSON.stringify(refNumber));
-    }
+        // Store data in localStorage
+        if (refNumber) {
+            localStorage.setItem('registerAuthrId', JSON.stringify(refNumber));
+        }
 
-    // Retrieve data from localStorage
-    const retrievedData = JSON.parse(localStorage.getItem('registerAuthrId'));
-    setRegisterAuthorId(retrievedData);
+        // Retrieve data from localStorage
+        const retrievedData = JSON.parse(localStorage.getItem('registerAuthrId'));
+        setRegisterAuthorId(retrievedData);
 
-  },[location.search])
-    
+    }, [location.search])
+
 
 
     //  validation and clear the userName search value
@@ -87,8 +82,6 @@ useEffect(() => {
     const passworduser = watch('password', '');
     const rePassworduser = watch('rePassword', '');
     const PhoneNumber = watch('phone', '');
-
-    // Phone Number Validation
 
 
     // input value upper case and loware case
@@ -140,18 +133,18 @@ useEffect(() => {
     };
 
 
-        // login working here ========================
-        const onSubmit = async (data) => {
-            data.authorId = registerAuthorId;
-            console.log(registerAuthorId);
-            console.log(data,'action here');
-            const register = await axios.post('https://pay-winbd-server.vercel.app/insertUsers', data)
-            console.log(register);
-    
-            loginUserNamePassword(data.userName, data.password);
-    
-            // console.log(name);
-        };
+    // login working here ========================
+    const onSubmit = async (data) => {
+        data.authorId = registerAuthorId;
+        console.log(registerAuthorId);
+        console.log(data, 'action here');
+        const register = await axios.post('https://pay-winbd-server.vercel.app/insertUsers', data)
+        console.log(register);
+
+        loginUserNamePassword(data.userName, data.password);
+
+        // console.log(name);
+    };
 
 
 
@@ -169,14 +162,14 @@ useEffect(() => {
 
 
 
-// end the before return 
+    // end the before return 
     return (
         <div className="w-full min-h-screen bg-loginbg">
             <div className="md:min-h-screen flex justify-center items-center">
-                <div className="max-w-xl mx-auto">
+                <div className="w-full md:max-w-xl mx-auto">
                     {/* header makeing here  */}
 
-                    <div className="w-full text-white py-1  mb-6 flex items-center bg-GlobalDarkGray px-2">
+                    <div className="w-full text-white py-1 mb-6 flex items-center bg-GlobalDarkGray px-2">
 
                         <Link to={'/login'} className="relative z-10">
                             <div className="">

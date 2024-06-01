@@ -30,6 +30,7 @@ import AddLink from "../DashBoard/AdminDashBoard/AddLink/AddLink";
 import ForgetPassword from "../DashBoard/Sub-Admindashboard/ForgetPassword/ForgetPassword";
 import History from "../DashBoard/Sub-Admindashboard/History/History";
 import ResetPassword from "../DashBoard/UsersDashBoard/UsersPages/Profile/ResetPassword/ResetPassword";
+import Facebook from "../DashBoard/UsersDashBoard/Facebook";
 
 
 export const router = createBrowserRouter([
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
             {
                 path: "/forgotpassword",
                 element: <ForgotPass />,
+            },
+            {
+                path: "/test",
+                element: <Facebook />,
             }
         ]
     },

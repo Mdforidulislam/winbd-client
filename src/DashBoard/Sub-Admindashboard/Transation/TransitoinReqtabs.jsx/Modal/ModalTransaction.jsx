@@ -67,14 +67,14 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
               <span onClick={() => setOpenModal(false)} className="absolute top-0 right-0 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
             </div>
 
-            <div className="w-full flex justify-between text-[10px] text-white md:text-sm border border-x-transparent border-t-transparent pb-2 border-b border-gray-200/30">
+            <div className="w-full flex justify-between text-[10px] text-white text-sm border border-x-transparent border-t-transparent pb-2 border-b border-gray-200/30">
               <div className="flex gap-4">
                 <img
                   src={`${item?.paymentMethod === 'bkash' ? bkash :
                     item?.paymentMethod === 'nogod' ? nagad :
                       item?.paymentMethod === 'rocket' ? rocket : ''}`}
                   alt=""
-                  className="h-6 w-6 md:h-12 md:w-12 object-contain"
+                  className="h-12 w-12 object-contain"
                 />
                 <div className="flex flex-col items-start">
                   <p>{item?.userName}</p>
@@ -87,7 +87,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
               </div>
             </div>
 
-            <div className="w-full flex justify-between text-[10px] text-white md:text-sm">
+            <div className="w-full flex justify-between text-white text-sm">
               <div className="flex flex-col items-start">
                 <p>Old Turnover</p>
                 <p>New Turnover</p>
@@ -99,7 +99,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3 w-full">
-              <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="focus:outline-none w-full p-1 md:p-3 focus:border-transparent md:text-lg text-white text-[10px] min-h-10 md:min-h-40 rounded-md bg-GlobalGray" name="remark" id="remark"></textarea>
+              <textarea placeholder="Add a remark.." className="focus:outline-none w-full py-2 px-3 focus:border-transparent text-white min-h-10 md:min-h-20 rounded-md bg-GlobalGray" name="remark" id="remark"></textarea>
 
               <p className="w-full text-[10px] text-white md:text-sm text-start">Refarel: Hasi09</p>
 
