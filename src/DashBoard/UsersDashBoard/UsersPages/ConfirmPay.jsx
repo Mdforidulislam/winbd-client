@@ -67,7 +67,7 @@ const ConfirmPay = () => {
         }
     }, []);
 
-    
+
 
     // Access the data here all the API or object 
     const author = localUser?.authorId;
@@ -149,14 +149,14 @@ const ConfirmPay = () => {
 
     // Return to the home page
     useEffect(() => {
-        if (showMassage === 'Transaction inserted successfully' || minutes <= 0 && seconds <= 0 ) {
+        if (showMassage === 'Transaction inserted successfully' || minutes <= 0 && seconds <= 0) {
             const timer = setTimeout(() => {
                 setRedirect(true);
             }, 1000); // 1000 milliseconds = 1 second
 
             return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
         }
-    }, [showMassage,minutes,seconds]);
+    }, [showMassage, minutes, seconds]);
 
     if (redirect) {
         return <Navigate to="/profile/user" replace={true} />;
@@ -244,26 +244,48 @@ const ConfirmPay = () => {
                     </div>
                 </div>
 
-                 {/*userNumber here  */}
-                <input
+                {/*userNumber here  */}
+                <div className="flex gap-2 my-4 items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white">
+                    <label htmlFor="" className="text-sm pt-[0.8px] leading-[1rem] text-DarkGreen">+880</label>
+                    <div className="w-full">
+                        <input
+                            className="w-full items-center pl-2 bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                            type="text"
+                            onChange={(e) => setPhoneValue(e.target.value)}
+                            defaultValue={userNumber}
+                            placeholder="Phone Number"
+                        />
+                    </div>
+                </div>
+                {/* <input
                     type="text"
                     onChange={(e) => setPhoneValue(e.target.value)}
                     defaultValue={userNumber}
                     placeholder="Phone Number"
                     className="w-full py-2 px-3 my-4 bg-[#272727] focus:outline-none rounded-md text-white"
-                />
+                /> */}
                 {/* transaction valu here */}
 
-                <input
+                <div className={`${paymentType === 'withdraw' ? "hidden" : ""} flex gap-2 items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
+                    <div className="w-full">
+                        <input
+                            className="w-full items-center pl-2 bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                            type="text"
+                            onChange={(e) => setTransactionValue(e.target.value)}
+                            placeholder="Reference No/ transaction ID"
+                        />
+                    </div>
+                </div>
+                {/* <input
                     type="text"
                     onChange={(e) => setTransactionValue(e.target.value)}
                     placeholder="Reference No/ transaction ID"
-                    className={`${paymentType === 'withdraw'?"hidden" : ""} w-full py-2 px-3 mb-4 bg-[#272727] focus:outline-none rounded-md text-white`}
-                />
+                    className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 mb-4 bg-[#272727] focus:outline-none rounded-md text-white`}
+                /> */}
 
                 {/* image filed here */}
 
-                <div className="w-full mb-4">
+                <div className="w-full my-4">
                     <input
                         type="file"
                         id="file-upload"
@@ -272,7 +294,7 @@ const ConfirmPay = () => {
                     />
                     <label
                         htmlFor="file-upload"
-                        className={`${paymentType === 'withdraw'?"hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
+                        className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
                     >
                         <span>{fileName || 'Choose a file'}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
