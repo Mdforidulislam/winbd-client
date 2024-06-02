@@ -130,6 +130,7 @@ const Promotion = () => {
             timeType: campaign.allTime
         });
         setCurrentId(campaign._id);
+        setIsSidebarOpen(!isSidebarOpen)
     };
 
     return (

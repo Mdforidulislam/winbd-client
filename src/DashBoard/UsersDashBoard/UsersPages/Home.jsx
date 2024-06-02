@@ -13,7 +13,6 @@ const UserHome = () => {
               <div className="z-20">
                    <Tabs />
               </div>
-          
             </div>
         </div>
   );

@@ -38,7 +38,7 @@ export const Modal = () => {
       >
             <div
               onClick={(e_) => e_.stopPropagation()}
-              className={`absolute w-full h-full min-h-screen overflow-y-auto rounded-t-sm bg-GlobalDarkGray text-center drop-shadow-2xl dark:bg-gray-800 dark:text-white ${
+              className={`absolute w-full h-full min-h-screen overflow-y-auto rounded-t-sm bg-black text-center drop-shadow-2xl ${
                 openModal
                   ? "opacity-1 translate-y-0 duration-300"
                   : "translate-y-20 opacity-0 duration-150"

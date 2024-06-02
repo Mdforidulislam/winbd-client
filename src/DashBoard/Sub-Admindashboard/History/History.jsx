@@ -4,12 +4,12 @@ import { FaSearch } from 'react-icons/fa';
 import { MdDateRange, MdOutlineDoubleArrow } from 'react-icons/md';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Pagination } from "../../../Components/Shared/Pagination";
+// import { Pagination } from "../../../Components/Shared/Pagination";
 import { debounce } from 'lodash';
 import Loader from "../../../Components/Loader/Loader";
 
 const History = () => {
-    const [pageNumber, setPageNumbers] = useState(0);
+    // const [pageNumber, setPageNumbers] = useState(0);
     const [searchData, setSearchData] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [storeData, setStoreData] = useState([]);
@@ -33,9 +33,9 @@ const History = () => {
         if (searchValue) {
             url += `&userName=${searchValue}`;
         }
-        if (pageNumber) {
-            url += `&pageNumber=${pageNumber}`;
-        }
+        // if (pageNumber) {
+        //     url += `&pageNumber=${pageNumber}`;
+        // }
         try {
             const response = await axios.get(url);
             setStoreData(response?.data?.requestApprovdeData);
@@ -45,7 +45,7 @@ const History = () => {
             setLoading(false); // Set loading state to false in case of error
             console.error('Error fetching data:', error);
         }
-    }, 300), [localData, selectedDate, pageNumber]);
+    }, 300), [localData, selectedDate]);
 
     const handleSearchChange = (event) => {
         const searchValue = event.target.value;
@@ -55,7 +55,7 @@ const History = () => {
 
     useEffect(() => {
         fetchData(searchData);
-    }, [pageNumber, selectedDate, localData, fetchData]);
+    }, [ selectedDate, localData, fetchData]);
 
     const handleDateButtonClick = () => {
         setShowDatePicker(!showDatePicker);
@@ -129,7 +129,7 @@ const History = () => {
 
                 </table>
             </div>
-            <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
+            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
         </div>
     );
 };

@@ -57,7 +57,7 @@ const Profile = ({ setOpenModal }) => {
                 </div>
 
                 {/* profile items */}
-                <div className="absolute top-[112px] w-full bg-black px-2">
+                <div className="absolute h-full top-[112px] w-full bg-black px-2">
                     {/* wallet section */}
                     <div className="flex justify-between bg-GlobalDarkGray px-2 rounded-sm py-4 mb-3 items-center">
                         <div className="flex items-center gap-2">
@@ -167,8 +167,8 @@ const Profile = ({ setOpenModal }) => {
                     </div>
 
                     {/* LogOut Button */}
-                    <div onClick={handleLogOutAction} className="w-full bg-GlobalDarkGray mt-3 h-full rounded-sm">
-                        <button className="py-3 rounded-sm text-white text-sm flex justify-center w-full items-center gap-3">
+                    <div onClick={handleLogOutAction} className="w-full mt-3 h-full rounded-sm">
+                        <button className="py-3 bg-GlobalDarkGray rounded-sm text-white text-sm flex justify-center w-full items-center gap-3">
                             <span className="text-white text-xl"><IoIosLogOut /></span>
                             Log out
                         </button>
