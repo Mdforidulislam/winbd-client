@@ -5,6 +5,7 @@ import { FaRegEye, FaEyeSlash } from 'react-icons/fa';
 import { RxCross2 } from 'react-icons/rx';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { BsExclamationCircleFill } from "react-icons/bs";
 
 const ResetPassword = () => {
     const [formData, setFormData] = useState({
@@ -12,9 +13,42 @@ const ResetPassword = () => {
         password: '',
         confirmPassword: ''
     });
-    const [passwordError, setPasswordError] = useState('');
+    const [customError, setCustomError] = useState('');
+    const [passwordMismatchError, setPasswordMismatchError] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+    const [findNode, setFindNode] = useState({
+        note: {
+            remainder: "Password Requirements",
+            list: [
+                "must be 6-20 characters",
+                "must contain 1 uppercase alphabet(A-Z) at least",
+                "must contain 1 lowercase alphabet(a-z) at least",
+                "must contain 1 number(0-9) at least",
+                "allow special characters(@$!%*#)"
+            ],
+        },
+    });
+
+    const validatePassword = (password) => {
+        const errors = [];
+        if (password.length < 6 || password.length > 20) {
+            errors.push("Password must be 6-20 characters.");
+        }
+        if (!/[A-Z]/.test(password)) {
+            errors.push("Password must contain 1 uppercase letter.");
+        }
+        if (!/[a-z]/.test(password)) {
+            errors.push("Password must contain 1 lowercase letter.");
+        }
+        if (!/[0-9]/.test(password)) {
+            errors.push("Password must contain 1 number.");
+        }
+        if (!/[@$!%*#]/.test(password)) {
+            errors.push("Password must allow special characters.");
+        }
+        return errors;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,17 +57,26 @@ const ResetPassword = () => {
             [name]: value
         });
 
+        // if (name === 'password') {
+        //     const passwordErrors = validatePassword(value);
+        //     if (passwordErrors.length > 0) {
+        //         setCustomError(passwordErrors.join(' '));
+        //     } else {
+        //         setCustomError('');
+        //     }
+
+        //     if (value !== formData.confirmPassword) {
+        //         setPasswordMismatchError("Passwords do not match");
+        //     } else {
+        //         setPasswordMismatchError('');
+        //     }
+        // }
+
         if (name === 'confirmPassword') {
-            if (value === formData.password) {
-                setPasswordError('Passwords matched');
+            if (value !== formData.password) {
+                setPasswordMismatchError("Passwords do not match");
             } else {
-                setPasswordError('Passwords do not match');
-            }
-        } else if (name === 'password') {
-            if (formData.confirmPassword && value !== formData.confirmPassword) {
-                setPasswordError('Passwords do not match');
-            } else if (formData.confirmPassword) {
-                setPasswordError('Passwords matched');
+                setPasswordMismatchError('');
             }
         }
     };
@@ -41,7 +84,13 @@ const ResetPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            setPasswordError('Passwords do not match');
+            setPasswordMismatchError('Passwords do not match');
+            return;
+        }
+
+        const passwordErrors = validatePassword(formData.password);
+        if (passwordErrors.length > 0) {
+            setCustomError(passwordErrors.join(' '));
             return;
         }
 
@@ -53,11 +102,11 @@ const ResetPassword = () => {
 
             console.log(response.data);
             if (response.data.message === 'Password updated successfully') {
-                toast.success('Password updated successfully')
+                toast.success('Password updated successfully');
                 console.log('Password updated successfully');
             } else {
                 console.error('Failed to update password');
-                toast.error('Failed to update password')
+                toast.error('Failed to update password');
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -69,95 +118,153 @@ const ResetPassword = () => {
             ...formData,
             [field]: ''
         });
+        setCustomError(''); // Clear custom error
+        if (field === 'password' || field === 'confirmPassword') {
+            setPasswordMismatchError(''); // Clear password mismatch error only if password field or confirmPassword field is cleared
+        }
     };
-
+    
 
     return (
-        <div className=" w-full flex min-h-screen bg-[#171717]">
+        <div className="w-full flex min-h-screen bg-[#111111]">
             <div className="h-full w-full flex justify-center items-center md:items-start md:min-h-screen ">
-                <div className="md:w-[27%] w-full mb-6">
-                    <div className="w-full shadow-md mb-4 text-white py-1 pb-4 flex items-center bg-DarkGreen px-2">
+                <div className="w-full mb-6">
+                    <div className="w-full shadow-md mb-3 text-white py-1 pb-2 flex items-center bg-DarkGreen px-2">
                         <Link to={'/profile/user'} className="relative z-10">
                             <div className="">
                                 <span className="text-white font-bold text-3xl"><MdOutlineKeyboardArrowLeft /></span>
                             </div>
                         </Link>
-
                         <div className="flex-grow justify-center -ml-8">
-                            <h1 className="text-center py-2 text-sm font-normal">Reset password</h1>
+                            <h1 className="text-center py-2 text-[17px] font-normal">Reset password</h1>
                         </div>
                     </div>
-                    <form className="px-4" onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                            <label htmlFor="userName" className="block ml-1 mb-2 text-white">User Name</label>
-                            <input
-                                type="text"
-                                id="userName"
-                                name="userId"
-                                value={formData.userId}
-                                onChange={handleChange}
-                                className="w-full py-3 px-3 rounded-md bg-GlobalGray focus:outline-none font-medium items-center rounded-t-sm text-lg text-DarkGreen"
-                                placeholder="Enter Username.."
-                                required
-                            />
-                        </div>
-                        <div className="mb-4 relative">
-                            <label htmlFor="password" className="block ml-1 mb-2 text-white">Password</label>
-                            <input
-                                type={passwordVisible ? 'text' : 'password'}
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="w-full py-3 px-3 rounded-md bg-GlobalGray focus:outline-none font-medium items-center rounded-t-sm text-lg text-DarkGreen"
-                                placeholder="New Password"
-                                required
-                            />
-                            <div className="absolute right-4 top-3.5 flex gap-4 h-full items-center">
-                                <div className="text-bydefaultWhite bg-DarkGreen rounded-full cursor-pointer">
-                                    <span onClick={() => handleClear('password')}><RxCross2 className='text-xl p-[1px]' /></span>
-                                </div>
-                                <div onClick={() => setPasswordVisible(!passwordVisible)} className="text-bydefaultWhite rounded-full cursor-pointer">
-                                    {passwordVisible ? <FaRegEye className="text-xl text-white" /> : <FaEyeSlash className="text-xl text-white" />}
+                    <form className="px-1" onSubmit={handleSubmit}>
+                        <div className="w-[96%] mx-auto border rounded-t-sm border-gray-600">
+                            <div className="flex gap-11 items-center py-[14px] px-5 bg-[#292929] rounded-t-sm">
+                                <label htmlFor="" className="text-sm text-inputLabel">Username</label>
+                                <div className="relative w-full">
+                                    <input
+                                        className="w-full font-medium items-center rounded-t-sm bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                                        type="text"
+                                        id="userName"
+                                        name="userId"
+                                        value={formData.userId}
+                                        placeholder="Enter Username"
+                                        onChange={handleChange}
+                                    />
+                                    {formData.userId && (
+                                        <div onClick={() => handleClear('userId')} className="absolute right-0 top-1 text-bydefaultWhite bg-DarkGreen rounded-full">
+                                            <span><RxCross2 /></span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
-                        <div className="mb-4 relative">
-                            <label htmlFor="confirmPassword" className="block ml-1 mb-2 text-white">Confirm Password</label>
-                            <input
-                                type={confirmPasswordVisible ? 'text' : 'password'}
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                className="w-full py-3 px-3 rounded-md bg-GlobalGray focus:outline-none font-medium items-center rounded-t-sm text-lg text-DarkGreen"
-                                placeholder="Confirm Password"
-                                required
-                            />
-                            <div className="absolute right-4 top-3.5 flex gap-4 h-full items-center">
-                                <div className="text-bydefaultWhite bg-DarkGreen rounded-full cursor-pointer">
-                                    <span onClick={() => handleClear('confirmPassword')}><RxCross2 className="text-xl text-white p-[1px]" /></span>
-                                </div>
-                                <div onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)} className="text-bydefaultWhite rounded-full cursor-pointer">
-                                    {confirmPasswordVisible ? <FaRegEye className="text-xl text-white" /> : <FaEyeSlash className="text-xl text-white" />}
+                        <div className="w-[96%] mx-auto border border-gray-600">
+                            <div className="flex gap-12 items-center py-3 px-5 relative bg-[#292929]">
+                                <label htmlFor="" className="text-sm leading-[1rem] text-inputLabel">New Password</label>
+                                <div className="w-full">
+                                    <input
+                                        className="w-full items-center bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                                        type={passwordVisible ? 'text' : 'password'}
+                                        id="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        placeholder="New Password"
+                                        required
+                                    />
+                                    <div className="absolute right-2 top-0 flex gap-2 h-full items-center">
+                                        {formData.password && (
+                                            <div className="text-bydefaultWhite bg-DarkGreen rounded-full cursor-pointer">
+                                                <span onClick={() => handleClear('password')}><RxCross2 className='text-[16px] p-[1px]' /></span>
+                                            </div>
+                                        )}
+                                        <div onClick={() => setPasswordVisible(!passwordVisible)} className="text-bydefaultWhite rounded-full cursor-pointer">
+                                            {passwordVisible ? <FaRegEye className="text-[17px] p-[1px] text-white" /> : <FaEyeSlash className="text-[17px] p-[1px] text-white" />}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            {passwordError && (
-                                <p className={`text-sm mt-2 ${passwordError === 'Passwords matched' ? 'text-green-500' : 'text-red-500'}`}>
-                                    {passwordError}
-                                </p>
-                            )}
                         </div>
-                        <button
-                            type="submit"
-                            className="bg-green-500 w-full text-white py-2 px-14 rounded-md hover:bg-green-600 transition duration-200">
-                            Submit
-                        </button>
-                    </form>
+                        <div className="w-[96%] mx-auto border rounded-b-sm border-gray-600">
+                            <div className="flex gap-[36px] items-center py-3 px-5 relative bg-[#292929]">
+                                <label htmlFor="" className="text-sm leading-[1rem] text-inputLabel">Confirm Password</label>
+                                <div className="w-full">
+                                    <input
+                                        className="w-full items-center bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                                        type={confirmPasswordVisible ? 'text' : 'password'}
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        placeholder="Confirm New Password"
+                                        required
+                                    />
+                                    <div className="absolute right-2 top-0 flex gap-2 h-full items-center">
+                                        {formData.confirmPassword && (
+                                            <div className="text-bydefaultWhite bg-DarkGreen rounded-full cursor-pointer">
+                                                <span onClick={() => handleClear('confirmPassword')}><RxCross2 className='text-[16px] p-[1px]' /></span>
+                                            </div>
+                                        )}
+                                        <div onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)} className="text-bydefaultWhite rounded-full cursor-pointer">
+                                            {confirmPasswordVisible ? <FaRegEye className="text-[17px] p-[1px] text-white" /> : <FaEyeSlash className="text-[17px] p-[1px] text-white" />}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        {/* error */}
+                        {/* {customError && (
+                        <div className="relative p-[6px]">
+                            <span className="text-alartColor absolute left-3 top-[11px]"><BsExclamationCircleFill /></span>
+                            <p className="text-alartColor text-sm my-[2px] ml-7">{customError}</p>
+                        </div>
+                        )} */}
+                        {passwordMismatchError && (
+                        <div className="relative p-[6px]">
+                            <span className="text-alartColor absolute left-3 top-[11px]"><BsExclamationCircleFill /></span>
+                            <p className="text-alartColor text-sm my-[2px] ml-7">{passwordMismatchError}</p>
+                        </div>
+                        )}
+
+                        {/* <div className="bg-notifyBlack border border-green-900 rounded-sm mx-2 my-2 p-[6px]">
+                            <div className="flex gap-2 h-full w-full">
+                                <div className="mt-[3px]">
+                                    <span className="text-white">
+                                        <BsExclamationCircleFill />
+                                    </span>
+                                </div>
+                                <div>
+                                    {findNode && (
+                                        <div className="space-y-1 ">
+                                            {findNode.note?.remainder && (
+                                                <h1 className="text-[15px] font-bold text-white">{findNode.note.remainder}</h1>
+                                            )}
+                                            {findNode.note?.list && findNode.note.list.length > 0 && (
+                                                <div className="flex flex-col leading-4">
+                                                    {findNode.note.list.map((item, index) => (
+                                                        <p key={index} className="text-[13px] text-white">
+                                                            <span className="">{index + 1}. </span>
+                                                            <span className=""> {item}</span>
+                                                        </p>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div> */}
+                        <div className="text-center my-2">
+                            <button type="submit" className="text-white w-[96.5%] mx-auto bg-DarkGreen py-2 rounded-sm ">Confirm</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

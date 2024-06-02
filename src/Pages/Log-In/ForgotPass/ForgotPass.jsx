@@ -6,6 +6,7 @@ import { FaWhatsapp, FaFacebookMessenger, FaTelegram } from "react-icons/fa";
 import { RiMessengerLine } from "react-icons/ri";
 import { PiTelegramLogoLight } from "react-icons/pi";
 import { IoIosInformationCircle } from "react-icons/io";
+import Facebook from "../../../DashBoard/UsersDashBoard/Facebook";
 
 
 const ForgotPass = () => {
@@ -84,7 +85,7 @@ const ForgotPass = () => {
                             জীবের মধ্যে সবচেয়ে সম্পূর্ণতা মানুষের। কিন্তু সবচেয়ে অসম্পূর্ণ হয়ে সে জন্মগ্রহণ করে। বাঘ ভালুক তার জীবনযাত্রার পনেরো- আনা মূলধন নিয়ে আসে প্রকৃতির মালখানা থেকে। জীবের মধ্যে সবচেয়ে সম্পূর্ণতা মানুষের। কিন্তু সবচেয়ে অসম্পূর্ণ হয়ে সে জন্মগ্রহণ করে। বাঘ ভালুক তার জীবনযাত্রার পনেরো- আনা মূলধন নিয়ে আসে প্রকৃতির মালখানা থেকে। জীবের মধ্যে সবচেয়ে সম্পূর্ণতা মানুষের। কিন্তু সবচেয়ে অসম্পূর্ণ হয়ে সে জন্মগ্রহণ করে। বাঘ ভালুক তার জীবনযাত্রার পনেরো- আনা মূলধন নিয়ে আসে ভালুক
                         </p>
                     </div>
-
+                    <Facebook />
                 </div>
             </div>
         </div >

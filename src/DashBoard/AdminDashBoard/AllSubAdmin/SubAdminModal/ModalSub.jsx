@@ -1,159 +1,101 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Button from "../../../../Components/Button/Button";
 import "./Button.css";
 import axios from "axios";
-import Swal from "sweetalert2";
+import { IoCloseSharp } from "react-icons/io5";
+import toast from "react-hot-toast";
 
-export const ModalSub = () => {
-  const [openModal, setOpenModal] = useState(false);
+export const ModalSub = ({ openModal, setOpenModal }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // ================================= insert subAdmin ========================================
-
   const onSubmit = (data) => {
     console.log(data);
     axios.post("https://sever.win-pay.xyz/insertSubAdmin", data, {
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     })
-    .then((response) => {
-      console.log(response.data); // Logging the response data from the server
-      if (response.data.message === 'subadmin insert successfully') {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "User Sucessfully save",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "users already exite",
-        
-        });
-      }
-    })
-    .catch((error) => {
-      console.error("There was a problem with the Axios operation:", error);
-    });
+      .then((response) => {
+        console.log(response.data); // Logging the response data from the server
+        if (response.data.message === 'subadmin insert successfully') {
+          toast.success('User Successfully Added');
+        } else {
+          toast.error('User already exists');
+        }
+      })
+      .catch((error) => {
+        console.error("There was a problem with the Axios operation:", error);
+      });
   };
 
-  // ================================ end the insert data ======================================
   return (
-    <div className=" flex w-72 items-center justify-start">
-      <div onClick={() => setOpenModal(true)} className="box-1">
-        <div className="btn btn-one">
-          <span>Add Sub-Admin</span>
-        </div>
-      </div>
-      <div
-        onClick={() => setOpenModal(false)}
-        className={`fixed z-[100] flex items-center justify-center ${
-          openModal ? "opacity-1 visible" : "invisible opacity-0"
-        } inset-0 bg-black/20 backdrop-blur-sm duration-100`}
-      >
+    <div className="flex w-full md:w-72 items-center justify-start">
+      <div onClick={() => setOpenModal(false)} className={`fixed z-[100] flex items-center justify-center ${openModal ? "opacity-1 visible" : "invisible opacity-0"} inset-0 bg-black/20 backdrop-blur-sm duration-100`}>
         <div
           onClick={(e_) => e_.stopPropagation()}
-          className={`absolute w-[600px] rounded-lg bg-[#131932]  p-6 text-center drop-shadow-2xl dark:bg-gray-800 dark:text-white ${
-            openModal
-              ? "opacity-1 translate-y-0 duration-300"
-              : "translate-y-20 opacity-0 duration-1000"
-          }`}
+          className={`absolute w-[95%] md:w-[600px] rounded-lg bg-GlobalDarkGray md:p-6 text-center drop-shadow-2xl ${openModal ? "opacity-1 translate-y-0 duration-300" : "translate-y-20 opacity-0 duration-1000"}`}
         >
-          <div className="flex flex-col items-center justify-center space-y-4 w-full py-8 px-6">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className=" px-6 w-full space-y-12"
-            >
-              {/* Sub admin uniqu id here */}
-              <div className=" ">
-                <div className="">
-                  <div>
-                    <input
-                      className="w-full py-3 px-3 rounded-md text-white bg-slate-900 focus:placeholder:text-white focus:border-DarkGreen outline-none"
-                      placeholder="Unique id"
-                      {...register("uniqueId", { required: true })}
-                      type="text"
-                      id=""
-                    />
-                    {errors.email && (
-                      <span className="text-red-600">
-                        Enter subAdmin Unique id
-                      </span>
-                    )}
-                  </div>
-                </div>
+          <div className="flex flex-col items-center justify-center space-y-4 w-full p-4 pt-10 md:py-8 md:px-6">
+            <span onClick={() => setOpenModal(false)} className="absolute top-2 right-2 md:top-2 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
+            <form onSubmit={handleSubmit(onSubmit)} className="md:px-6 w-full space-y-4 md:space-y-12">
+              {/* Sub admin unique id */}
+              <div>
+                <input
+                  className="w-full py-3 px-3 rounded-md text-white bg-GlobalGray focus:placeholder:text-white focus:border-DarkGreen outline-none"
+                  placeholder="Unique id"
+                  {...register("uniqueId", { required: "Enter subAdmin Unique id" })}
+                  type="text"
+                />
+                {errors.uniqueId && (
+                  <span className="text-red-600">{errors.uniqueId.message}</span>
+                )}
               </div>
-              {/* SubAdmin  Name here */}
-              <div className=" ">
-                <div className=" ">
-                  <div>
-                    <input
-                      className="w-full py-3 px-3 rounded-md text-white bg-slate-900 focus:placeholder:text-white focus:border-DarkGreen outline-none"
-                      placeholder="User Name"
-                      {...register("subAdmin", { required: true })}
-                      type="text"
-                      id=""
-                    />
-                    {errors.email && (
-                      <span className="text-red-600">
-                        Enter customer User name
-                      </span>
-                    )}
-                  </div>
-                </div>
+              {/* SubAdmin Name */}
+              <div>
+                <input
+                  className="w-full py-3 px-3 rounded-md text-white bg-GlobalGray focus:placeholder:text-white focus:border-DarkGreen outline-none"
+                  placeholder="User Name"
+                  {...register("subAdmin", { required: "Enter subAdmin User name" })}
+                  type="text"
+                />
+                {errors.subAdmin && (
+                  <span className="text-red-600">{errors.subAdmin.message}</span>
+                )}
               </div>
-              {/* SubAdmin Phone Number here  */}
-              <div className=" ">
-                <div className="  ">
-                  <div>
-                    <input
-                      className="w-full py-3 px-3 rounded-md text-white bg-slate-900 focus:placeholder:text-white focus:border-DarkGreen outline-none"
-                      placeholder="Phone Number"
-                      {...register("phoneNumber", { required: true })}
-                      type="text"
-                      id=""
-                    />
-                    {errors.password && (
-                      <span className="text-red-600">Enter Phone Number</span>
-                    )}
-                  </div>
-                </div>
+              {/* SubAdmin Phone Number */}
+              <div>
+                <input
+                  className="w-full py-3 px-3 rounded-md text-white bg-GlobalGray focus:placeholder:text-white focus:border-DarkGreen outline-none"
+                  placeholder="Phone Number"
+                  {...register("phoneNumber", { required: "Enter Phone Number" })}
+                  type="text"
+                />
+                {errors.phoneNumber && (
+                  <span className="text-red-600">{errors.phoneNumber.message}</span>
+                )}
               </div>
               {/* SubAdmin Password */}
-              <div className=" ">
-                <div className=" space-y-1  ">
-                  <div>
-                    <input
-                      className="w-full py-3 px-3 rounded-md text-white bg-slate-900 focus:placeholder:text-white focus:border-DarkGreen outline-none"
-                      placeholder="Password"
-                      {...register("password", { required: true })}
-                      type="password"
-                      id=""
-                    />
-                    {errors.number && (
-                      <span className="text-red-600">
-                        Enter Your Password Here
-                      </span>
-                    )}
-                  </div>
-                </div>
+              <div>
+                <input
+                  className="w-full py-3 px-3 rounded-md text-white bg-GlobalGray focus:placeholder:text-white focus:border-DarkGreen outline-none"
+                  placeholder="Password"
+                  {...register("password", { required: "Enter Your Password Here" })}
+                  type="password"
+                />
+                {errors.password && (
+                  <span className="text-red-600">{errors.password.message}</span>
+                )}
               </div>
-              <div className=" text-center mt-5  ">
-                <Button
-                  divClass="hover:bg-white "
-                  btnClass="hover:bg-[#131932] text-white"
+              <div className="text-center mt-5">
+                <button
+                  type="submit"
+                  className="bg-green-600 px-10 text-sm text-white/80 font-bold py-2 rounded-md hover:bg-DarkGreen transition duration-200"
                 >
-                  Sign In
-                </Button>
+                  Add
+                </button>
               </div>
             </form>
           </div>

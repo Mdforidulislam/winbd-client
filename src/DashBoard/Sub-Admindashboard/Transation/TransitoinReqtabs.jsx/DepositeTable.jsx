@@ -1,18 +1,15 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import bkash from '../../../../../public/bkash.png';
-import nagad from '../../../../../public/nagad.png';
-import rocket from '../../../../../public/rocket.jpg';
+import { useEffect, useState } from "react";    
 import ModalTransaction from "./Modal/ModalTransaction";
 import { MdOutlineDoubleArrow } from "react-icons/md";
-import { Pagination } from "../../../../Components/Shared/Pagination";
 import Loader from "../../../../Components/Loader/Loader";
+// import Pagination from "../../../../Components/Shared/Pagination"; 
 
 const DepositeTable = () => {
     const [storeData, setStoreData] = useState([]);
     const [localData, setLocalData] = useState('');
     const [openModal, setOpenModal] = useState(false);
-    const [pageNumber, setPageNumbers] = useState(0);
+    // const [pageNumber, setPageNumbers] = useState(0);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
 
@@ -28,6 +25,7 @@ const DepositeTable = () => {
                 try {
                     const response = await axios.get(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`);
                     setStoreData(response.data?.queryDepositeData);
+                    // console.log(response);
                 } catch (error) {
                     console.error('Error fetching deposit data:', error);
                 } finally {
@@ -69,9 +67,9 @@ const DepositeTable = () => {
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
                                             src={
-                                                item?.paymentMethod === 'bkash' ? bkash :
-                                                    item?.paymentMethod === 'nogod' ? nagad :
-                                                        item?.paymentMethod === 'rocket' ? rocket : ''
+                                                item?.paymentMethod === 'bkash' ? 'https://i.ibb.co/C0mhx9D/bkash.png' :
+                                                    item?.paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
+                                                        item?.paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
                                             }
                                             alt={item?.paymentMethod}
                                             className="h-6 md:h-8 w-6 md:w-8 object-contain"
@@ -88,7 +86,7 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
+            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
             {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} />}
         </div>
     );

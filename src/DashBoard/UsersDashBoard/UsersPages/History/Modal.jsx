@@ -5,12 +5,15 @@ import { MdOutlineAddBox } from "react-icons/md";
 import ModalProgress from './TransactionProgress/ModalProgress';
 import ModalInfoShow from './TransactionProgress/ModalInfoShow';
 
-const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal }) => {
+const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, setShowProgress }) => {
     const [activeTab, setActiveTab] = useState('tab1');
 
     const closeModal = () => {
         setIsOpenModalOpen(false);
+        setShowProgress(false);
+        console.log("Modal closed, showProgress set to false");
     };
+
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -18,7 +21,7 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal }) => {
 
     return (
         <div
-            className={`fixed backdrop-blur-sm inset-0 z-50   flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-28 ' : 'translate-y-[800px]'}`}
+            className={`fixed backdrop-blur-sm inset-0 z-50 flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-28 block' : 'translate-y-[800px] hidden'}`}
         >
             <div className="w-full h-full bg-GlobalDarkGray rounded-t-2xl ">
                 <div className="relative w-full">
@@ -90,7 +93,7 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal }) => {
                                     transform: 'translateX(0px)',
                                 }}
                             >
-                                <ModalProgress historyModal={historyModal} />
+                                <ModalProgress showProgress={showProgress} historyModal={historyModal} />
                             </div>
                         )}
                         {activeTab === 'tab2' && (

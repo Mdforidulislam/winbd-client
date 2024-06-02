@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import toast, { ToastBar } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { FaRegCopy, FaCheck } from "react-icons/fa";
 import bkash from '../../../../public/bkash.png';
 import nagad from '../../../../public/nagad.png';
@@ -132,7 +132,7 @@ const ConfirmPay = () => {
                     });
                 }
                 if (insertData.data.message === "Transaction already exists") {
-                    toast('Transaction already exists');
+                    toast.error('Transaction already exists');
                 }
             } catch (error) {
                 console.error('Error inserting transaction:', error.message);

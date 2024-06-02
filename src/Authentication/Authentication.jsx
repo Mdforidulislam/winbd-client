@@ -57,7 +57,7 @@ const Authentication = ({ children }) => {
         const data = await res.json()
         setRole(data?.role)
         setRegisterInfo(data)
-        console.log(data);
+        // console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
