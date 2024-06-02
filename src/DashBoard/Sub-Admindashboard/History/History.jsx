@@ -26,7 +26,7 @@ const History = () => {
         if (!localData) return;
 
         setLoading(true); // Set loading state to true
-        let url = `https://pay-winbd-server.vercel.app/getingHistory?authorId=${localData}`;
+        let url = `https://sever.win-pay.xyz/getingHistory?authorId=${localData}`;
         if (selectedDate) {
             url += `&date=${selectedDate}`;
         }

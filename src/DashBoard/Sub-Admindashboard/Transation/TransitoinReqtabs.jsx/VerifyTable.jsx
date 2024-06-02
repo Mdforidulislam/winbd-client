@@ -31,7 +31,7 @@ const VerifyTable = () => {
         const userDataget = async () => {
             if (!localData) return;
             try {
-                const userSearch = await axios(`https://pay-winbd-server.vercel.app/getingHistory?authorId=${localData}&date=${selectedDate}&userName=${searchData}&pageNumber=${pageNumber}`);
+                const userSearch = await axios(`https://sever.win-pay.xyz/getingHistory?authorId=${localData}&date=${selectedDate}&userName=${searchData}&pageNumber=${pageNumber}`);
                 setStoreData(userSearch?.data?.requestApprovdeData);
                 console.log(userSearch?.data?.requestApprovdeData);
             } catch (error) {

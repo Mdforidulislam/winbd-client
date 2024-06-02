@@ -20,7 +20,7 @@ const Drawer = ({ isOpen, onClose }) => {
   useEffect(() => {
     const getingSearchValue = async () => {
       if (userName) {
-        const getingResponse = await axios.get(`https://pay-winbd-server.vercel.app/userHistory?userName=${userName}`);
+        const getingResponse = await axios.get(`https://sever.win-pay.xyz/userHistory?userName=${userName}`);
         const userSearchData = getingResponse?.data?.data;
         setUserSearchData(userSearchData);
       }
@@ -68,7 +68,7 @@ const Drawer = ({ isOpen, onClose }) => {
         const statusesQuery = selectedStatuses.join(',');
         const paymentTypesQuery = selectedPaymentTypes.join(',');
         const dateQuery = selectedDate;
-        const getingResponse = await axios.get(`https://pay-winbd-server.vercel.app/userHistory?userName=${userName}&date=${dateQuery}&paymentType=${paymentTypesQuery}&status=${statusesQuery}`);
+        const getingResponse = await axios.get(`https://sever.win-pay.xyz/userHistory?userName=${userName}&date=${dateQuery}&paymentType=${paymentTypesQuery}&status=${statusesQuery}`);
         const userSearchData = getingResponse.data.data;
         setUserSearchData(userSearchData);
         onClose();

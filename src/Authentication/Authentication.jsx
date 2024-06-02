@@ -29,7 +29,7 @@ const Authentication = ({ children }) => {
 
   const loginUserNamePassword = async (userName, password) => {
     try {
-      const res = await fetch(`https://pay-winbd-server.vercel.app/userValidation?userName=${userName}&password=${password}`);
+      const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userName}&password=${password}`);
       const data = await res.json();
       console.log('response after login', data.message);
 
@@ -53,7 +53,7 @@ const Authentication = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`https://pay-winbd-server.vercel.app/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
+        const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
         const data = await res.json()
         setRole(data?.role)
         setRegisterInfo(data)

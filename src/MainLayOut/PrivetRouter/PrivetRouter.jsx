@@ -44,8 +44,8 @@ const PrivetRouter = ({ children }) => {
         }
     } else if (role === 'subAdmin') {
         const subAdminPaths = [
-            '/dashboard/subAdmin',
-            '/dashboard/notification',
+            // '/dashboard/subAdmin',
+            // '/dashboard/notification',
             '/dashboard/transtionReq',
             '/dashboard/addNumber',
             '/dashboard/addtranstion',

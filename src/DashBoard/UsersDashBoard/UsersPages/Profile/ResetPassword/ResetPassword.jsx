@@ -95,7 +95,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await axios.put(`https://pay-winbd-server.vercel.app/passwordForgotuser?userName=${formData.userId}&newPassword=${formData.password}`, {
+            const response = await axios.put(`https://sever.win-pay.xyz/passwordForgotuser?userName=${formData.userId}&newPassword=${formData.password}`, {
                 userName: formData.userId,
                 newPassword: formData.password
             });

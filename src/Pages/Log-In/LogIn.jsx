@@ -30,7 +30,7 @@ const LogIn = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('https://pay-winbd-server.vercel.app/getingDynamicallyUrl');
+        const res = await axios.get('https://sever.win-pay.xyz/getingDynamicallyUrl');
         setRedirectUrl(res.data.data[0].redirectUrl);
       } catch (error) {
         console.error('Error fetching the data:', error);
@@ -101,7 +101,7 @@ const LogIn = () => {
   if (role === 'user') {
     navigate('/profile/user', { replace: true });
   } else if (role === 'subAdmin') {
-    navigate('/dashboard/subAdmin', { replace: true });
+    navigate('/dashboard/transtionReq', { replace: true });
   } else if (role === 'admin') {
     navigate('/dashboard/admin', { replace: true });
   }

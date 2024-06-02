@@ -45,7 +45,7 @@ const PaymentInstruction = () => {
         e.preventDefault();
         console.log(formData);
         try {
-            const response = await axios.post('https://pay-winbd-server.vercel.app/insertPayInstraction', formData);
+            const response = await axios.post('https://sever.win-pay.xyz/insertPayInstraction', formData);
             const finalData = await response.data;
             console.log(finalData);
         } catch (error) {

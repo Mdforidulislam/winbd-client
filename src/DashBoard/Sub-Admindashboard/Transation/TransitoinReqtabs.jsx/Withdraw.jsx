@@ -26,7 +26,7 @@ const DepositeTable = () => {
             if (localData) {
                 setLoading(true); // Start loading
                 try {
-                    const serverData = await axios.get(`https://pay-winbd-server.vercel.app/transactionReqWith?authurId=${localData}`);
+                    const serverData = await axios.get(`https://sever.win-pay.xyz/transactionReqWith?authurId=${localData}`);
                     setStoreData(serverData?.data?.queryWithDrawData);
                     // console.log(serverData);
                 } catch (error) {
