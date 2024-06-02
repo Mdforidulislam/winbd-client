@@ -92,7 +92,7 @@ const LogIn = () => {
     console.log(e.target.value);
     // Trigger the input change handler
     handleInputChange(e);
-};
+  };
 
 
   // set bydefault login with redirection from the register page 
@@ -119,9 +119,9 @@ const LogIn = () => {
               </div>
             </Link>
 
-            <div className="flex-grow justify-center -ml-8">
+            <Link to={redirectUrl} className="flex-grow justify-center -ml-8">
               <h1 className="text-center py-2 text-sm capitalize font-medium">winBD</h1>
-            </div>
+            </Link>
 
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="px-2">

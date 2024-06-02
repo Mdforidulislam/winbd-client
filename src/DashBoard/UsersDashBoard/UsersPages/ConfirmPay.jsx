@@ -180,6 +180,8 @@ const ConfirmPay = () => {
 
     const handleCopyNumber = () => {
         navigator.clipboard.writeText('01710101016')
+            //due
+            //have to make it dynamic
             .then(() => {
                 setIsCopiedNumber(true);
                 toast.success('Number copied');
@@ -196,7 +198,7 @@ const ConfirmPay = () => {
     return (
         <div className="flex flex-col items-center gap-3 w-full py-2 px-2 bg-[#424242] min-h-screen">
             {/* Top Portion */}
-            <div className="w-full space-y-6 bg-[#313131] px-3 py-3 rounded-md">
+            <div className={`${paymentType === 'withdraw' ? 'hidden' : ' w-full space-y-6 bg-[#313131] px-3 py-3 rounded-md'}`}>
                 <div className="text-left space-y-4">
                     <div className="bg-[#313131] rounded-md w-full h-full flex flex-col">
                         <div className="flex justify-center gap-2 items-center">
@@ -224,7 +226,7 @@ const ConfirmPay = () => {
                 <div className="h-16 w-16 mx-auto my-4 mb-6">
                     <img className="h-full w-full object-contain" src={two} alt="" />
                 </div>
-                <div className="flex justify-center items-center gap-2 mb-2 relative">
+                <div className={`${paymentType === 'withdraw' ? 'hidden' : 'flex justify-center items-center gap-2 mb-2 relative'}`}>
                     <h1 className="text-white text-xl tracking-normal font-medium">{subAdminNumber}</h1>
                     <div
                         className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
@@ -234,7 +236,7 @@ const ConfirmPay = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-center gap-2 mb-2 relative">
+                <div className={`${paymentType === 'withdraw' ? 'hidden' : 'flex justify-center items-center gap-2 mb-2 relative'}`}>
                     <h1 className="text-white text-md tracking-normal font-medium">Amount: <span className="text-xl">{localDat.amount}</span></h1>
                     <div
                         className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
@@ -244,16 +246,19 @@ const ConfirmPay = () => {
                     </div>
                 </div>
 
+                <div className={`${paymentType === 'withdraw' ? 'text-white text-center' : 'hidden'}`}>
+                    অপ্রত্যাশিত লেনদেন বিষয়ক সমস্যাগুলি এড়াতে অনুগ্রহ করে সমস্ত বিবরণ পুনরায় যাচাই করুন এবং নিশ্চিত করুন।                </div>
                 {/*userNumber here  */}
-                <div className="flex gap-2 my-4 items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white">
+                <div className={`${paymentType === 'withdraw' ? 'mt-10' : ''} flex gap-2 my-4  items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
                     <label htmlFor="" className="text-sm pt-[0.8px] leading-[1rem] text-DarkGreen">+880</label>
                     <div className="w-full">
                         <input
-                            className="w-full items-center pl-2 bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                            className={`w-full items-center pl-2 bg-[#272727] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen`}
                             type="text"
                             onChange={(e) => setPhoneValue(e.target.value)}
                             defaultValue={userNumber}
                             placeholder="Phone Number"
+                            readOnly={paymentType === 'withdraw'}
                         />
                     </div>
                 </div>
@@ -269,7 +274,7 @@ const ConfirmPay = () => {
                 <div className={`${paymentType === 'withdraw' ? "hidden" : ""} flex gap-2 items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
                     <div className="w-full">
                         <input
-                            className="w-full items-center pl-2 bg-[#292929] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
+                            className="w-full items-center pl-2 bg-[#272727] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen"
                             type="text"
                             onChange={(e) => setTransactionValue(e.target.value)}
                             placeholder="Reference No/ transaction ID"
@@ -305,7 +310,7 @@ const ConfirmPay = () => {
             <button onClick={handleSubmiteInsert} disabled={showMassage === 'Transaction inserted successfully'} className={`bg-[#19A277] hover:bg-green-700 text-white font-semibold py-2 px-4 rounded w-full`}>
                 Confirm <span className="capitalize">{localDat?.type}</span>
             </button>
-        </div>
+        </div >
     );
 };
 
