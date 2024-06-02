@@ -113,7 +113,7 @@ const DashNav = () => {
 
 
               <ul className="hidden md:flex flex-col gap-2 justify-start items-start ml-2">
-                <NavLink className="md:w-full" to={"/dashboard/subAdmin"} onClick={scrollToTop}>
+                {/* <NavLink className="md:w-full" to={"/dashboard/subAdmin"} onClick={scrollToTop}>
                   <div className="flex justify-start gap-2 font-medium hover:bg-DarkGreen transition duration-200 py-2  px-3 rounded-3xl ">
                     <MdOutlineDashboardCustomize className="text-2xl font-semibold" />
                     <h1>Dashboard </h1>
@@ -125,7 +125,7 @@ const DashNav = () => {
                     <MdOutlineNotificationsActive className="text-2xl" />
                     <h1 className="">Notifications</h1>
                   </div>
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink className="md:w-full" to={"/dashboard/addNumber"} onClick={scrollToTop}>
                   <div className="flex justify-start gap-2 items-center font-medium hover:bg-DarkGreen transition duration-200 py-2  px-3 rounded-3xl   ">
@@ -236,7 +236,7 @@ const DashNav = () => {
 
 
               <ul className={`flex flex-col gap-2 bg-GlobalGray backdrop-blur-3xl md:hidden absolute w-full h-screen top-[72px] z-[100] py-4 px-5 duration-500 ${open ? "left-0" : "-left-full"}`}>
-                <NavLink className="md:w-full" to={"/dashboard/subAdmin"} onClick={onClickFunction}>
+                {/* <NavLink className="md:w-full" to={"/dashboard/subAdmin"} onClick={onClickFunction}>
                   <div className="flex justify-start items-start ml-[13px] gap-2 font-medium hover:bg-DarkGreen transition duration-200 py-2  px-3 rounded-3xl ">
                     <MdOutlineDashboardCustomize className="text-2xl font-semibold" />
                     <h1>Dashboard </h1>
@@ -248,7 +248,7 @@ const DashNav = () => {
                     <MdOutlineNotificationsActive className="text-2xl" />
                     <h1 className="">Notifications</h1>
                   </div>
-                </NavLink>
+                </NavLink> */}
 
                 <NavLink className="md:w-full" to={"/dashboard/addNumber"} onClick={onClickFunction}>
                   <div className="flex justify-start items-start ml-[13px] gap-2 font-medium hover:bg-DarkGreen transition duration-200 py-2  px-3 rounded-3xl   ">

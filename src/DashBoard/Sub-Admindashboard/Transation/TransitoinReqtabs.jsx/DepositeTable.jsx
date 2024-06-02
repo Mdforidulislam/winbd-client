@@ -26,7 +26,7 @@ const DepositeTable = () => {
             if (localData) {
                 setLoading(true);
                 try {
-                    const response = await axios.get(`https://pay-winbd-server.vercel.app/transactionReqDopsite?authurId=${localData}`);
+                    const response = await axios.get(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`);
                     setStoreData(response.data?.queryDepositeData);
                 } catch (error) {
                     console.error('Error fetching deposit data:', error);

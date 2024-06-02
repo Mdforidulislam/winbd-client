@@ -18,9 +18,9 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal }) => {
 
     return (
         <div
-            className={`fixed backdrop-blur-sm inset-0 z-50 flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-28' : 'translate-y-[800px]'}`}
+            className={`fixed backdrop-blur-sm inset-0 z-50   flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-28 ' : 'translate-y-[800px]'}`}
         >
-            <div className="w-full h-[90vh] bg-GlobalDarkGray rounded-t-2xl ">
+            <div className="w-full h-full bg-GlobalDarkGray rounded-t-2xl ">
                 <div className="relative w-full">
                     {/* Header Part */}
                     <div className="bg-[#555555] rounded-t-2xl px-2 p-[0.1px]">

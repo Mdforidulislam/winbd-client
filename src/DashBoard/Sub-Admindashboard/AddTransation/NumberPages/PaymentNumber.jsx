@@ -47,7 +47,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true); 
             try {
-                const serverData = await axios.get(`https://pay-winbd-server.vercel.app/getingPaymentmethod?uniqueId=${localData}&paymentType=${paymentType}`);
+                const serverData = await axios.get(`https://sever.win-pay.xyz/getingPaymentmethod?uniqueId=${localData}&paymentType=${paymentType}`);
                 const data = serverData?.data || [];
                 setStoreData(data);
                 setSelectedOption(data.map(item => item.status || null));
@@ -91,7 +91,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         };
         console.log(formValues);
         try {
-            const response = await axios.patch('https://pay-winbd-server.vercel.app/updatePaymentMethod', formValues);
+            const response = await axios.patch('https://sever.win-pay.xyz/updatePaymentMethod', formValues);
             const res = response.data;
             if (res.message === 'Successfully processed payment method') {
                 const updatedActiveID = JSON.parse(localStorage.getItem("activeId")) || [];

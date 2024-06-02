@@ -43,32 +43,38 @@ const ConfirmPay = () => {
 
     // BD time Function here
     useEffect(() => {
-        // geting user number
-        const userInfo = JSON.parse(localStorage.getItem('userData'));
-        setLocalUser(userInfo);
+        const userInfo = localStorage.getItem('userData');
+        if (userInfo) {
+            setLocalUser(JSON.parse(userInfo));
+        }
 
-        // geting transaction info
+        // Getting transaction info
         const gettingSubmInfo = localStorage.getItem('userTransaction');
-        const convertParsData = JSON.parse(gettingSubmInfo);
-        setLocalData(convertParsData);
+        if (gettingSubmInfo) {
+            setLocalData(JSON.parse(gettingSubmInfo));
+        }
 
-        // geting userNUmber and SubAdmin Number
-        const userNumber = JSON.parse(localStorage.getItem('userPhoneNumber')); // geting userNumber
-        const subAdminNumber = JSON.parse(localStorage.getItem('authorPhoneNumber')); // geting number author name
-        setUserNumber(userNumber);
-        setSubAdminNumber(subAdminNumber); // set number 
+        // Getting user number
+        const userNumber = localStorage.getItem('userPhoneNumber');
+        if (userNumber) {
+            setUserNumber(JSON.parse(userNumber));
+        }
+
+        // Getting subAdmin number
+        const subAdminNumber = localStorage.getItem('authorPhoneNumber');
+        if (subAdminNumber) {
+            setSubAdminNumber(JSON.parse(subAdminNumber));
+        }
     }, []);
 
-    // getting submit data from local storage
-    useEffect(() => {
-      
-    }, []);
+    
 
     // Access the data here all the API or object 
     const author = localUser?.authorId;
-    const transType = localDat.channel || '';
-    const method = localDat.paymentMethod || '';
+    const transType = localDat?.channel || '';
+    const method = localDat?.paymentMethod || '';
     const userName = localUser?.userName;
+    const paymentType = localDat?.type;
 
 
     // Insert image to imagebb website geting img link 
@@ -98,22 +104,22 @@ const ConfirmPay = () => {
 
         const transactionInfo = {
             userName: userName,
-            transactionId: transactionValue,
+            transactionId: transactionValue || "",
             transactionType: localDat?.type,
             amount: localDat?.amount,
             number: PhoneValue || userNumber,
-            paymentMethod: localDat.paymentMethod,
-            paymentChannel: localDat.channel,
+            paymentMethod: localDat?.paymentMethod,
+            paymentChannel: localDat?.channel,
             authorId: author,
-            transactionImage: imgURL ? imgURL : '',
+            transactionImage: imgURL ? imgURL : 'input author',
         };
 
         console.log(transactionInfo);
 
         // Ensure all fields are filled before making the API call
-        if (Object.values(transactionInfo).every(item => item)) {
+        if (transactionInfo) {
             try {
-                const insertData = await axios.post('https://pay-winbd-server.vercel.app/insertTransaction', transactionInfo);
+                const insertData = await axios.post('https://sever.win-pay.xyz/insertTransaction', transactionInfo);
                 console.log(insertData);
                 if (insertData.data.message === 'Transaction inserted successfully') {
                     setShowMassage(insertData.data.message);
@@ -143,14 +149,14 @@ const ConfirmPay = () => {
 
     // Return to the home page
     useEffect(() => {
-        if (showMassage === 'Transaction inserted successfully') {
+        if (showMassage === 'Transaction inserted successfully' || minutes <= 0 && seconds <= 0 ) {
             const timer = setTimeout(() => {
                 setRedirect(true);
             }, 1000); // 1000 milliseconds = 1 second
 
             return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
         }
-    }, [showMassage]);
+    }, [showMassage,minutes,seconds]);
 
     if (redirect) {
         return <Navigate to="/profile/user" replace={true} />;
@@ -238,6 +244,7 @@ const ConfirmPay = () => {
                     </div>
                 </div>
 
+                 {/*userNumber here  */}
                 <input
                     type="text"
                     onChange={(e) => setPhoneValue(e.target.value)}
@@ -245,13 +252,16 @@ const ConfirmPay = () => {
                     placeholder="Phone Number"
                     className="w-full py-2 px-3 my-4 bg-[#272727] focus:outline-none rounded-md text-white"
                 />
+                {/* transaction valu here */}
 
                 <input
                     type="text"
                     onChange={(e) => setTransactionValue(e.target.value)}
                     placeholder="Reference No/ transaction ID"
-                    className="w-full py-2 px-3 mb-4 bg-[#272727] focus:outline-none rounded-md text-white"
+                    className={`${paymentType === 'withdraw'?"hidden" : ""} w-full py-2 px-3 mb-4 bg-[#272727] focus:outline-none rounded-md text-white`}
                 />
+
+                {/* image filed here */}
 
                 <div className="w-full mb-4">
                     <input
@@ -262,7 +272,7 @@ const ConfirmPay = () => {
                     />
                     <label
                         htmlFor="file-upload"
-                        className="w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center"
+                        className={`${paymentType === 'withdraw'?"hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
                     >
                         <span>{fileName || 'Choose a file'}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>

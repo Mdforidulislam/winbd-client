@@ -31,7 +31,7 @@ const AllSubAdmin = () => {
   // =============================== data face for see all subamin ===========================
 
   useEffect(() => {
-    axios.get(`https://pay-winbd-server.vercel.app/getingDataSubAdmin?search=${search}&pageNumber=${pageNumber}`
+    axios.get(`https://sever.win-pay.xyz/getingDataSubAdmin?search=${search}&pageNumber=${pageNumber}`
       )
       .then((res) => {
         setDataSubAdmin(res.data.subAdminUser);
@@ -65,7 +65,7 @@ const AllSubAdmin = () => {
       </div>
 
       {/* Table list here  */}
-      {/* <GlobalTable dataSubAdmin={dataSubAdmin} /> */}
+      <GlobalTable dataSubAdmin={dataSubAdmin} />
       {/* pagianation here  */}
       <div>
         <div className="flex select-none justify-center items-center gap-5 mb-5">

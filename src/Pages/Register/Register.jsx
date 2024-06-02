@@ -12,6 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Authentication/Authentication";
 import axios from "axios";
+import toast from "react-hot-toast/headless";
 
 
 const Register = () => {
@@ -145,10 +146,17 @@ useEffect(() => {
             data.authorId = registerAuthorId;
             console.log(registerAuthorId);
             console.log(data,'action here');
-            const register = await axios.post('https://pay-winbd-server.vercel.app/insertUsers', data)
+            const register = await axios.post('https://sever.win-pay.xyz/insertUsers', data)
             console.log(register);
+            if (register.data.message === 'User already registered') {
+                toast.success("User already registered")
+                alert('User already registered')
+            } else {
+                toast.success("successfully create account")
+                navigate('/login')
+            }
     
-            loginUserNamePassword(data.userName, data.password);
+            // loginUserNamePassword(data.userName, data.password);
     
             // console.log(name);
         };

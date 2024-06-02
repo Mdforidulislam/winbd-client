@@ -32,6 +32,7 @@ const History = () => {
     };
 
     // console.log(userSearchData);
+    console.log(historyModal);
 
     return (
         <div className="">

@@ -5,7 +5,7 @@ import { GrInProgress } from "react-icons/gr";
 import { GrCompliance } from "react-icons/gr";
 
 const ModalProgress = ({ historyModal }) => {
-    const { amount, date, requestStatus, time, transactionType ,stutusNote} = historyModal;
+    const { amount, date, requestStatus, time, transactionType ,statusNote} = historyModal;
 
     const [showOrder1, setShowOrder1] = useState(false);
     const [showOrder2, setShowOrder2] = useState(false);
@@ -90,7 +90,7 @@ const ModalProgress = ({ historyModal }) => {
             </div>
             {/* note section */}
             <div className="mt-3 ">
-                <h1 className="text-white text-[12px] font-thin">Note: {stutusNote}</h1>
+                <h1 className="text-white text-[12px] font-thin">Note: {statusNote}</h1>
             </div>
         </div>
     );

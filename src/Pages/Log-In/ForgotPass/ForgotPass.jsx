@@ -14,7 +14,7 @@ const ForgotPass = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://pay-winbd-server.vercel.app/getinPassordContact?authorId=user123');
+                const response = await fetch('https://sever.win-pay.xyz/getinPassordContact?authorId=user123');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

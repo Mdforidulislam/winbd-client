@@ -26,7 +26,7 @@ const Verify = () => {
             if (localData) {
                 setLoading(true); // Start loading
                 try {
-                    const serverData = await axios.get(`https://pay-winbd-server.vercel.app/getingVerifydata?authoreId=${localData}`);
+                    const serverData = await axios.get(`https://sever.win-pay.xyz/getingVerifydata?authoreId=${localData}`);
                     setStoreData(serverData?.data?.queryVerifyData);
                 } catch (error) {
                     console.error("Error fetching data:", error);
