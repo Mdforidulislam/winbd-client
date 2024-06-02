@@ -2,15 +2,24 @@ import { Link } from 'react-router-dom';
 import confirmImg from '../../../../public/confirmImg.png'
 import { useEffect, useState } from 'react';
 import { TbCurrencyTaka } from 'react-icons/tb';
+import { MdLocalHospital } from 'react-icons/md';
 
 const ConfirmMsg = () => {
     const [localDat, setLocalData] = useState({}); // set data 
+    const [amount, setAmount] = useState(0); // set ammount 
+    const [userName,setUserName] = useState('')
 
     useEffect(() => {
-        const getingSubmInfo = localStorage.getItem('userTransaction')
+        const getingSubmInfo = localStorage.getItem('userTransaction');
         const convertParsData = JSON.parse(getingSubmInfo)
         console.log(convertParsData);
-        setLocalData(convertParsData)
+        setLocalData(convertParsData);
+        const userInfo = localStorage.getItem('userName'); // seting user data
+        if (userInfo) {
+            const userName = JSON.parse(userInfo);
+            setUserName(userName);
+        }
+       
     }, [])
     return (
         <div className="flex flex-col  items-center gap-3 w-full py-2 px-2 bg-[#424242]  min-h-screen">
@@ -21,7 +30,7 @@ const ConfirmMsg = () => {
                     <div className=' h-20 my-4 w-20'>
                         <img className="h-full w-full object-cover" src={confirmImg} alt="" />
                     </div>
-                    <p className='text-white text-[12px] mb-6 text-center px-6'>অভিনন্দন Mahmood! আপনার পেমেন্ট রিকোয়েস্ট 500 ৳ গ্রহণ করা হয়েছে। যাচাইক্রমে আগামী ৫ মিনিটের মধ্যে আপনার ব্যালেন্স এড হয়ে যাবে।</p>
+                    <p className='text-white text-[12px] mb-6 text-center px-6'>অভিনন্দন {userName?.userName}! আপনার পেমেন্ট রিকোয়েস্ট {localDat.amount}৳ গ্রহণ করা হয়েছে। যাচাইক্রমে আগামী ৫ মিনিটের মধ্যে আপনার ব্যালেন্স এড হয়ে যাবে।</p>
 
                 </div>
                 <Link to={'/profile/user'} className="text-center overflow-hidden relative w-32 p-2 h-12 bg-LightGreen text-white border-none rounded-md text-xl font-bold cursor-pointer z-10 group">Close

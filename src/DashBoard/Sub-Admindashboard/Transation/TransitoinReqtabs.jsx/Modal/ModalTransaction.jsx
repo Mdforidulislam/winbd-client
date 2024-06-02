@@ -4,47 +4,57 @@ import { IoCloseSharp } from "react-icons/io5";
 import bkash from '../../../../../../public/bkash.png';
 import nagad from '../../../../../../public/nagad.png';
 import rocket from '../../../../../../public/rocket.jpg';
+import { useState } from "react";
 
 const ModalTransaction = ({ item, setOpenModal, openModal }) => {
-
+  const [status, setStatus] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
-    const status = form.status ? form.status.value : null;
-    const transactionid = form.tnxid ? form.tnxid.value : null;
-    const remark = form.remark.value;
+    const transactionId = form.tnxid ? form.tnxid.value : null;
+    const note = form.remark.value;
 
     try {
       let response;
+      const transactionFeedbackUrl = `https://sever.win-pay.xyz/transactionFeedback?id=${item?._id}`;
+      const params = new URLSearchParams();
+      params.append('note', note);
+
       if (item?.transactionType === 'deposite') {
-        response = await axios.put(`https://pay-winbd-server.vercel.app/transactionFeedback?id=${item?._id}&status=${status}&note=${remark}`);
+        params.append('status', status);
+        response = await axios.put(transactionFeedbackUrl, null, { params });
       } else if (item?.transactionType === 'withdraw') {
-        response = await axios.put(`https://pay-winbd-server.vercel.app/transactionFeedback?id=${item?._id}&status=${transactionid}&note=${remark}`);
+        params.append('status', transactionId);
+        response = await axios.put(transactionFeedbackUrl, null, { params });
       }
 
       const data = response.data;
-      console.log(data);
+      console.log(data ,status,transactionId,note);
 
       if (data.message === 'Request status updated successfully' || data.message === 'Transaction ID updated successfully') {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Transaction ${status || 'Successfull'}`,
+          title: `Transaction ${status || 'Successful'}`,
           showConfirmButton: false,
           timer: 1500
         });
         setOpenModal(false);
-      } else if (data.message === 'Transaction not found') {
+      } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Something went wrong!",
-          footer: '<a href="#">Why do I have this issue?</a>'
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
     }
   };
 
@@ -67,14 +77,14 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
               <span onClick={() => setOpenModal(false)} className="absolute top-0 right-0 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
             </div>
 
-            <div className="w-full flex justify-between text-[10px] text-white text-sm border border-x-transparent border-t-transparent pb-2 border-b border-gray-200/30">
+            <div className="w-full flex justify-between text-[10px] text-white md:text-sm border border-x-transparent border-t-transparent pb-2 border-b border-gray-200/30">
               <div className="flex gap-4">
                 <img
                   src={`${item?.paymentMethod === 'bkash' ? bkash :
                     item?.paymentMethod === 'nogod' ? nagad :
                       item?.paymentMethod === 'rocket' ? rocket : ''}`}
                   alt=""
-                  className="h-12 w-12 object-contain"
+                  className="h-6 w-6 md:h-12 md:w-12 object-contain"
                 />
                 <div className="flex flex-col items-start">
                   <p>{item?.userName}</p>
@@ -87,7 +97,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
               </div>
             </div>
 
-            <div className="w-full flex justify-between text-white text-sm">
+            <div className="w-full flex justify-between text-[10px] text-white md:text-sm">
               <div className="flex flex-col items-start">
                 <p>Old Turnover</p>
                 <p>New Turnover</p>
@@ -99,26 +109,25 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-3 w-full">
-              <textarea placeholder="Add a remark.." className="focus:outline-none w-full py-2 px-3 focus:border-transparent text-white min-h-10 md:min-h-20 rounded-md bg-GlobalGray" name="remark" id="remark"></textarea>
+              <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="focus:outline-none w-full p-1 md:p-3 focus:border-transparent md:text-lg text-white text-[10px] min-h-10 md:min-h-40 rounded-md bg-GlobalGray" name="remark" id="remark"></textarea>
 
               <p className="w-full text-[10px] text-white md:text-sm text-start">Refarel: Hasi09</p>
 
-              {item?.transactionType === 'deposite' ? (
-                <div className="w-full flex justify-between gap-1 md:gap-5">
-                  <button type="submit" name="statusApproved" value="Approved" className="bg-green-700 md:px-8 md:py-3 px-1 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
-                  <button type="submit" name="statusverify" value="verify" className="bg-yellow-400 md:px-8 md:py-3 px-1 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
-                  <button type="submit" name="statusRejected" value="Rejected" className="bg-red-500 md:px-8 md:py-3 px-1 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
-                </div>
-              ) : (
-                <div className="w-full">
-                  <input className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="tnxid" type="text" placeholder="Transaction number" />
-                  <button className="bg-green-600 hover:bg-green-700 transition duration-200 px-8 py-3 text-white rounded-md w-full" type="submit" name="statusConfirm" value="Confirm">Confirm</button>
-                </div>
-              )}
-            </form>
-
-          </div>
+            {item?.transactionType === 'deposite' ? (
+              <div className="w-full flex justify-between gap-1 md:gap-5">
+                <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-700 md:px-8 md:py-3 px-1 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
+                <button type="submit" onClick={() => setStatus("verify")} className="bg-yellow-400 md:px-8 md:py-3 px-1 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
+                <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:px-8 md:py-3 px-1 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
+              </div>
+            ) : (
+              <div className="w-full">
+                <input className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="tnxid" type="text" placeholder="Transaction number" />
+                <button className="bg-green-600 hover:bg-green-700 transition duration-200 px-8 py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Confirm")}>Confirm</button>
+              </div>
+            )}
+          </form>
         </div>
+      </div>
       </div>
     </div>
   );

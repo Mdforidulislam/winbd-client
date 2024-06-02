@@ -33,17 +33,19 @@ const Profile = ({ setOpenModal }) => {
     //in the contact section the links will come from super admin not sub admin
 
     return (
-        <div className="pb-3 md:w-1/3 mx-auto">
+        <div className=" md:w-1/3 mx-auto ">
             <div className="w-full h-full relative">
                 {/* nav profile */}
                 <div className="bg-black absolute md:-top-4 w-[110vw] -left-4">
                     <div className="bg-black overflow-hidden relative w-full rounded-b-full" style={{ backgroundImage: 'url("https://img.b112j.com/bj/h5/assets/images/member-header-bg.png?v=1715679064603")', backgroundPosition: 'buttom center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '200px' }}>
+
                         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#000000ae] via-transparent to-transparent"></div>
-                        <div onClick={() => setOpenModal(false)} className="absolute -right-2 -top-3.5">
-                            <div className="bg-black rounded-full p-3 pr-8 pt-8">
+                        <div onClick={() => setOpenModal(false)} className="absolute -right-1 -top-3.5">
+                            <div className="bg-black rounded-full p-3 pr-8 pt-9">
                                 <span className="w-full justify-end flex text-lg text-white"><RxCross1 /></span>
                             </div>
                         </div>
+
                         <div className="flex w-full gap-3 items-center mt-12">
                             <div className="ml-7">
                                 <img className="w-[55px] h-[55px]" src="https://img.b112j.com/bj/h5/assets/images/vip/bdt/normal.png?v=1715679064603" alt="" />
