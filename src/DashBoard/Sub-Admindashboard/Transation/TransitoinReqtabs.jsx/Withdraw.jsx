@@ -5,7 +5,7 @@ import nagad from '../../../../../public/nagad.png';
 import rocket from '../../../../../public/rocket.jpg';
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import ModalTransaction from "./Modal/ModalTransaction";
-import { Pagination } from "../../../../Components/Shared/Pagination";
+// import { Pagination } from "../../../../Components/Shared/Pagination";
 import Loader from "../../../../Components/Loader/Loader";
 
 const DepositeTable = () => {
@@ -14,7 +14,7 @@ const DepositeTable = () => {
     const [storeData, setStoreData] = useState([]); // store data
     const [localData, setLocalData] = useState('');
     const [loading, setLoading] = useState(true); // Add loading state
-    const [pageNumber, setPageNumbers] = useState(0); // set the page number here 
+    // const [pageNumber, setPageNumbers] = useState(0);
 
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
@@ -28,6 +28,7 @@ const DepositeTable = () => {
                 try {
                     const serverData = await axios.get(`https://pay-winbd-server.vercel.app/transactionReqWith?authurId=${localData}`);
                     setStoreData(serverData?.data?.queryWithDrawData);
+                    // console.log(serverData);
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 } finally {
@@ -88,7 +89,7 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
+            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
             {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} />}
         </div>
     );

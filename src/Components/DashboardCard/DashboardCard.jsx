@@ -12,7 +12,7 @@ const DashboardCard = ({ CurrentStatus, Icon, total, Style, IconBg }) => {
 
                 <div className="flex justify-center items-center gap-4">
                     <div className={`py-7 ${IconBg} rounded-full px-5 `} >
-                        <p className="text-4npxl pl-1  rounded-full w-10 h-10  text-green-700">{Icon}</p>
+                        <p className="text-4xl pl-1  rounded-full w-10 h-10  text-green-700">{Icon}</p>
                     </div>
                     <div className="py-8 ">
                         <p className="text-2xl font-bold text-white">{total}</p>

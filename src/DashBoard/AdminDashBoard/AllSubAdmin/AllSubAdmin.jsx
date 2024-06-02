@@ -1,154 +1,98 @@
 import { useEffect, useState } from "react";
-import GlobalTable from "../../../Components/Shared/GlobalTable";
-import { ModalSub } from "./SubAdminModal/ModalSub";
 import axios from "axios";
+import { FaSearch } from "react-icons/fa";
+import Loader from "../../../Components/Loader/Loader";
+import { ModalSub } from "./SubAdminModal/ModalSub";
+import { Pagination } from "../../../Components/Shared/Pagination";
 
 const AllSubAdmin = () => {
   const [search, setSearch] = useState(""); // set search data here
   const [pageNumber, setPageNumber] = useState(0); // set pagination
   const [dataSubAdmin, setDataSubAdmin] = useState([]); // store all the subAdmin data list
-  const [subAdminCount, setSubAdminCount] = useState(0);
-
-  console.log(dataSubAdmin);
-  // add the  search page here
-  const handleSubmitSearch = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const searchValue = formData.get("search");
-    console.log(searchValue);
-    setSearch(searchValue); // set search value
-  };
-
-  // add the pagination page
-  const page = subAdminCount || 0 ; // Adjust the page numbers the way you want
-  const updatePageNumber = (num) => {
-    if (num > page - 1 || 0 > num) {
-      return setPageNumber(0);
-    }
-    setPageNumber(num);
-  };
-
-  // =============================== data face for see all subamin ===========================
+  const [loading, setLoading] = useState(false); // set loading state
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    axios.get(`https://pay-winbd-server.vercel.app/getingDataSubAdmin?search=${search}&pageNumber=${pageNumber}`
-      )
-      .then((res) => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get("https://pay-winbd-server.vercel.app/getingDataSubAdmin", {
+          params: {
+            search: search,
+            pageNumber: pageNumber
+          }
+        });
         setDataSubAdmin(res.data.subAdminUser);
-        setSubAdminCount(res.data.exiteDataLength);
-      });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [search, pageNumber]);
 
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPageNumber(0); // Reset page number when search changes
+  };
 
   return (
-    <div className="w-full px-8 py-5">
-      <div className="w-full flex justify-between items-center  ">
-        <div className="w-full  ">
-          <ModalSub />
-        </div>
-        <div className="w-full flex justify-end  ">
-          <form onSubmit={handleSubmitSearch} className="flex">
-            <input
-              className="py-2 px-4 w-full rounded-l-md focus:outline-none bg-neutral-900 text-white"
-              type="text"
-              name="search"
-              placeholder="Search"
-            />
-            <button
-              className="bg-[#333953] px-6 text-xl text-white py-2 rounded-r-md"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
-        </div>
+    <div className="w-full max-w-[1000px] mx-auto">
+      <div className="w-full flex flex-col-reverse gap-4 md:flex-row justify-between items-center">
+        <button
+          onClick={() => setOpenModal(true)}
+          type="button"
+          className="bg-green-600 md:max-w-36 text-sm text-white/80 font-bold py-3 px-3 rounded-md hover:bg-DarkGreen transition duration-200"
+        >
+          Add Sub-Admin
+        </button>
+
+        <form onSubmit={(e) => e.preventDefault()} className="flex">
+          <input
+            type="text"
+            placeholder="Search Sub-Admins.."
+            value={search}
+            onChange={handleSearchChange}
+            className="bg-GlobalGray focus:outline-none text-white px-3 py-3 rounded-l-md"
+          />
+          <button type="button" className="bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold">
+            <FaSearch />
+          </button>
+        </form>
       </div>
 
-      {/* Table list here  */}
-      {/* <GlobalTable dataSubAdmin={dataSubAdmin} /> */}
-      {/* pagianation here  */}
-      <div>
-        <div className="flex select-none justify-center items-center gap-5 mb-5">
-          {/* left arrow */}
-          <div
-            onClick={() => {
-              updatePageNumber(pageNumber - 1);
-            }}
-            className=" hover:scale-110 scale-100 transition-all duration-200 cursor-pointer hover:bg-sky-200 px-1 py-1 rounded-full"
-          >
-            <svg
-              className="w-10"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <g id="SVGRepo_iconCarrier">
-                {" "}
-                <path
-                  d="M15 7L10 12L15 17"
-                  stroke="#0284C7"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />{" "}
-              </g>
-            </svg>
-          </div>
-          <div className="flex justify-center items-center gap-2 ">
-            {[...Array(page).keys()].map((item, ind) => (
-              <div
-                onClick={() => {
-                  setPageNumber(item);
-                }}
-                className={`cursor-pointer hover:scale-110 scale-100 transition-all duration-200 px-5 ${
-                  pageNumber === item
-                    ? "bg-[#3f4f8e] text-white"
-                    : "bg-[#1e284e]"
-                } border-sky-300  font-semibold text-white   py-3 rounded-full`}
-                key={item}
-              >
-                {item + 1}
-              </div>
-            ))}
-          </div>
-          {/* right arrow */}
-          <div
-            onClick={() => {
-              updatePageNumber(pageNumber + 1);
-            }}
-            className="bg-gray-200 hover:scale-110 scale-100 transition-all duration-200 cursor-pointer hover:bg-sky-200 px-4 py-4 rounded-full"
-          >
-            <svg
-              className="w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g id="SVGRepo_bgCarrier" strokeWidth={0} />
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <g id="SVGRepo_iconCarrier">
-                {" "}
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M12.2929 4.29289C12.6834 3.90237 13.3166 3.90237 13.7071 4.29289L20.7071 11.2929C21.0976 11.6834 21.0976 12.3166 20.7071 12.7071L13.7071 19.7071C13.3166 20.0976 12.6834 20.0976 12.2929 19.7071C11.9024 19.3166 11.9024 18.6834 12.2929 18.2929L17.5858 13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H17.5858L12.2929 5.70711C11.9024 5.31658 11.9024 4.68342 12.2929 4.29289Z"
-                  fill="#000000"
-                />{" "}
-              </g>
-            </svg>
-          </div>
-        </div>
+      <div className="md:flex md:justify-center md:items-center overflow-x-auto my-10">
+        <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500">
+          <thead>
+            <tr className="bg-GlobalGray text-white">
+              <th className="md:py-3 py-1 px-2 md:px-6 pl-3 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
+              <th className="md:py-3 py-1 px-2 md:px-6 pl-2 text-[12px] md:text-lg text-left border-b border-gray-500">Number</th>
+              <th className="md:py-3 py-1 px-2 md:px-6 pl-3 text-[12px] md:text-lg text-left border-b border-gray-500">Password</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="3" className="py-8 text-center">
+                  <Loader />
+                </td>
+              </tr>
+            ) : (
+              dataSubAdmin?.map((item, i) => (
+                <tr key={i} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer transition duration-300`}>
+                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.subAdmin}</td>
+                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.phoneNumber}</td>
+                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.password}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
+      <Pagination storeData={dataSubAdmin} setPageNumbers={setPageNumber} />
+      {openModal && <ModalSub openModal={openModal} setOpenModal={setOpenModal} />}
     </div>
   );
 };

@@ -5,7 +5,7 @@ import nagad from '../../../../../public/nagad.png';
 import rocket from '../../../../../public/rocket.jpg';
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import ModalTransaction from "./Modal/ModalTransaction";
-import { Pagination } from "../../../../Components/Shared/Pagination";
+// import { Pagination } from "../../../../Components/Shared/Pagination";
 import Loader from "../../../../Components/Loader/Loader";
 
 const Verify = () => {
@@ -13,7 +13,7 @@ const Verify = () => {
     const [data, setData] = useState(null);
     const [storeData, setStoreData] = useState([]);
     const [localData, setLocalData] = useState('');
-    const [pageNumber, setPageNumbers] = useState(0);
+    // const [pageNumber, setPageNumbers] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -28,6 +28,7 @@ const Verify = () => {
                 try {
                     const serverData = await axios.get(`https://pay-winbd-server.vercel.app/getingVerifydata?authoreId=${localData}`);
                     setStoreData(serverData?.data?.queryVerifyData);
+                    console.log(serverData);
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 } finally {
@@ -88,7 +89,7 @@ const Verify = () => {
                     </tbody>
                 </table>
             </div>
-            <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
+            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
             {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} />}
         </div>
     );
