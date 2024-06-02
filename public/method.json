@@ -1,36 +1,36 @@
 [
     {
-        "img":"https://bjbaji555.live/images/web/thirdparty/bkash.png",
-        "title":"bkash",
-        "descrip":"try to make easy",
-        "id":1
+        "img": "https://bjbaji555.live/images/web/thirdparty/bkash.png",
+        "title": "bkash",
+        "descrip": "try to make easy",
+        "id": 1
     },
     {
-        "img":"https://bjbaji555.live/images/web/thirdparty/rocket.png",
-        "title":"rocket",
-        "offer":"+15%",
-        "descrip":"its ok or not",
-        "id":2
+        "img": "https://bjbaji555.live/images/web/thirdparty/rocket.png",
+        "title": "rocket",
+        "offer": "+15%",
+        "descrip": "its ok or not",
+        "id": 2
     },
     {
-        "img":"https://bjbaji555.live/images/web/thirdparty/nagad.png",
-        "title":"nogod",
-        "descrip":"may be work",
-        "id":3
+        "img": "https://bjbaji555.live/images/web/thirdparty/nagad.png",
+        "title": "nagad",
+        "descrip": "may be work",
+        "id": 3
     },
     {
-        "img":"https://bjbaji555.live/images/web/thirdparty/upay.png",
-        "title":"upay",
-        "offer":"+15%"
+        "img": "https://bjbaji555.live/images/web/thirdparty/upay.png",
+        "title": "upay",
+        "offer": "+15%"
     },
     {
-        "img":"https://img.b112j.com/bj/h5/assets/images/icon-set/player/crypto/eth.svg?v=1716276589846&source=mcdsrc",
-        "title":"ETH",
-        "offer":"+15%"
+        "img": "https://i.ibb.co/JRmbxDZ/sure-cash.png",
+        "title": "surecash",
+        "offer": "+15%"
     },
     {
-        "img":"https://img.b112j.com/bj/h5/assets/images/icon-set/player/crypto/btc.svg?v=1716276589846&source=mcdsrc",
-        "title":"BTC",
-        "offer":"+15%"
+        "img": "https://is1-ssl.mzstatic.com/image/thumb/Purple122/v4/31/5e/54/315e544a-9eb4-da59-f469-0fa492c840c1/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/434x0w.webp",
+        "title": "okwallet",
+        "offer": "+15%"
     }
 ]

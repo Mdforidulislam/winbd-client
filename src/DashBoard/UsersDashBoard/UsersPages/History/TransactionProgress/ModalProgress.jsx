@@ -31,13 +31,13 @@ const ModalProgress = ({ historyModal, showProgress }) => {
             {/* tile the transaction info */}
             <div className="flex justify-between">
                 <h1 className="text-white">Transaction Progress</h1>
-                <p className={`px-2 py-[2px] rounded-md text-[12px] ${
-                    requestStatus === 'payment' ? 'bg-blue-600' :
+                <p className={`px-2 py-[2px] rounded-md text-[12px] ${requestStatus === 'success' ? 'bg-green-600' :
                     requestStatus === 'Approved' ? 'bg-green-600' :
-                    requestStatus === 'Processing' ? 'bg-yellow-500' : 
-                    requestStatus === 'Rejected' ? 'bg-red-600' : ''}`}>
+                        requestStatus === 'Processing' ? 'bg-yellow-500' :
+                            requestStatus === 'Rejected' ? 'bg-red-600' : ''}`}>
                     {requestStatus}
-                </p>            </div>
+                </p>
+            </div>
             {/* line activities work */}
             <div className="flex w-full gap-6 ">
                 {/* line active bar  */}

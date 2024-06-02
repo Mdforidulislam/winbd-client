@@ -47,7 +47,7 @@ const DashNav = () => {
               onClick={scrollToTop}
               className="text-2xl md:text-3xl text-white font-semibold cursor-pointer "
             >
-              <span className="text-xl capitalize ml-6">{role}: {adminInfo}</span>
+              <span className="text-xl capitalize ml-6">{adminInfo}</span>
             </h3>
           </NavLink>
 

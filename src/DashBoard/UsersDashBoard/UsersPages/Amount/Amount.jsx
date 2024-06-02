@@ -329,37 +329,58 @@ const Amount = ({ number, withdraw, deposite }) => {
 
             {/* Notification here  */}
             <div className="bg-notifyBlack px-2 py-2 my-2">
-                <div className="flex gap-2 h-full w-full">
-                    <div>
-                        <span className="text-white">
-                            <BsInfoCircleFill />
-                        </span>
-                    </div>
-                    <div>
-                        {/* Show all instruction list here */}
-                        {findNode && (
-                            <div className="space-y-1">
-                                {findNode.note?.title && (
-                                    <h2 className="text-[12px] font-semibold text-white">{findNode.note.title}</h2>
-                                )}
-                                {findNode.note?.list && findNode.note.list.length > 0 && (
-                                    <div className="flex flex-col">
-                                        {findNode.note.list.map((item, index) => (
-                                            <p key={index} className="text-[10px] pl-4 relative text-white">
-                                                <span className="absolute left-0 top-1.5 w-2 h-2  bg-white rounded-full"></span>
-                                                {item}
-                                            </p>
-                                        ))}
+                {
+                    activeTab === 'deposit' ? (
+                        <div className="flex gap-2 h-full w-full">
+                            <div>
+                                <span className="text-white">
+                                    <BsInfoCircleFill />
+                                </span>
+                            </div>
+                            <div>
+                                {findNode && (
+                                    <div className="space-y-1">
+                                        {findNode.note?.title && (
+                                            <h2 className="text-[12px] font-semibold text-white">{findNode.note.title}</h2>
+                                        )}
+                                        {findNode.note?.list && findNode.note.list.length > 0 && (
+                                            <div className="flex flex-col">
+                                                {findNode.note.list.map((item, index) => (
+                                                    <p key={index} className="text-[10px] pl-4 text-white">
+                                                        <span className="font-medium">
+                                                            {index + 1}.
+                                                        </span>
+                                                        &nbsp; {item}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {findNode.note?.remainder && (
+                                            <h1 className="text-[12px] text-white">{findNode.note.remainder}</h1>
+                                        )}
                                     </div>
                                 )}
-                                {findNode.note?.remainder && (
-                                    <h1 className="text-[12px] text-white">{findNode.note.remainder}</h1>
-                                )}
                             </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+                        </div >
+                    ) : (
+                        <div className="flex gap-2 h-full w-full">
+                            <div>
+                                <span className="text-white">
+                                    <BsInfoCircleFill />
+                                </span>
+                            </div>
+                            <div>
+                                <p className="text-[11px] -mt-1 text-white">
+                                    Lorem, ipsum dolor sit amet consectetur, officiis alias nihil asperiores aperiam quas unde deleniti tenetur voluptatibus.
+                                </p>
+                            </div>
+                        </div >
+
+                    )
+                }
+
+            </div >
 
             {
                 activeTab === 'withdraw' &&

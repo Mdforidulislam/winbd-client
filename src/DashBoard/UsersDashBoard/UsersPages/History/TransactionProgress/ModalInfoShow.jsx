@@ -8,8 +8,8 @@ console.log(requestStatus);
             {/* tile the transaction info */}
             <div className="flex justify-between mb-3">
                 <h1 className="">Transaction Record Details</h1>
-                <p className={`px-2 py-[2px] rounded-md text-[12px] ${
-                    requestStatus === 'payment' ? 'bg-blue-600' :
+                <p className={`px-2 py-[2px] capitalize rounded-md text-[12px] ${
+                    requestStatus === 'success' ? 'bg-green-600' :
                     requestStatus === 'Approved' ? 'bg-green-600' :
                     requestStatus === 'Processing' ? 'bg-yellow-500' : 
                     requestStatus === 'Rejected' ? 'bg-red-600' : ''}`}>
