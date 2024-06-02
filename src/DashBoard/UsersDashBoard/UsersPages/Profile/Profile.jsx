@@ -7,36 +7,45 @@ import { TfiReload } from "react-icons/tfi";
 import { AiTwotoneEye } from "react-icons/ai";
 import Title from "../../../../Components/Titile/Title";
 
-
 const Profile = ({ setOpenModal }) => {
-    const [userName, setUserName] = useState('')
+    const [userName, setUserName] = useState('');
     const { role, setRole, setrediectionDW, setActiveTab } = useContext(AuthContext);
 
-
     const handleLogOutAction = () => {
-        localStorage.removeItem('userData')
-        setRole(undefined)
-    }
+        localStorage.removeItem('userData');
+        setRole(undefined);
+    };
 
     useEffect(() => {
         const userName = JSON.parse(localStorage.getItem('userData'))?.userName;
         setUserName(userName);
 
-    }, [])
+        // Set dynamic height
+        const setDynamicHeight = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        setDynamicHeight(); // Set initial height
+        window.addEventListener('resize', setDynamicHeight); // Update height on resize
+
+        return () => window.removeEventListener('resize', setDynamicHeight); // Cleanup
+    }, []);
 
     const handleChange = (value) => {
-        setActiveTab(value)
-        setOpenModal(false)
-    }
-
+        setActiveTab(value);
+        setOpenModal(false);
+    };
     //due
     //in the contact section the links will come from super admin not sub admin
 
     return (
-        <div className=" md:w-1/3 mx-auto ">
-            <div className="w-full h-full relative">
+        <div className="md:w-1/3 mx-auto bg-[#0D0D0D] min-h-screen relative" style={{ height: 'calc(var(--vh, 1vh) * 100)' }}>
+            <div className="w-full h-full ">
                 {/* nav profile */}
-                <div className="bg-black absolute md:-top-4 w-[110vw] -left-4">
+
+                {/* 
+                <div className="bg-black absolute w-[110vw] -left-4">
                     <div className="bg-black overflow-hidden relative w-full rounded-b-full" style={{ backgroundImage: 'url("https://img.b112j.com/bj/h5/assets/images/member-header-bg.png?v=1715679064603")', backgroundPosition: 'buttom center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '200px' }}>
 
                         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#000000ae] via-transparent to-transparent"></div>
@@ -56,7 +65,8 @@ const Profile = ({ setOpenModal }) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
+                */}
 
                 {/* profile items */}
                 <div className="absolute h-full top-[112px] w-full bg-black px-2">
@@ -169,7 +179,7 @@ const Profile = ({ setOpenModal }) => {
                     </div>
 
                     {/* LogOut Button */}
-                    <div onClick={handleLogOutAction} className="w-full mt-3 h-full rounded-sm">
+                    <div onClick={handleLogOutAction} className="w-full my-3 pb-10 rounded-sm">
                         <button className="py-3 bg-GlobalDarkGray rounded-sm text-white text-sm flex justify-center w-full items-center gap-3">
                             <span className="text-white text-xl"><IoIosLogOut /></span>
                             Log out

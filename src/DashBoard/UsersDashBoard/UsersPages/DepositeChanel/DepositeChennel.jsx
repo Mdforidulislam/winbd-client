@@ -25,7 +25,7 @@ const DepositeChennel = () => {
     return (
         <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
             <Title text="Deposite Chennel" />
-            <div className="flex gap-3 justify-between py-3 my-2 border border-gray-400 border-x-transparent border-b-transparent border-t-1">
+            <div className="flex gap-3 justify-start py-3 my-2 border border-gray-400 border-x-transparent border-b-transparent border-t-1">
                 {slectedPayment && slectedPayment.map((item) => (
                     <button
                         key={item._id}

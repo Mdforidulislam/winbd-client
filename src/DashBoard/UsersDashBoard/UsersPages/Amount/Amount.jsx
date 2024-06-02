@@ -27,11 +27,12 @@ const Amount = ({ number, withdraw, deposite }) => {
     const [isFirstLoad, setIsFirstLoad] = useState(true); // fast load 
     const [findNode, setFindNode] = useState(null); // see all the node here 
     const [userPhoneNumber, setUserPhoneNumber] = useState();
-    const [payMehtod, setPayMethod] = useState(''); // set the paymehtod bydefualt store localstore
-    
+    const [payMehtod, setPayMethod] = useState(''); // set the paymehtod bydefualt store
+    const [selectedAmount, setSelectedAmount] = useState(null);
+
     const navigate = useNavigate();
 
-    const { userAmountInfo, handleAction, error, channel, activeTab ,paymentMethod , setSlectedPayment } = useContext(AuthContext); // recive the amount 
+    const { userAmountInfo, handleAction, error, channel, activeTab, paymentMethod, setSlectedPayment } = useContext(AuthContext); // recive the amount 
     userAmountInfo(sumAmount); // total sum of amount 
 
     //use Effects
@@ -109,11 +110,11 @@ const Amount = ({ number, withdraw, deposite }) => {
                 }
             }
         }
-    }, [sumAmount,activeTab])
+    }, [sumAmount, activeTab])
 
     //  geting dall the info here
 
-    
+
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem('userData'));
         setLocaluser(userInfo);
@@ -141,8 +142,8 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [])
     console.log(paymentMethod);
 
-       // ===================================== vaildation isProcessgcing and number channel ===========================
-       useEffect(() => {
+    // ===================================== vaildation isProcessgcing and number channel ===========================
+    useEffect(() => {
         // Check if all necessary data is available
         if (author && paymentMethod && userName) {
             const fetchData = async () => {
@@ -166,9 +167,9 @@ const Amount = ({ number, withdraw, deposite }) => {
 
             fetchData();
         }
-    }, [author, userName,paymentMethod]);
+    }, [author, userName, paymentMethod]);
 
-// next button here 
+    // next button here 
     const handleNextButtonClick = () => {
         setProcessing(true);
         setTimeout(() => {
@@ -191,13 +192,13 @@ const Amount = ({ number, withdraw, deposite }) => {
     //  sum all the amount here 
 
     const handleSumAllAmount = (amount) => {
-
-        setSumAmount(sumAmount + amount)
+        setSumAmount(sumAmount + amount);
+        setSelectedAmount(amount); // Set the selected amount
     }
 
 
 
-// handle th some amoun here 
+    // handle th some amoun here 
     const onchangeHandleValue = (event) => {
         event.preventDefault();
         const newAmount = parseInt(event.target.value);
@@ -220,7 +221,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         const findMatchingNode = () => {
             return availablePayment.find(
                 (item) =>
-                    item.depositeChannel === channel && 
+                    item.depositeChannel === channel &&
                     item.transactionMethod === paymentMethod
             );
         };
@@ -231,23 +232,23 @@ const Amount = ({ number, withdraw, deposite }) => {
         localStorage.setItem('userPhoneNumber', JSON.stringify(userPhoneNumber));
     }, [availablePayment, paymentMethod, channel, userPhoneNumber]);
 
-    
-    
 
-      useEffect(() => {
+
+
+    useEffect(() => {
         // Check if the payment method is included
-          const isIncluded = availablePayment.some(payment => payment.transactionMethod === paymentMethod || '');
-          const findNumber = availablePayment.find(item => item.transactionMethod === paymentMethod || '');
-          const numberGeting = findNumber?.number;
-          localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
-          console.log(numberGeting);
+        const isIncluded = availablePayment.some(payment => payment.transactionMethod === paymentMethod || '');
+        const findNumber = availablePayment.find(item => item.transactionMethod === paymentMethod || '');
+        const numberGeting = findNumber?.number;
+        localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
+        console.log(numberGeting);
         if (!isIncluded) {
             const timer = setTimeout(() => {
                 // Prevent modal from opening on initial load
                 if (!isFirstLoad) {
                     setIsModalOpen(true);
-                } 
-                    setIsFirstLoad(false); // Update after first load
+                }
+                setIsFirstLoad(false); // Update after first load
             }, 1000);
 
             // Clean up the timer if the component unmounts before the timer completes
@@ -269,7 +270,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [availablePayment, setSlectedPayment]);
 
     console.log(isModalOpen);
-    
+
     return (
         <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
             {/* Payment Method use here  */}
@@ -296,7 +297,10 @@ const Amount = ({ number, withdraw, deposite }) => {
                     {
                         amount.map((item, index) => (
                             <div key={index} className="rounded-sm border border-gray-600 w-full h-full flex items-center justify-center pt-1.5 pb-2 px-3 hover:border-[#FFE43C] hover:text-[#FFE43C]">
-                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white text-[11px]">{item.amount}</h1>
+                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white text-[11px]">{selectedAmount !== null ? (
+                                    <span className='mr-1'>+</span>
+                                ) : null}
+                                    {item.amount}</h1>
                             </div>
                         ))
                     }
@@ -324,7 +328,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             </div>
 
             {/* Notification here  */}
-            <div className="bg-notifyBlack px-2 py-2">
+            <div className="bg-notifyBlack px-2 py-2 my-2">
                 <div className="flex gap-2 h-full w-full">
                     <div>
                         <span className="text-white">
@@ -335,8 +339,8 @@ const Amount = ({ number, withdraw, deposite }) => {
                         {/* Show all instruction list here */}
                         {findNode && (
                             <div className="space-y-1">
-                                {findNode.note?.remainder && (
-                                    <h1 className="text-[12px] text-white">{findNode.note.remainder}</h1>
+                                {findNode.note?.title && (
+                                    <h2 className="text-[12px] font-semibold text-white">{findNode.note.title}</h2>
                                 )}
                                 {findNode.note?.list && findNode.note.list.length > 0 && (
                                     <div className="flex flex-col">
@@ -348,15 +352,15 @@ const Amount = ({ number, withdraw, deposite }) => {
                                         ))}
                                     </div>
                                 )}
-                                {findNode.note?.title && (
-                                    <h2 className="text-[12px] font-semibold text-white">{findNode.note.title}</h2>
+                                {findNode.note?.remainder && (
+                                    <h1 className="text-[12px] text-white">{findNode.note.remainder}</h1>
                                 )}
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-           
+
             {
                 activeTab === 'withdraw' &&
                 <>
@@ -371,8 +375,6 @@ const Amount = ({ number, withdraw, deposite }) => {
                         <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
                         <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> {userPhoneNumber}</p>
                     </button>
-
-                    {/* <div className="p-[6px] rounded-sm bg-[#3e3e3e] my-1 text-[13px] pl-1.5 text-DarkGreen">+880 1788128887</div> */}
                 </>
             }
 
@@ -387,10 +389,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                 </button>
             </div>
             <div>
-                    {/* modal for validation payment method  */}
-        
-                    {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
-
+                {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}
             </div>
         </div >
     );
