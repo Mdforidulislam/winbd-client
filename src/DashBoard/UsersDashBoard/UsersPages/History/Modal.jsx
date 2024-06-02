@@ -7,6 +7,7 @@ import ModalInfoShow from './TransactionProgress/ModalInfoShow';
 
 const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, setShowProgress }) => {
     const [activeTab, setActiveTab] = useState('tab1');
+    const { paymentMethod } = historyModal;
 
     const closeModal = () => {
         setIsOpenModalOpen(false);
@@ -33,10 +34,14 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, se
                                 <img
                                     width={25}
                                     height={25}
-                                    src="https://img.b112j.com/bj/h5/assets/images/payment/bkash.png?v=1715679064603&source=mcdsrc"
+                                    src={
+                                        paymentMethod === 'bkash' ? 'https://i.ibb.co/C0mhx9D/bkash.png' :
+                                        paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
+                                        paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
+                                    }
                                     alt="Bkash"
                                 />
-                                <h1 className="text-white font-semibold text-sm">Bkash</h1>
+                                <h1 className="text-white font-semibold text-sm">{paymentMethod}</h1>
                             </div>
                         </div>
 
