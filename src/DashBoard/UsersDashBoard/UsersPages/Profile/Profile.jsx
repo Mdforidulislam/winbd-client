@@ -36,8 +36,7 @@ const Profile = ({ setOpenModal }) => {
         <div className=" md:w-1/3 mx-auto ">
             <div className="w-full h-full relative">
                 {/* nav profile */}
-                <div className="bg-black absolute -top-4 w-[110vw] -left-4">
-
+                <div className="bg-black absolute md:-top-4 w-[110vw] -left-4">
                     <div className="bg-black overflow-hidden relative w-full rounded-b-full" style={{ backgroundImage: 'url("https://img.b112j.com/bj/h5/assets/images/member-header-bg.png?v=1715679064603")', backgroundPosition: 'buttom center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', height: '200px' }}>
 
                         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-[#000000ae] via-transparent to-transparent"></div>
