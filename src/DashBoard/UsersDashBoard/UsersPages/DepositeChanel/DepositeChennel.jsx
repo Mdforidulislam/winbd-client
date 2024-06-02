@@ -16,10 +16,6 @@ const DepositeChennel = () => {
         userDepositeChanel(depositeChanel); // send data with API context
     }, [depositeChanel, userDepositeChanel]);
 
-    // Log for debugging purposes
-    console.log(slectedPayment);
-    console.log(depositeChanel);
-
     //  bydefault selted the value here 
 
     useEffect(() => {

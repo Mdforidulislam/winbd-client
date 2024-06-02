@@ -62,8 +62,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     // ================= geting payMentTransaction data list
     useEffect(() => {
         const getingInsetData = async () => {
-            const dataList = await axios.get(`https://pay-winbd-server.vercel.app/getingPaymentInstraction`);
-            console.log(dataList.data);
+            const dataList = await axios.get(`https://sever.win-pay.xyz/getingPaymentInstraction`);
             setPayinsList(dataList.data.data);
         }
         getingInsetData()
@@ -87,8 +86,6 @@ const Amount = ({ number, withdraw, deposite }) => {
                 // Add other conditions if you have more channels
             });
     }, [channel]);
-
-    console.log(activeTab);
     // =================== sum the amount here ===================
     //handle next button
     useEffect(() => {
@@ -127,7 +124,6 @@ const Amount = ({ number, withdraw, deposite }) => {
     useEffect(() => {
         const getingSubmInfo = localStorage.getItem('userTransaction')
         const convertParsData = JSON.parse(getingSubmInfo)
-        // console.log(convertParsData);
         setLocalData(convertParsData)
     }, [])
 
@@ -137,35 +133,32 @@ const Amount = ({ number, withdraw, deposite }) => {
     const method = localDat?.paymentMethod || '';
     const userName = localUser?.userName;
 
+
     // geting paymethod from localstore
-
     useEffect(() => {
-        setPayMethod(JSON.parse(localStorage.getItem('payMethod')));
-    },[])
+        const seltedPayment = JSON.parse(localStorage.getItem('payMethod'));
+        setPayMethod(seltedPayment);
+    }, [])
+    console.log(paymentMethod);
 
-
-    console.log(payMehtod);
        // ===================================== vaildation isProcessgcing and number channel ===========================
-       console.log(author,method,userName);
        useEffect(() => {
         // Check if all necessary data is available
-        if (author && payMehtod && userName) {
+        if (author && paymentMethod && userName) {
             const fetchData = async () => {
                 try {
-                    const response = await fetch(`https://pay-winbd-server.vercel.app/showPaymentNumber?author=${author}&method=${payMehtod}&userName=${userName}`);
+                    const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&method=${paymentMethod}&userName=${userName}`);
                     const convert = await response.json();
-                    console.log(convert,'check the payment method');
+                    console.log(paymentMethod);
                     if (convert?.processingMessage) {
                         setIsProccessing(convert?.processingMessage); // ispocessing transaction for vlidation message
                     }
                     if (convert?.paymentMethods) {
-                        console.log(convert?.paymentMethods,'check the payment method');
                         setAvailbePayment(convert?.paymentMethods); // set the availabe the method validation 
                     }
                     if (convert?.userPhoneNumber) {
                         setUserPhoneNumber(convert?.userPhoneNumber)
                     }
-                    console.log(convert);
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
@@ -173,9 +166,9 @@ const Amount = ({ number, withdraw, deposite }) => {
 
             fetchData();
         }
-    }, [author , method , userName,payMehtod]);
+    }, [author, userName,paymentMethod]);
 
-
+// next button here 
     const handleNextButtonClick = () => {
         setProcessing(true);
         setTimeout(() => {
@@ -190,7 +183,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             if (activeTab === 'deposit') {
                 navigate('/profile/confirmpay');
             } else if (activeTab === 'withdraw') {
-                navigate('/profile/confirm-message');
+                navigate('/profile/confirmpay');
             }
         }, 500);
     };
@@ -204,7 +197,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
 
 
-
+// handle th some amoun here 
     const onchangeHandleValue = (event) => {
         event.preventDefault();
         const newAmount = parseInt(event.target.value);
@@ -221,32 +214,41 @@ const Amount = ({ number, withdraw, deposite }) => {
     };
 
 
+
     //  find a node here 
     useEffect(() => {
-        const foundNode = availablePayment.find(
-          (item) => item.depositeChannel === channel && item.transactionMethod === paymentMethod || ''
-        );
+        const findMatchingNode = () => {
+            return availablePayment.find(
+                (item) =>
+                    item.depositeChannel === channel && 
+                    item.transactionMethod === paymentMethod
+            );
+        };
+
+        const foundNode = findMatchingNode();
+
         setFindNode(foundNode);
-        localStorage.setItem('authorPhoneNumber', JSON.stringify(findNode?.number)); 
         localStorage.setItem('userPhoneNumber', JSON.stringify(userPhoneNumber));
-        console.log(foundNode);
-      }, [availablePayment, paymentMethod, channel,findNode?.number,userPhoneNumber]);
-    
+    }, [availablePayment, paymentMethod, channel, userPhoneNumber]);
+
     
     
 
       useEffect(() => {
         // Check if the payment method is included
-        const isIncluded = availablePayment.some(payment => payment.transactionMethod === paymentMethod || '');
-
+          const isIncluded = availablePayment.some(payment => payment.transactionMethod === paymentMethod || '');
+          const findNumber = availablePayment.find(item => item.transactionMethod === paymentMethod || '');
+          const numberGeting = findNumber?.number;
+          localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
+          console.log(numberGeting);
         if (!isIncluded) {
             const timer = setTimeout(() => {
                 // Prevent modal from opening on initial load
                 if (!isFirstLoad) {
                     setIsModalOpen(true);
-                }
-                setIsFirstLoad(false); // Update after first load
-            }, 600);
+                } 
+                    setIsFirstLoad(false); // Update after first load
+            }, 1000);
 
             // Clean up the timer if the component unmounts before the timer completes
             return () => clearTimeout(timer);
@@ -257,8 +259,6 @@ const Amount = ({ number, withdraw, deposite }) => {
 
 
 
-
-console.log(availablePayment);
     // viwe channel mathod availble
     useEffect(() => {
         let channelList = [];
@@ -266,9 +266,9 @@ console.log(availablePayment);
             channelList.push(item?.depositeChannel)
         });
         setSlectedPayment(channelList)
-        console.log(channelView);
     }, [availablePayment, setSlectedPayment]);
 
+    console.log(isModalOpen);
     
     return (
         <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
@@ -369,9 +369,8 @@ console.log(availablePayment);
                         <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
                         <div className="absolute top-12 -right-12 z-10 w-24 h-24 rounded-full scale-150 opacity-50 duration-500 bg-emerald-700"></div>
                         <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
-                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +880 1788128887</p>
+                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> {userPhoneNumber}</p>
                     </button>
-
 
                     {/* <div className="p-[6px] rounded-sm bg-[#3e3e3e] my-1 text-[13px] pl-1.5 text-DarkGreen">+880 1788128887</div> */}
                 </>

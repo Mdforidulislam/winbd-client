@@ -20,7 +20,7 @@ const Nav = () => {
                 </div>
                 {/* User's name */}
                 <div>
-                    <h1 className="text-white text-sm capitalize">{userName}</h1>
+                    <h1 className="text-white text-sm ">{userName}</h1>
                 </div>
             </div>
             {/* Profile options */}

@@ -13,7 +13,7 @@ const AdminCustomerCare = () => {
         setLocalData(authurId);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://pay-winbd-server.vercel.app/getSocialMFPF?authorId=${authurId}`);
+                const response = await axios.get(`https://sever.win-pay.xyz/getSocialMFPF?authorId=${authurId}`);
                 setData(response.data.data.socialMediaLinks || {});
                 console.log(response.data.data.socialMediaLinks);
             } catch (error) {
@@ -36,7 +36,7 @@ const AdminCustomerCare = () => {
             };
             console.log(updatedData);
             toast.success('Link Updated successfully');
-            await axios.put(`https://pay-winbd-server.vercel.app/insertSocialMFPF?authorId=${localData}`, updatedData);
+            await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF?authorId=${localData}`, updatedData);
             setData(prevData => ({
                 ...prevData,
                 [platform]: { link }

@@ -86,15 +86,15 @@ export const router = createBrowserRouter([
                 element: <PrivetRouter><Promotion /></PrivetRouter>
             },
             //    --------------------- Subadmin dashboard  routes    ------------------------
-            {
-                path: '/dashboard/subAdmin/',
-                element: <PrivetRouter ><SubadminHome /></PrivetRouter>,
-            },
-            {
-                path: "/dashboard/notification",
-                element: <PrivetRouter><Subnotifications /></PrivetRouter>
+            // {
+            //     path: '/dashboard/subAdmin/',
+            //     element: <PrivetRouter ><SubadminHome /></PrivetRouter>,
+            // },
+            // {
+            //     path: "/dashboard/notification",
+            //     element: <PrivetRouter><Subnotifications /></PrivetRouter>
 
-            },
+            // },
             {
                 path: "/dashboard/transtionReq",
                 element: <PrivetRouter><TransitionReq /></PrivetRouter>
