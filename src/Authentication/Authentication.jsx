@@ -23,7 +23,8 @@ const Authentication = ({ children }) => {
   const [rediectionDW, setrediectionDW] = useState('');
   const [activeTab, setActiveTab] = useState('deposit');
   const [slectedPayment, setSlectedPayment] = useState([]); // selected channel payemnt mehtod 
-  const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState([]); // 
+  const [discount, setDiscount] = useState(); // set discount from promotion offer 
 
   //==================== ahutentication data ============================ 
 
@@ -148,7 +149,9 @@ const Authentication = ({ children }) => {
     setSlectedPayment,
     slectedPayment,
     selectedFilters, 
-    setSelectedFilters
+    setSelectedFilters,
+    setDiscount,
+    discount
   };
 
   return (
