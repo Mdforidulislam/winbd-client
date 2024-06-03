@@ -22,6 +22,7 @@ const DepositeChennel = () => {
         setDepositeChanel(slectedPayment[0])
     },[slectedPayment])
 
+  console.log(slectedPayment, depositeChanel, 'check the payment syste');
     return (
         <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
             <Title text="Deposite Chennel" />

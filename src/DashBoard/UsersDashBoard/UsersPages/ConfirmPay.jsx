@@ -26,6 +26,7 @@ const ConfirmPay = () => {
     const [userNumber, setUserNumber] = useState(); // set user Phone Number
     const [subAdminNumber, setSubAdminNumber] = useState(); // set subadmin phone number
     const [imageUrl, setImageUrl] = useState(''); // img url set inside the post request to imgbb site
+    const [promotionTitle, setPromotionTitle] = useState(''); // set the promotion title  here 
 
     const navigate = useNavigate();
 
@@ -79,6 +80,10 @@ const ConfirmPay = () => {
         const subAdminNumber = localStorage.getItem('authorPhoneNumber');
         if (subAdminNumber) {
             setSubAdminNumber(JSON.parse(subAdminNumber));
+        }
+        const promoTitle = localStorage.getItem('promotion');
+        if (promoTitle) {
+            setPromotionTitle(promoTitle);
         }
     }, []);
 
@@ -138,6 +143,7 @@ const ConfirmPay = () => {
             paymentChannel: localDat?.channel,
             authorId: author,
             transactionImage: imageUrl ? imageUrl : 'input author',
+            offers: [{ title: promotionTitle ? promotionTitle : '', }],
         };
 
         console.log(transactionInfo);
