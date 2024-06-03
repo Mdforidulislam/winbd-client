@@ -159,9 +159,14 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
                 <p>Old Turnover</p>
                 <p>New Turnover</p>
               </div>
-              <div className="flex flex-col items-start">
-                <p>15000</p>
-                <p>23423wer3423</p>
+              <div className="flex flex-col items-end">
+                {item?.oldTurnover && item?.oldTurnover.map((item, index) => (
+                  <React.Fragment key={index}>
+                    <p>{item}</p>
+                    {index < oldTurnover.length - 1 && ', '}
+                  </React.Fragment>
+                ))}
+                <p>{item?.newTurnover}</p>
               </div>
             </div>
 

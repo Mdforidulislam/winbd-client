@@ -107,7 +107,7 @@ const History = () => {
                             </tr>
                         ) : (
                             storeData?.map((item, i) => (
-                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer transition duration-300`}>
+                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-3 md:py-4 pl-3 md:pl-6 pr-3 border-b border-gray-700">
                                         <img
                                             src={

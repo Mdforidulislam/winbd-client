@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { FaRegCopy, FaCheck } from "react-icons/fa";
+import { FaRegCopy, FaCheck, FaCheckCircle } from "react-icons/fa";
 import bkash from '../../../../public/bkash.png';
 import nagad from '../../../../public/nagad.png';
 import rocket from '../../../../public/rocket.jpg';
@@ -16,6 +16,7 @@ const ConfirmPay = () => {
     const [PhoneValue, setPhoneValue] = useState(''); // set the value from input
     const [transactionValue, setTransactionValue] = useState(''); // set the value from input
     const [imageValue, setImageValue] = useState(null); // set the value from input
+    const [imageURL, setImageURL] = useState(''); // store image URL
     const [showMassage, setShowMassage] = useState(''); // set error massage 
     const [localUser, setLocalUser] = useState({}); // get local user data
     const [redirect, setRedirect] = useState(false); // set redirection false or true value set for after 2 sec later redirection 
@@ -76,14 +77,14 @@ const ConfirmPay = () => {
     const userName = localUser?.userName;
     const paymentType = localDat?.type;
 
+    // Function to handle image upload to ImgBB
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        setImageValue(file);
 
-    // Insert image to imagebb website geting img link 
-    const handleSubmiteInsert = async () => {
-        let imgURL = '';
-
-        if (imageValue) {
+        if (file) {
             const formData = new FormData();
-            formData.append('image', imageValue);
+            formData.append('image', file);
 
             try {
                 // Upload image to imgbb
@@ -95,13 +96,16 @@ const ConfirmPay = () => {
                         key: 'e63830251586e4c27e94823af65ea6ca',
                     },
                 });
-                imgURL = responseImg.data.data.url;
+                const imgURL = responseImg.data.data.url;
+                setImageURL(imgURL); // Update the state with the image URL
                 setFileName(responseImg.data.data.display_url); // Update the state with the displayed file name
             } catch (error) {
                 console.error('Error uploading image:', error.message);
             }
         }
+    };
 
+    const handleSubmiteInsert = async () => {
         const transactionInfo = {
             userName: userName,
             transactionId: transactionValue || "",
@@ -111,7 +115,7 @@ const ConfirmPay = () => {
             paymentMethod: localDat?.paymentMethod,
             paymentChannel: localDat?.channel,
             authorId: author,
-            transactionImage: imgURL ? imgURL : 'input author',
+            transactionImage: imageURL ? imageURL : 'input author',
         };
 
         console.log(transactionInfo);
@@ -145,7 +149,6 @@ const ConfirmPay = () => {
             });
         }
     };
-
 
     // Return to the home page
     useEffect(() => {
@@ -249,7 +252,7 @@ const ConfirmPay = () => {
                 <div className={`${paymentType === 'withdraw' ? 'text-white text-center' : 'hidden'}`}>
                     অপ্রত্যাশিত লেনদেন বিষয়ক সমস্যাগুলি এড়াতে অনুগ্রহ করে সমস্ত বিবরণ পুনরায় যাচাই করুন এবং নিশ্চিত করুন।                </div>
                 {/*userNumber here  */}
-                <div className={`${paymentType === 'withdraw' ? 'mt-10' : ''} flex gap-2 my-4  items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
+                <div className={`${paymentType === 'withdraw' ? 'hidden ' : ''} flex gap-2 my-4  items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
                     <label htmlFor="" className="text-sm pt-[0.8px] leading-[1rem] text-DarkGreen">+880</label>
                     <div className="w-full">
                         <input
@@ -261,6 +264,15 @@ const ConfirmPay = () => {
                             readOnly={paymentType === 'withdraw'}
                         />
                     </div>
+                </div>
+                <div className={`${paymentType === 'withdraw' ? 'mt-10 w-full' : 'hidden'}`}>
+                    <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
+                        <div className="absolute top-12 -right-12 z-10 w-40 h-40 rounded-full scale-150 opacity-50 duration-500 bg-emerald-950"></div>
+                        <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
+                        <div className="absolute top-12 -right-12 z-10 w-24 h-24 rounded-full scale-150 opacity-50 duration-500 bg-emerald-700"></div>
+                        <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
+                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +880 {userNumber}</p>
+                    </button>
                 </div>
                 {/* <input
                     type="text"
@@ -291,15 +303,19 @@ const ConfirmPay = () => {
                 {/* image filed here */}
 
                 <div className="w-full my-4">
-                    <input
-                        type="file"
-                        id="file-upload"
-                        onChange={(e) => setImageValue(e.target.files[0])}
-                        className="hidden"
-                    />
+                    {imageURL ? (
+                        <img src={imageURL} alt="Selected" className="w-full object-contain" />
+                    ) : (
+                        <input
+                            type="file"
+                            id="file-upload"
+                            onChange={handleImageChange}
+                            className="hidden"
+                        />
+                    )}
                     <label
                         htmlFor="file-upload"
-                        className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
+                        className={`${paymentType === 'withdraw' || imageURL ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
                     >
                         <span>{fileName || 'Choose a file'}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>

@@ -11,7 +11,7 @@ const MainLayout = () => {
     }, []);
 
     return (
-        <div className=''>
+        <div className='bg-black'>
             <Outlet />
         </div>
     );
