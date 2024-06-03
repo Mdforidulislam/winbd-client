@@ -34,7 +34,7 @@ const PaymentMethod = ({ number }) => {
             onClick={() => setPaymentType(item.title)}
             className={`${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-sm flex w-full h-full items-center justify-center' : 'border border-gray-400 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
           >
-            <div className=" py-1.5 relative h-full w-full flex flex-col justify-center items-center">
+            <div className=" py-2.5 relative h-full w-full flex flex-col justify-center items-center">
               <img width={20} height={22} src={item?.img} alt="" />
 
               <h1 onClick={() => setPaymentType(item?.title)} className="text-white mt-1 hover:text-Customborder-CustomYellow text-[10px] capitalize">{item?.title}</h1>
