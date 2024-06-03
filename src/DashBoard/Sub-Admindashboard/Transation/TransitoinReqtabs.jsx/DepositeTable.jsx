@@ -8,9 +8,9 @@ import Loader from "../../../../Components/Loader/Loader";
 const DepositeTable = () => {
     const [storeData, setStoreData] = useState([]);
     const [localData, setLocalData] = useState('');
-    const [openModal, setOpenModal] = useState(false);
     // const [pageNumber, setPageNumbers] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const DepositeTable = () => {
                             </tr>
                         ) : (
                             storeData?.map((item, i) => (
-                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer transition duration-300`}>
+                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
                                             src={

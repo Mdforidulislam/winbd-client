@@ -5,10 +5,13 @@ import { FaSearch } from 'react-icons/fa';
 import { FiEdit } from 'react-icons/fi';
 import Loader from '../../../Components/Loader/Loader';
 import { MdOutlineDoubleArrow } from 'react-icons/md';
+import { AllUserModal } from '../../../Components/Modals/AllUserModal';
 
 const AllUsers = () => {
     const [pageNumber, setPageNumbers] = useState(0);
     const [searchData, setSearchData] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+    const [data, setData] = useState(null);
     // const [searchNumData, setSearchNumData] = useState('');
     //due
     //implement search functionality with number
@@ -46,6 +49,11 @@ const AllUsers = () => {
         userDataget();
     }, [pageNumber, uniqueId, searchData]);
 
+    const handleModal = (item) => {
+        setData(item);
+        setOpenModal(true);
+    };
+
     return (
         <div className='md:my-8 px-2'>
             <div className='flex justify-center'>
@@ -80,7 +88,7 @@ const AllUsers = () => {
                             </tr>
                         ) : (
                             storeData?.map((item, i) => (
-                                <tr key={i} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} transition duration-300`}>
+                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer hover:bg-black/20 transition duration-300`}>
                                     <td className="py-3 md:py-4 md:px-6 pl-2 pr-10 md:pr-0 md:pl-10 border-b border-gray-500 hidden md:table-cell">
                                         <img
                                             src="https://source.unsplash.com/300x300/?profile"
@@ -98,7 +106,7 @@ const AllUsers = () => {
 
                 </table>
             </div>
-
+            {openModal && <AllUserModal setOpenModal={setOpenModal} openModal={openModal} item={data} />}
             <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
         </div>
     );

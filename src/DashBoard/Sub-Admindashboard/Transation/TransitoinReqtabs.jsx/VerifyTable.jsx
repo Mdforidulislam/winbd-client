@@ -82,7 +82,7 @@ const VerifyTable = () => {
                     <tbody>
                         {storeData && storeData.length > 0 ? (
                             storeData.map((item, i) => (
-                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} transition duration-300`}>
+                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 transition duration-300`}>
                                     <td className="py-4 px-6 pl-10 border-b border-gray-700">
                                         <img
                                             src={

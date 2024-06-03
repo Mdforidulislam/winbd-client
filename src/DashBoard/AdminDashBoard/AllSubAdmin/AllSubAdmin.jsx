@@ -4,6 +4,8 @@ import { FaSearch } from "react-icons/fa";
 import Loader from "../../../Components/Loader/Loader";
 import { ModalSub } from "./SubAdminModal/ModalSub";
 import { Pagination } from "../../../Components/Shared/Pagination";
+import { MdOutlineDoubleArrow } from "react-icons/md";
+import { SubAdminUpdateModal } from "./SubAdminModal/openUpdateModal";
 
 const AllSubAdmin = () => {
   const [search, setSearch] = useState(""); // set search data here
@@ -11,7 +13,8 @@ const AllSubAdmin = () => {
   const [dataSubAdmin, setDataSubAdmin] = useState([]); // store all the subAdmin data list
   const [loading, setLoading] = useState(false); // set loading state
   const [openModal, setOpenModal] = useState(false);
-
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -36,6 +39,11 @@ const AllSubAdmin = () => {
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setPageNumber(0); // Reset page number when search changes
+  };
+
+  const handleUpdateModal = (item) => {
+    setData(item);
+    setOpenUpdateModal(true);
   };
 
   return (
@@ -70,6 +78,7 @@ const AllSubAdmin = () => {
               <th className="md:py-3 py-1 px-2 md:px-6 pl-3 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
               <th className="md:py-3 py-1 px-2 md:px-6 pl-2 text-[12px] md:text-lg text-left border-b border-gray-500">Number</th>
               <th className="md:py-3 py-1 px-2 md:px-6 pl-3 text-[12px] md:text-lg text-left border-b border-gray-500">Password</th>
+              <th className="md:py-3 py-1 px-2 md:px-6 pl-3 text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
             </tr>
           </thead>
           <tbody>
@@ -81,10 +90,11 @@ const AllSubAdmin = () => {
               </tr>
             ) : (
               dataSubAdmin?.map((item, i) => (
-                <tr key={i} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer transition duration-300`}>
-                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.subAdmin}</td>
-                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.phoneNumber}</td>
-                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.password}</td>
+                <tr key={i} onClick={() => handleUpdateModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
+                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-500 text-white">{item?.subAdmin}</td>
+                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-500 text-white">{item?.phoneNumber}</td>
+                  <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-500 text-white">{item?.password}</td>
+                  <td className="py-3 md:py-4 px-6 md:pl-12 border-b border-gray-500 text-white"><MdOutlineDoubleArrow className="cursor-pointer" /></td>
                 </tr>
               ))
             )}
@@ -93,6 +103,7 @@ const AllSubAdmin = () => {
       </div>
       <Pagination storeData={dataSubAdmin} setPageNumbers={setPageNumber} />
       {openModal && <ModalSub openModal={openModal} setOpenModal={setOpenModal} />}
+      {openUpdateModal && <SubAdminUpdateModal openUpdateModal={openUpdateModal} setOpenUpdateModal={setOpenUpdateModal} item={data} />}
     </div>
   );
 };

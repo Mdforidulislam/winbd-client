@@ -380,3 +380,34 @@ ul li:hover {
     left: calc(100px * 2 + 2px);
   }
 }
+
+
+
+/* profile modal slidding effect */
+
+/* Add these styles to your CSS file or in a <style> tag in your component */
+@keyframes slideInBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutBottom {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.slide-in-bottom {
+  animation: slideInBottom 0.5s forwards;
+}
+
+.slide-out-bottom {
+  animation: slideOutBottom 0.5s forwards;
+}
