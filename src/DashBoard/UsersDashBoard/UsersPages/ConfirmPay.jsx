@@ -11,7 +11,9 @@ import two from '../../../../public/two.png';
 
 const ConfirmPay = () => {
     const initialTime = 5 * 60; // 5 minutes in seconds
-    const [timeRemaining, setTimeRemaining] = useState(initialTime); // set time function 
+    const [timeRemaining, setTimeRemaining] = useState(initialTime);
+    const [minute, setMinute] = useState(Math.floor(initialTime / 60));
+    const [second, setSecond] = useState(initialTime % 60);
     const [localDat, setLocalData] = useState({}); // set data 
     const [PhoneValue, setPhoneValue] = useState(''); // set the value from input
     const [transactionValue, setTransactionValue] = useState(''); // set the value from input
@@ -21,25 +23,38 @@ const ConfirmPay = () => {
     const [redirect, setRedirect] = useState(false); // set redirection false or true value set for after 2 sec later redirection 
     const [isCopiedNumber, setIsCopiedNumber] = useState(false);
     const [isCopiedAmount, setIsCopiedAmount] = useState(false);
-    const [fileName, setFileName] = useState('');
     const [userNumber, setUserNumber] = useState(); // set user Phone Number
     const [subAdminNumber, setSubAdminNumber] = useState(); // set subadmin phone number
+    const [imageUrl, setImageUrl] = useState(''); // img url set inside the post request to imgbb site
+
     const navigate = useNavigate();
 
     // ================== Timer calculation =====================
     useEffect(() => {
         const intervalId = setInterval(() => {
-            if (timeRemaining > 0) {
-                setTimeRemaining(prevTime => prevTime - 1); // Reduce time by 1 second
-            }
-        }, 1000); // Run every second
+            setTimeRemaining(prevTime => {
+                if (prevTime <= 1) {
+                    clearInterval(intervalId); // Stop the interval when time is up
+                    return 0;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
 
-        return () => clearInterval(intervalId); // Cleanup the interval
+        return () => clearInterval(intervalId); // Cleanup the interval on component unmount
+    }, []);
+
+    useEffect(() => {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        setMinute(minutes);
+        setSecond(seconds);
     }, [timeRemaining]);
 
-    // Convert remaining time to minutes and seconds
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
+    console.log(minute);
+    console.log(second);
+
+
 
     // BD time Function here
     useEffect(() => {
@@ -76,32 +91,43 @@ const ConfirmPay = () => {
     const userName = localUser?.userName;
     const paymentType = localDat?.type;
 
+    // insert image here 
+
+    useEffect(() => {
+        const imgInsertData = async () => {
+            if (imageValue) {
+                const formData = new FormData();
+                formData.append('image', imageValue);
+    
+                try {
+                    // Upload image to imgbb
+                    const responseImg = await axios.post('https://api.imgbb.com/1/upload', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        params: {
+                            key: 'e63830251586e4c27e94823af65ea6ca',
+                        },
+                    });
+                    if (responseImg.data.data.url && responseImg.data.data.url !== imageUrl) {
+                        setImageUrl(responseImg.data.data.url);
+                    }
+                } catch (error) {
+                    console.error('Error uploading image:', error.message);
+                }
+            }
+        }
+        imgInsertData()
+    }, [imageValue]);
+    
+    // console.log(imageValue);
+    // console.log(imageUrl);
+    
+
 
     // Insert image to imagebb website geting img link 
     const handleSubmiteInsert = async () => {
-        let imgURL = '';
-
-        if (imageValue) {
-            const formData = new FormData();
-            formData.append('image', imageValue);
-
-            try {
-                // Upload image to imgbb
-                const responseImg = await axios.post('https://api.imgbb.com/1/upload', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    params: {
-                        key: 'e63830251586e4c27e94823af65ea6ca',
-                    },
-                });
-                imgURL = responseImg.data.data.url;
-                setFileName(responseImg.data.data.display_url); // Update the state with the displayed file name
-            } catch (error) {
-                console.error('Error uploading image:', error.message);
-            }
-        }
-
+     
         const transactionInfo = {
             userName: userName,
             transactionId: transactionValue || "",
@@ -111,7 +137,7 @@ const ConfirmPay = () => {
             paymentMethod: localDat?.paymentMethod,
             paymentChannel: localDat?.channel,
             authorId: author,
-            transactionImage: imgURL ? imgURL : 'input author',
+            transactionImage: imageUrl ? imageUrl : 'input author',
         };
 
         console.log(transactionInfo);
@@ -149,14 +175,14 @@ const ConfirmPay = () => {
 
     // Return to the home page
     useEffect(() => {
-        if (showMassage === 'Transaction inserted successfully' || minutes <= 0 && seconds <= 0) {
+        if (showMassage === 'Transaction inserted successfully' || minute <= 0 && second <= 0) {
             const timer = setTimeout(() => {
                 setRedirect(true);
             }, 1000); // 1000 milliseconds = 1 second
 
             return () => clearTimeout(timer); // Cleanup timeout if the component unmounts
         }
-    }, [showMassage, minutes, seconds]);
+    }, [showMassage, minute, second]);
 
     if (redirect) {
         return <Navigate to="/profile/user" replace={true} />;
@@ -216,7 +242,7 @@ const ConfirmPay = () => {
                             <h1 className="text-2xl mb-1 text-white capitalize font-bold">{localDat?.paymentMethod} <span className="capitalize">{localDat?.channel}</span></h1>
                         </div>
                         <div className="text-white my-2">
-                            <h1 className={`${localDat?.type === 'withdraw' ? 'hidden' : 'px-10 text-white text-center capitalize w-full'}`}>Please pay to the account below within <span className="text-red-600">{minutes}</span> min <span className="text-red-600">{seconds}</span> sec.</h1>
+                            <h1 className={`${localDat?.type === 'withdraw' ? 'hidden' : 'px-10 text-white text-center capitalize w-full'}`}>Please pay to the account below within <span className="text-red-600">{minute}</span> min <span className="text-red-600">{second}</span> sec.</h1>
                         </div>
                     </div>
                 </div>
@@ -269,6 +295,26 @@ const ConfirmPay = () => {
                     placeholder="Phone Number"
                     className="w-full py-2 px-3 my-4 bg-[#272727] focus:outline-none rounded-md text-white"
                 /> */}
+
+                {/* image filed here */}
+
+                <div className="w-full my-4">
+                    <input
+                        type="file"
+                        id="file-upload"
+                        onChange={(e) => setImageValue(e.target.files[0])}
+                        className="hidden"
+                    />
+                    <label
+                        htmlFor="file-upload"
+                        className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
+                    >
+                        <span>{imageUrl ? "uploaded" : imageValue ? 'uploading...' : "insert image"}</span>
+                        <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
+                    </label>
+                </div>
+
+
                 {/* transaction valu here */}
 
                 <div className={`${paymentType === 'withdraw' ? "hidden" : ""} flex gap-2 items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
@@ -288,23 +334,7 @@ const ConfirmPay = () => {
                     className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 mb-4 bg-[#272727] focus:outline-none rounded-md text-white`}
                 /> */}
 
-                {/* image filed here */}
-
-                <div className="w-full my-4">
-                    <input
-                        type="file"
-                        id="file-upload"
-                        onChange={(e) => setImageValue(e.target.files[0])}
-                        className="hidden"
-                    />
-                    <label
-                        htmlFor="file-upload"
-                        className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
-                    >
-                        <span>{fileName || 'Choose a file'}</span>
-                        <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
-                    </label>
-                </div>
+          
             </div>
 
             <button onClick={handleSubmiteInsert} disabled={showMassage === 'Transaction inserted successfully'} className={`bg-[#19A277] hover:bg-green-700 text-white font-semibold py-2 px-4 rounded w-full`}>
