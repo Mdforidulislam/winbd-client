@@ -1,0 +1,18 @@
+[
+    {
+        "category": "Apples",
+        "value": 30
+    },
+    {
+        "category": "Oranges",
+        "value": 20
+    },
+    {
+        "category": "Bananas",
+        "value": 25
+    },
+    {
+        "category": "Berries",
+        "value": 25
+    }
+]

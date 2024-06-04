@@ -1,0 +1,36 @@
+[
+    {
+        "img": "https://bjbaji555.live/images/web/thirdparty/bkash.png",
+        "title": "bkash",
+        "descrip": "try to make easy",
+        "id": 1
+    },
+    {
+        "img": "https://bjbaji555.live/images/web/thirdparty/rocket.png",
+        "title": "rocket",
+        "offer": "+15%",
+        "descrip": "its ok or not",
+        "id": 2
+    },
+    {
+        "img": "https://bjbaji555.live/images/web/thirdparty/nagad.png",
+        "title": "nogod",
+        "descrip": "may be work",
+        "id": 3
+    },
+    {
+        "img": "https://i.ibb.co/tKymZT8/okwallet.png",
+        "title": "okwallet",
+        "offer": "+15%"
+    },
+    {
+        "img": "https://i.ibb.co/3kWdHjx/surecash.png",
+        "title": "surecash",
+        "offer": "+15%"
+    },
+    {
+        "img": "https://bjbaji555.live/images/web/thirdparty/upay.png",
+        "title": "upay",
+        "offer": "+15%"
+    }
+]

@@ -1,0 +1,84 @@
+import { useContext, useEffect, useState } from "react";    
+import ModalTransaction from "./Modal/ModalTransaction";
+import { MdOutlineDoubleArrow } from "react-icons/md";
+import Loader from "../../../../Components/Loader/Loader";
+import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "../../../../Authentication/Authentication";
+
+const DepositeTable = () => {
+    const [localData, setLocalData] = useState('');
+    const [openModal, setOpenModal] = useState(false);
+    const [dataList, setDataList] = useState(null);
+
+    const { reload } = useContext(AuthContext);
+
+    useEffect(() => {
+        const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
+        setLocalData(authurId);
+    }, [reload]);
+
+    const { isLoading, data, refetch } = useQuery({
+        queryKey: ['QueryDataDeposite'],
+        queryFn: () =>
+            fetch(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`).then((res) =>
+                res.json(),
+            ),
+        refetchInterval: 5000, // Refresh every 5 seconds
+    });
+
+    const handleModal = (item) => {
+        setDataList(item);
+        setOpenModal(true);
+    };
+
+    return (
+        <div className="">
+            <div className="md:flex md:justify-center md:items-center overflow-x-auto">
+                <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500 ">
+                    <thead>
+                        <tr className="bg-GlobalGray text-white">
+                            <th className="md:py-3 py-1 px-2 md:pl-6 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Type</th>
+                            <th className="md:py-3 py-1 px-2 md:pl-5 md:pr-5 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 pl-5 md:pl-7 text-[12px] md:text-lg text-left border-b border-gray-500">Time</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Amount</th>
+                            <th className="py-3 text-left border-b border-gray-500 pl-6 hidden md:table-cell">Submit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {isLoading ? (
+                            <tr>
+                                <td colSpan="5">
+                                    <Loader />
+                                </td>
+                            </tr>
+                        ) : (
+                            data?.queryDepositeData?.map((item, i) => (
+                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
+                                    <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
+                                        <img
+                                            src={
+                                                item?.paymentMethod === 'bkash' ? 'https://i.ibb.co/C0mhx9D/bkash.png' :
+                                                    item?.paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
+                                                        item?.paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
+                                            }
+                                            alt={item?.paymentMethod}
+                                            className="h-6 md:h-8 w-6 md:w-8 object-contain"
+                                        />
+                                    </td>
+                                    <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 pl-4 border-b border-gray-700">{item?.userName}</td>
+                                    <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 border-b border-gray-700">{item?.TimeDay}</td>
+                                    <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-12 pl-5 border-b border-gray-700">{item?.amount}</td>
+                                    <td className="py-2 text-[12px] md:text-sm pl-12 cursor-pointer px-6 border-b border-gray-700 hidden md:table-cell"><MdOutlineDoubleArrow className="cursor-pointer" /></td>
+                                </tr>
+                            ))
+                        )
+                        }
+                    </tbody>
+                </table>
+            </div>
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={dataList} />}
+        </div>
+    );
+};
+
+export default DepositeTable;
