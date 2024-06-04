@@ -22,7 +22,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     const [localUser, setLocaluser] = useState({}); // get local user data
     const [localDat, setLocalData] = useState({}); // set data
     const [isProcessgcingMass, setIsProccessing] = useState('');// set the isProcessing validation
-    const [availablePayment, setAvailbePayment] = useState([]); // set available the paymentmehotd
+    const [availablePayment, setAvailbePayment] = useState(JSON.parse(localStorage.getItem('paymentMethods'))); // set the value here 
     const [isModalOpen, setIsModalOpen] = useState(false); // true the condtion 
     const [isFirstLoad, setIsFirstLoad] = useState(true); // fast load 
     const [findNode, setFindNode] = useState(null); // see all the node here 
@@ -70,7 +70,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [])
 
 
-    // ================= geting Amount
+    // ================= geting Amount===================
     useEffect(() => {
         fetch('/amount.json')
             .then(res => res.json())
@@ -87,6 +87,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                 // Add other conditions if you have more channels
             });
     }, [channel]);
+    
     // =================== sum the amount here ===================
     //handle next button
     useEffect(() => {
@@ -145,17 +146,19 @@ const Amount = ({ number, withdraw, deposite }) => {
     // ===================================== vaildation isProcessgcing and number channel ===========================
     useEffect(() => {
         // Check if all necessary data is available
-        if (author && paymentMethod && userName) {
             const fetchData = async () => {
                 try {
-                    const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&method=${paymentMethod}&userName=${userName}`);
+                    const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
                     const convert = await response.json();
                     console.log(paymentMethod);
                     if (convert?.processingMessage) {
                         setIsProccessing(convert?.processingMessage); // ispocessing transaction for vlidation message
                     }
-                    if (convert?.paymentMethods) {
+                    if (convert?.paymentMethods.length > 0) {
                         setAvailbePayment(convert?.paymentMethods); // set the availabe the method validation 
+                        const dataString = JSON.stringify(convert?.paymentMethods);
+                        localStorage.setItem('paymentMethods', dataString); // set the data to database 
+                        console.log(convert?.paymentMethods);
                     }
                     if (convert?.userPhoneNumber) {
                         setUserPhoneNumber(convert?.userPhoneNumber)
@@ -166,7 +169,6 @@ const Amount = ({ number, withdraw, deposite }) => {
             };
 
             fetchData();
-        }
     }, [author, userName, paymentMethod]);
 
     // next button here 
@@ -219,7 +221,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     //  find a node here 
     useEffect(() => {
         const findMatchingNode = () => {
-            return availablePayment.find(
+            return availablePayment?.find(
                 (item) =>
                     item.depositeChannel === channel &&
                     item.transactionMethod === paymentMethod
@@ -237,8 +239,8 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     useEffect(() => {
         // Check if the payment method is included
-        const isIncluded = availablePayment.some(payment => payment.transactionMethod === paymentMethod || '');
-        const findNumber = availablePayment.find(item => item.transactionMethod === paymentMethod || '');
+        const isIncluded = availablePayment?.some(payment => payment.transactionMethod === paymentMethod || '');
+        const findNumber = availablePayment?.find(item => item.transactionMethod === paymentMethod || '');
         const numberGeting = findNumber?.number;
         localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
         console.log(numberGeting);
@@ -249,7 +251,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                     setIsModalOpen(true);
                 }
                 setIsFirstLoad(false); // Update after first load
-            }, 1000);
+            }, 600);
 
             // Clean up the timer if the component unmounts before the timer completes
             return () => clearTimeout(timer);
@@ -263,11 +265,15 @@ const Amount = ({ number, withdraw, deposite }) => {
     // viwe channel mathod availble
     useEffect(() => {
         let channelList = [];
-        const channelView = availablePayment.forEach((item) => {
-            channelList.push(item?.depositeChannel)
+        const channelView = availablePayment?.forEach((item) => {
+            if (item.transactionMethod === paymentMethod) {
+                console.log('accesss');
+                channelList.push(item?.depositeChannel)
+            }
+            
         });
         setSlectedPayment(channelList)
-    }, [availablePayment, setSlectedPayment]);
+    }, [availablePayment, setSlectedPayment,paymentMethod]);
 
     console.log(isModalOpen);
 

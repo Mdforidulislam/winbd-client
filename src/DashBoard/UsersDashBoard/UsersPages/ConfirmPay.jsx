@@ -118,7 +118,7 @@ const ConfirmPay = () => {
                 });
                 const imgURL = responseImg.data.data.url;
                 setImageURL(imgURL); // Update the state with the image URL
-                setFileName(responseImg.data.data.display_url); // Update the state with the displayed file name
+
             } catch (error) {
                 console.error('Error uploading image:', error.message);
             }
@@ -306,7 +306,7 @@ const ConfirmPay = () => {
 
                 {/* image filed here */}
 
-                <div className="w-full my-4">
+                {/* <div className="w-full my-4">
                     <input
                         type="file"
                         id="file-upload"
@@ -320,7 +320,7 @@ const ConfirmPay = () => {
                         <span>{imageUrl ? "uploaded" : imageValue ? 'uploading...' : "insert image"}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
                     </label>
-                </div>
+                </div> */}
 
 
                 {/* transaction valu here */}
@@ -346,7 +346,9 @@ const ConfirmPay = () => {
 
                 <div className="w-full my-4">
                     {imageURL ? (
-                        <img src={imageURL} alt="Selected" className="w-full object-contain" />
+                        <div className="w-full flex justify-center ">
+                            <img src={imageURL} alt="Selected" className=" object-contain w-2/5 h-[150px] " />
+                        </div>
                     ) : (
                         <input
                             type="file"
@@ -359,7 +361,7 @@ const ConfirmPay = () => {
                         htmlFor="file-upload"
                         className={`${paymentType === 'withdraw' || imageURL ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
                     >
-                        <span>{'Choose a file'}</span>
+                        <span>{ 'Choose a file'}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
                     </label>
                 </div>

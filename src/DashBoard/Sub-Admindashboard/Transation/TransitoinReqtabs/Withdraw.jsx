@@ -1,43 +1,32 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import bkash from '../../../../../public/bkash.png';
 import nagad from '../../../../../public/nagad.png';
 import rocket from '../../../../../public/rocket.jpg';
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import ModalTransaction from "./Modal/ModalTransaction";
-// import { Pagination } from "../../../../Components/Shared/Pagination";
 import Loader from "../../../../Components/Loader/Loader";
 
-const Verify = () => {
+const DepositeTable = () => {
     const [openModal, setOpenModal] = useState(false);
     const [data, setData] = useState(null);
-    const [storeData, setStoreData] = useState([]);
     const [localData, setLocalData] = useState('');
-    // const [pageNumber, setPageNumbers] = useState(0);
-    const [loading, setLoading] = useState(true);
 
+    // Fetch data using useQuery
+    const { isLoading, data: serverData } = useQuery({
+        queryKey: ['transactionReqWith', localData],
+        queryFn: async () => {
+            const response = await fetch(`https://sever.win-pay.xyz/transactionReqWith?authurId=${localData}`);
+            return response.json();
+        },
+        refetchInterval: 5000, // Refresh every 5 seconds
+    });
+
+    // Update local data when user data changes
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
         setLocalData(authurId);
     }, []);
-
-    useEffect(() => {
-        const trnasctionWithdraw = async () => {
-            if (localData) {
-                setLoading(true); // Start loading
-                try {
-                    const serverData = await axios.get(`https://sever.win-pay.xyz/getingVerifydata?authoreId=${localData}`);
-                    setStoreData(serverData?.data?.queryVerifyData);
-                    console.log(serverData);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                } finally {
-                    setLoading(false); // End loading
-                }
-            }
-        };
-        trnasctionWithdraw();
-    }, [localData]);
 
     const handleModal = (item) => {
         setData(item);
@@ -58,14 +47,14 @@ const Verify = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? (
+                        {isLoading ? (
                             <tr>
                                 <td colSpan="5">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
-                            storeData?.map((item, i) => (
+                            serverData?.queryWithDrawData?.map((item, i) => (
                                 <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
@@ -89,10 +78,9 @@ const Verify = () => {
                     </tbody>
                 </table>
             </div>
-            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
             {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} />}
         </div>
     );
 };
 
-export default Verify;
+export default DepositeTable;

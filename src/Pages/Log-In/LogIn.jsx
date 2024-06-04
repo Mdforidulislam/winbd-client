@@ -109,21 +109,19 @@ const LogIn = () => {
   return (
     <div className=" w-full flex min-h-screen bg-[#111114]">
       <div className=" h-full w-full md:flex justify-center items-center md:min-h-screen ">
-        <div className="md:w-1/3">
+        <div className="md:w-2/6">
+                        <div className="w-full  text-white py-1 mb-2 md:mb-12 flex items-center bg-GlobalDarkGray px-2">
+                              <Link to={redirectUrl} className="relative z-10">
+                                <div className="">
+                                  <span className="text-white font-bold text-3xl"><MdOutlineKeyboardArrowLeft /></span>
+                                </div>
+                              </Link>
 
-          <div className="w-full text-white py-1 mb-2 md:mb-12 flex items-center bg-GlobalDarkGray px-2">
+                              <Link to={redirectUrl} className="flex-grow justify-center -ml-8 ">
+                                <h1 className="text-center py-2 text-sm capitalize font-medium">winBD</h1>
+                              </Link>
 
-            <Link to={redirectUrl} className="relative z-10">
-              <div className="">
-                <span className="text-white font-bold text-3xl"><MdOutlineKeyboardArrowLeft /></span>
-              </div>
-            </Link>
-
-            <Link to={redirectUrl} className="flex-grow justify-center -ml-8">
-              <h1 className="text-center py-2 text-sm capitalize font-medium">winBD</h1>
-            </Link>
-
-          </div>
+                        </div>
           <form onSubmit={handleSubmit(onSubmit)} className="px-2">
             {/* fast fild here */}
             <div className=" border-b border-gray-500 ">
