@@ -72,22 +72,32 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     // ================= geting Amount===================
     useEffect(() => {
-        fetch('/amount.json')
-            .then(res => res.json())
-            .then(data => {
-                // Set amounts based on the channel
-                if (channel === 'cashout') {
-                    setAmount(data[0].cashout);
-                } else if (channel === 'sendmoney') {
-                    setAmount(data[1].sendmoney);
+        const fetchAmounts = async () => {
+            try {
+                const response = await fetch('/amount.json');
+                const data = await response.json();
+                
+                switch(channel) {
+                    case 'cashout':
+                        setAmount(data[0].cashout);
+                        break;
+                    case 'sendmoney':
+                    case 'payment':
+                        setAmount(data[1].sendmoney);
+                        break;
+                    default:
+                        setAmount(data[1].sendmoney);
+                        break;
                 }
-                else if (channel === 'payment') {
-                    setAmount(data[1].sendmoney);
-                }
-                // Add other conditions if you have more channels
-            });
-    }, [channel]);
+                console.log(data,activeTab);
+            } catch (error) {
+                console.error("Error fetching amounts:", error);
+            }
+        };
     
+        fetchAmounts();
+    }, [channel]);
+
     // =================== sum the amount here ===================
     //handle next button
     useEffect(() => {
@@ -300,15 +310,23 @@ const Amount = ({ number, withdraw, deposite }) => {
                     </div>
                 </div>
                 <div className="grid grid-cols-4 gap-2 mt-3 py-3 my-2 border border-gray-400 border-x-transparent border-b-transparent border-t-1">
-                    {
-                        amount.map((item, index) => (
-                            <div key={index} className="rounded-sm border border-gray-600 w-full h-full flex items-center justify-center pt-1.5 pb-2 px-3 hover:border-[#FFE43C] hover:text-[#FFE43C]">
-                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white text-[11px]">{selectedAmount !== null ? (
-                                    <span className='mr-1'>+</span>
-                                ) : null}
-                                    {item.amount}</h1>
-                            </div>
-                        ))
+                {
+                        amount.slice(0, activeTab === 'withdraw' ? 8 : amount.length).map((item, index) => (
+                                <div 
+                                    key={index} 
+                                    className="rounded-sm border border-gray-600 w-full h-full flex items-center justify-center pt-1.5 pb-2 px-3 hover:border-[#FFE43C] hover:text-[#FFE43C]"
+                                >
+                                    <h1 
+                                        onClick={() => handleSumAllAmount(item.amount)} 
+                                        className="hover:text-[#FFE43C] text-white text-[11px]"
+                                    >
+                                        {selectedAmount !== null && (
+                                            <span className='mr-1'>+</span>
+                                        )}
+                                        {item.amount}
+                                    </h1>
+                                </div>
+                            ))
                     }
                 </div>
             </div>
