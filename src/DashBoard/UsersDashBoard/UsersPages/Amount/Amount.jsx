@@ -164,7 +164,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                     if (convert?.processingMessage) {
                         setIsProccessing(convert?.processingMessage); // ispocessing transaction for vlidation message
                     }
-                    if (convert?.paymentMethods.length > 0) {
+                    if (convert?.paymentMethods?.length > 0) {
                         setAvailbePayment(convert?.paymentMethods); // set the availabe the method validation 
                         const dataString = JSON.stringify(convert?.paymentMethods);
                         localStorage.setItem('paymentMethods', dataString); // set the data to database 

@@ -32,6 +32,7 @@ const Promotion = () => {
                     if (userName) {
                         const response = await axios.get(`https://sever.win-pay.xyz/promotionOfferShow?userName=${userName}`);
                         const promotionData = response.data;
+                        console.log(promotionData);
                         setPromotion(promotionData);
                         if (promotionData.length > 0) {
                             handleOptionClick(promotionData[1]);
@@ -75,8 +76,8 @@ const Promotion = () => {
                 {dropdownVisible && (
                     <div className="absolute right-0 mt-2 w-48 bg-inputlartBg border border-inputlartBg rounded shadow-lg z-10">
                         {promotion.length > 0 ? (
-                            promotion.map((item) => (
-                                <div key={item._id}>
+                            promotion.map((item,index) => (
+                                <div key={index}>
                                     <a
                                         onClick={() => handleOptionClick(item)}
                                         className="block px-4 py-2 text-LightGreen hover:bg-gray-200 cursor-pointer"

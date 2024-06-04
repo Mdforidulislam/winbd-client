@@ -177,7 +177,7 @@ const Register = () => {
                 <div className="w-full md:max-w-xl mx-auto">
                     {/* header makeing here  */}
 
-                    <div className="w-full text-white py-1 mb-6 flex items-center bg-GlobalDarkGray px-2">
+                    <div className="w-full text-white py-1 mb-6 flex items-center bg-GlobalDarkGray ">
 
                         <Link to={'/login'} className="relative z-10">
                             <div className="">
