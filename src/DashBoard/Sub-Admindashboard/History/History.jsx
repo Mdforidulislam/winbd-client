@@ -55,7 +55,7 @@ const History = () => {
 
     useEffect(() => {
         fetchData(searchData);
-    }, [ selectedDate, localData, fetchData]);
+    }, [selectedDate, localData, fetchData]);
 
     const handleDateButtonClick = () => {
         setShowDatePicker(!showDatePicker);
@@ -64,6 +64,16 @@ const History = () => {
     return (
         <div className="">
             <form onSubmit={(e) => e.preventDefault()} className={`flex ${showDatePicker ? 'flex-col md:flex-row' : 'md:flex-row'} gap-2 w-full justify-center items-center`}>
+                <div className='flex'>
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        dateFormat="dd/MM/yyyy"
+                        className={`bg-GlobalGray focus:outline-none text-white px-3 py-3 rounded-l-md ${showDatePicker ? '' : 'hidden'}`}
+                        placeholderText="Select a date"
+                    />
+                    <button type="button" onClick={handleDateButtonClick} className={`bg-DarkGreen py-4 px-3 text-white text-md  ${showDatePicker ? 'md:rounded-r-md rounded-r-md' : 'rounded-md'}`}><MdDateRange /></button>
+                </div>
                 <div className='flex'>
                     <input
                         type="text"
@@ -75,16 +85,6 @@ const History = () => {
                         onChange={handleSearchChange}
                     />
                     <button type="submit" className='bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold'><FaSearch /></button>
-                </div>
-                <div className='flex'>
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        dateFormat="dd/MM/yyyy"
-                        className={`bg-GlobalGray focus:outline-none text-white px-3 py-3 rounded-l-md ${showDatePicker ? '' : 'hidden'}`}
-                        placeholderText="Select a date"
-                    />
-                    <button type="button" onClick={handleDateButtonClick} className={`bg-DarkGreen py-4 px-3 text-white text-md  ${showDatePicker ? 'md:rounded-r-md rounded-r-md' : 'rounded-md'}`}><MdDateRange /></button>
                 </div>
             </form >
             <div className="md:flex md:justify-center md:items-center overflow-x-auto max-w-[1000px] mx-auto my-10">

@@ -5,8 +5,8 @@ import '../style.css';
 
 const DepositeChennel = () => {
     const [depositeChanel, setDepositeChanel] = useState("cashout");
-    const { slectedPayment, userDepositeChanel } = useContext(AuthContext);
-
+    const { slectedPayment, userDepositeChanel, activeTab } = useContext(AuthContext);
+    console.log(slectedPayment);
     // Update user deposite channel in context whenever it changes
     useEffect(() => {
         if (depositeChanel) {
@@ -31,10 +31,10 @@ const DepositeChennel = () => {
                         className={`relative border pt-[4px] pb-[7px] px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow border-[#FFE43C] border ' : 'text-white'} hover:border-[#FFE43C] text-[12.5px]`}
                         onClick={() => setDepositeChanel(item)}
                     >
-                        <div className="absolute h-[14px] w-[14px] rounded-[2px] left-0 top-1 bg-green-500 px-[2px] pt-[1px] pb-[3px]">
+                        <div className={`${item === 'cashout' ? 'absolute h-[14px] w-[14px] rounded-[2px] left-0 top-1 bg-green-500 px-[2px] pt-[1px] pb-[3px]' : 'hidden'} `}>
                             <img className="h-full w-full object-contain" src="https://img.b112j.com/bj/h5/assets/images/icon-set/icon-recommond.svg?v=1716890719883" alt="" />
                         </div>
-                        {item === 'cashout' ? 'CashOut' : item === 'sendmoney' ? 'Send Money' : item === 'payment' ? 'Payment' : item}
+                        {item === 'cashout' ? 'CashOut' : item === 'sendmony' ? 'Send Money' : item === 'payment' ? 'Payment' : item}
                         {depositeChanel === item && (
                             <>
                                 <div className="triangle h-[1rem] w-[1.25rem] flex justify-center items-center bg-CustomYellow absolute bottom-0 right-0"></div>
