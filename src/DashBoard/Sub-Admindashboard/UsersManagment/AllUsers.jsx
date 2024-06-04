@@ -63,7 +63,7 @@ const AllUsers = () => {
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 hidden md:table-cell">Image</th>
                             <th className="md:py-3 py-1 px-2 md:px-1 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
                             <th className="py-3 text-left md:px-6 pl-5 text-[12px] md:text-lg border-b border-gray-500">Number</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 md:pl-10 pl-[18px] text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 md:pl-10 pl-10 text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,7 +85,7 @@ const AllUsers = () => {
                                     </td>
                                     <td className="py-3 md:py-4 pl-3 text-white border-gray-500 px-6 border-b text-sm font-medium">{item?.userName}</td>
                                     <td className="py-3 md:py-4 md:px-6 border-b border-gray-500 text-white">{item.phoneNumber}</td>
-                                    <td className="py-3 md:py-4 px-6 md:pl-12 border-b border-gray-500 text-white"><span className='px-1 py-[1px] pb-[3px] text-[10px] md:text-sm bg-green-600 rounded-sm text-white'>update</span></td>
+                                    <td className="py-3 md:py-4 px-6 md:pl-12  border-b border-gray-500 text-white"><span className='px-1 py-[1px] ml-5 md:ml-0 pb-[3px] text-[10px] md:text-sm bg-green-600 rounded-sm text-white'>update</span></td>
                                 </tr>
                             ))
                         )}
@@ -93,7 +93,7 @@ const AllUsers = () => {
                 </table>
             </div>
             {openModal && <AllUserModal userDataget={userDataget} setOpenModal={setOpenModal} openModal={openModal} item={data} />}
-            <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
+            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
         </div>
     );
 };

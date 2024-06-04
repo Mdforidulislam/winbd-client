@@ -47,7 +47,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
                     onClick={(e_) => e_.stopPropagation()}
                     className={`absolute w-[95%] md:w-[600px] rounded-lg bg-GlobalDarkGray md:p-6 text-center drop-shadow-2xl ${openModal ? "opacity-1 translate-y-0 duration-300" : "translate-y-20 opacity-0 duration-1000"}`}
                 >
-                    <div className="flex flex-col items-center justify-center space-y-4 w-full p-4 pt-10 md:py-8 md:px-6">
+                    <div className="flex flex-col items-center justify-center space-y-4 w-full p-4 md:pt-10 md:py-8 md:px-6">
                         <span onClick={() => setOpenModal(false)} className="absolute top-2 right-2 md:top-2 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
                         <form onSubmit={handleSubmit(onSubmit)} className="md:px-6 w-full space-y-4 md:space-y-6">
                             {/* user Name */}

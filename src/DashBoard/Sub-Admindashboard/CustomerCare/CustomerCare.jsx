@@ -3,162 +3,109 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import axios from 'axios';
 import { FaFacebookMessenger, FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import toast from 'react-hot-toast';
-import { SiGmail } from 'react-icons/si';
 import { BiLogoGmail } from 'react-icons/bi';
 
 const AdminCustomerCare = () => {
     const [data, setData] = useState({});
-    const [localData, setLocalData] = useState('');
-    console.log(data);
+    const [emailData, setEmailData] = useState('');
+    const [authorId, setAuthorId] = useState('');
+
     useEffect(() => {
-        const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
-        setLocalData(authurId);
+        const storedUserData = JSON.parse(localStorage.getItem("userData"));
+        const authId = storedUserData?.uniqueId;
+        setAuthorId(authId);
+
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://sever.win-pay.xyz/getSocialMFPF?authorId=${authurId}`);
-                // setData(response.data.data.socialMediaLinks || {});
-                console.log(response);
+                const [socialResponse, emailResponse] = await Promise.all([
+                    axios.get(`https://sever.win-pay.xyz/getSocialMFPF?authorId=${authId}`),
+                    axios.get(`https://sever.win-pay.xyz/getingSubAdminEmail?authoreId=${authId}`)
+                ]);
+                setData(socialResponse.data.data.socialMediaLinks || {});
+                setEmailData(emailResponse.data.getngEmail.email || '');
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
-        fetchData();
+        if (authId) {
+            fetchData();
+        }
     }, []);
 
     const handleUpdateCustomerCareNumber = async (platform, link) => {
         try {
             const updatedData = {
                 role: "admin",
-                authorId: localData,
+                authorId,
                 socialMediaLinks: {
                     ...data,
                     [platform]: { link }
                 }
             };
-            console.log(updatedData);
-            // toast.success('Link Updated successfully');
-            const res = await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF?authorId=${localData}`, updatedData);
-            console.log(res);
-            setData(prevData => ({
-                ...prevData,
-                [platform]: { link }
-            }));
+            toast.success('Email Updated successfully');
+            await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF?authorId=${authorId}`, updatedData);
+
         } catch (error) {
             console.error("Error updating social media links:", error);
         }
     };
 
+    const handleUpdateCustomerCareEmail = async (link) => {
+        try {
+            const updatedData = {
+                authorId,
+                email: link
+            };
+
+            const res = await axios.put(`https://sever.win-pay.xyz/updateSubAdminEmail?authoreId=${authorId}`, updatedData);
+            if (res.data.message === "Email updated successfully") {
+                toast.success('Email Updated successfully');
+            }
+        } catch (error) {
+            console.error("Error updating email:", error);
+        }
+    };
+
+    const renderForm = (platform, icon, placeholder, defaultValue, isEmail = false) => (
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            const link = e.target.elements.link.value;
+            if (isEmail) {
+                handleUpdateCustomerCareEmail(link);
+            } else {
+                handleUpdateCustomerCareNumber(platform, link);
+            }
+        }} className="mb-2">
+            <div className="flex justify-center gap-2 items-center">
+                <div className='p-2 bg-GlobalGray rounded-full'>{icon}</div>
+                <input
+                    defaultValue={defaultValue}
+                    name="link"
+                    className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
+                    placeholder={placeholder}
+                />
+                <button
+                    type="submit"
+                    className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
+                >
+                    Update
+                </button>
+            </div>
+        </form>
+    );
+
     return (
         <div className='max-w-screen-md mx-auto px-2 md:px-6'>
-            <div className='text-center text-2xl font-medium text-white my-10'>Social Links</div>
+            <div className='text-center text-2xl font-medium text-white my-4 md:my-10'>Social Links</div>
 
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdateCustomerCareNumber('whatApp', e.target.elements.link.value);
-            }} className="mb-2">
-                <div className="flex justify-center gap-2 items-center">
-                    <div className='p-2 bg-GlobalGray rounded-full'><FaWhatsapp className='text-green-600 rounded-full text-2xl' /></div>
-                    <input
-                        defaultValue={data.whatApp?.link || ""}
-                        name="link"
-                        className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your WhatsApp link ..."
-                    />
-                    <button
-                        type="submit"
-                        className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
-                    >
-                        Update
-                    </button>
-                </div>
-            </form>
-
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdateCustomerCareNumber('facebook', e.target.elements.link.value);
-            }} className="mb-2">
-                <div className="flex justify-center gap-2 items-center">
-                    <div className='p-2 bg-GlobalGray rounded-full'><FaFacebookMessenger className='text-blue-600 rounded-full text-2xl' /></div>
-                    <input
-                        defaultValue={data.facebook?.link || ""}
-                        name="link"
-                        className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your Facebook Messenger link ..."
-                    />
-                    <button
-                        type="submit"
-                        className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
-                    >
-                        Update
-                    </button>
-                </div>
-            </form>
-
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdateCustomerCareNumber('teligram', e.target.elements.link.value);
-            }} className="mb-2">
-                <div className="flex justify-center gap-2 items-center">
-                    <div className='p-2 bg-GlobalGray rounded-full'><FaTelegramPlane className='text-blue-500 rounded-full text-2xl' /></div>
-                    <input
-                        defaultValue={data.teligram?.link || ""}
-                        name="link"
-                        className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your Telegram link ..."
-                    />
-                    <button
-                        type="submit"
-                        className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
-                    >
-                        Update
-                    </button>
-                </div>
-            </form>
-
-
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdateCustomerCareNumber('email', e.target.elements.link.value);
-            }} className="mb-2">
-                <div className="flex justify-center gap-2 items-center">
-                    <div className='p-2 bg-GlobalGray rounded-full'><BiLogoGmail className='text-red-400 rounded-full text-2xl' /></div>
-                    <input
-                        defaultValue={data.email?.link || ""}
-                        name="link"
-                        className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your email ..."
-                    />
-                    <button
-                        type="submit"
-                        className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
-                    >
-                        Update
-                    </button>
-                </div>
-            </form>
+            {renderForm('whatApp', <FaWhatsapp className='text-green-600 rounded-full text-2xl' />, "Add your WhatsApp link ...", data.whatApp?.link || "")}
+            {renderForm('facebook', <FaFacebookMessenger className='text-blue-600 rounded-full text-2xl' />, "Add your Facebook Messenger link ...", data.facebook?.link || "")}
+            {renderForm('teligram', <FaTelegramPlane className='text-blue-500 rounded-full text-2xl' />, "Add your Telegram link ...", data.teligram?.link || "")}
+            {renderForm('email', <BiLogoGmail className='text-red-400 rounded-full text-2xl' />, "Add your email ...", emailData, true)}
 
             <div className='text-center text-2xl font-medium text-white my-10'>Live Chat</div>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                handleUpdateCustomerCareNumber('liveChat', e.target.elements.link.value);
-            }} className="mb-2">
-                <div className="flex justify-center gap-2 items-center">
-                    <div className='p-2 bg-GlobalGray rounded-full'><IoChatboxEllipses className='text-red-200 rounded-full text-2xl' /></div>
-                    <input
-                        defaultValue={data.liveChat?.link || ""}
-                        name="link"
-                        className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your Live Chat link..."
-                    />
-                    <button
-                        type="submit"
-                        className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
-                    >
-                        Update
-                    </button>
-                </div>
-            </form>
+            {renderForm('liveChat', <IoChatboxEllipses className='text-red-200 rounded-full text-2xl' />, "Add your Live Chat link...", data.liveChat?.link || "")}
         </div>
     );
 };
