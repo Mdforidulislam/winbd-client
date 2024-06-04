@@ -102,9 +102,6 @@ const AgentNumber = ({ paymentType, activeTab }) => {
         try {
             const { data: response } = await axios.patch('https://sever.win-pay.xyz/updatePaymentMethod', formValues);
             if (response.message === 'Successfully processed payment method') {
-                const updatedActiveID = JSON.parse(localStorage.getItem("activeId")) || [];
-                updatedActiveID.push(newId?.id);
-                localStorage.setItem("activeId", JSON.stringify(updatedActiveID));
                 toast.success(response.message);
             }
         } catch (error) {
