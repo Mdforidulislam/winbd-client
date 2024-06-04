@@ -22,20 +22,23 @@ const DepositeChennel = () => {
     }, [slectedPayment]);
 
     return (
-        <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
+        <div className="bg-[#343333] pt-3 pb-4 px-3">
             <Title text="Deposite Chennel" />
-            <div className="flex gap-3 justify-start py-3 my-2 border border-gray-400 border-x-transparent border-b-transparent border-t-1">
+            <div className="flex gap-3 justify-start pt-2.5 mt-2 border border-gray-400 border-opacity-30 border-x-transparent border-b-transparent border-t-1">
                 {slectedPayment && slectedPayment.map((item, index) => (
                     <button
                         key={index}
-                        className={`relative border py-2 px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow border-[#FFE43C] border ' : 'text-white'} hover:border-[#FFE43C] capitalize text-[13px]`}
+                        className={`relative border pt-[4px] pb-[7px] px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow border-[#FFE43C] border ' : 'text-white'} hover:border-[#FFE43C] text-[12.5px]`}
                         onClick={() => setDepositeChanel(item)}
                     >
-                        {item}
+                        <div className="absolute h-[14px] w-[14px] rounded-[2px] left-0 top-1 bg-green-500 px-[2px] pt-[1px] pb-[3px]">
+                            <img className="h-full w-full object-contain" src="https://img.b112j.com/bj/h5/assets/images/icon-set/icon-recommond.svg?v=1716890719883" alt="" />
+                        </div>
+                        {item === 'cashout' ? 'CashOut' : item === 'sendmoney' ? 'Send Money' : item === 'payment' ? 'Payment' : item}
                         {depositeChanel === item && (
                             <>
-                                <div className="triangle h-4 w-5 flex justify-center items-center bg-CustomYellow absolute bottom-0 right-0"></div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="absolute bottom-0 right-[2px] text-black">
+                                <div className="triangle h-[1rem] w-[1.25rem] flex justify-center items-center bg-CustomYellow absolute bottom-0 right-0"></div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="0.625rem" height="0.625rem" viewBox="0 0 24 24" fill="currentColor" className="absolute bottom-0 right-[0.125rem] text-black">
                                     <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
                                 </svg>
                             </>

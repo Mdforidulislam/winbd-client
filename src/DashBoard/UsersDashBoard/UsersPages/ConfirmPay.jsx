@@ -296,32 +296,6 @@ const ConfirmPay = () => {
                         <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +880 {userNumber}</p>
                     </button>
                 </div>
-                {/* <input
-                    type="text"
-                    onChange={(e) => setPhoneValue(e.target.value)}
-                    defaultValue={userNumber}
-                    placeholder="Phone Number"
-                    className="w-full py-2 px-3 my-4 bg-[#272727] focus:outline-none rounded-md text-white"
-                /> */}
-
-                {/* image filed here */}
-
-                {/* <div className="w-full my-4">
-                    <input
-                        type="file"
-                        id="file-upload"
-                        onChange={(e) => setImageValue(e.target.files[0])}
-                        className="hidden"
-                    />
-                    <label
-                        htmlFor="file-upload"
-                        className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
-                    >
-                        <span>{imageUrl ? "uploaded" : imageValue ? 'uploading...' : "insert image"}</span>
-                        <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
-                    </label>
-                </div> */}
-
 
                 {/* transaction valu here */}
 
@@ -335,12 +309,6 @@ const ConfirmPay = () => {
                         />
                     </div>
                 </div>
-                {/* <input
-                    type="text"
-                    onChange={(e) => setTransactionValue(e.target.value)}
-                    placeholder="Reference No/ transaction ID"
-                    className={`${paymentType === 'withdraw' ? "hidden" : ""} w-full py-2 px-3 mb-4 bg-[#272727] focus:outline-none rounded-md text-white`}
-                /> */}
 
                 {/* image filed here */}
 

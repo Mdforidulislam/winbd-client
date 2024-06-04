@@ -77,7 +77,7 @@ const History = () => {
                                     <span><FaCalendarAlt /></span>
                                     <h3 className="text-[10.8px]">{item?.date}</h3>
                                 </div>
-                                <div className="border rounded-[3px] border-white/30 border-opacity-20 px-0.5">
+                                <div className="border rounded-[3px] border-white/30 border-opacity-30 px-0.5">
                                     <h1 className="text-[9px]">GMT+6</h1>
                                 </div>
                             </div>

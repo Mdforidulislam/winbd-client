@@ -75,19 +75,20 @@ const Amount = ({ number, withdraw, deposite }) => {
         fetch('/amount.json')
             .then(res => res.json())
             .then(data => {
-                // Set amounts based on the channel
-                if (channel === 'cashout') {
-                    setAmount(data[0].cashout);
-                } else if (channel === 'sendmoney') {
-                    setAmount(data[1].sendmoney);
+                if (activeTab === 'deposit') {
+                    if (channel === 'cashout') {
+                        setAmount(data[0].cashout);
+                    } else if (channel === 'sendmoney') {
+                        setAmount(data[1].sendmoney);
+                    } else if (channel === 'payment') {
+                        setAmount(data[1].sendmoney);
+                    }
+                } else if (activeTab === 'withdraw') {
+                    setAmount(data[2].withdraw);
                 }
-                else if (channel === 'payment') {
-                    setAmount(data[1].sendmoney);
-                }
-                // Add other conditions if you have more channels
             });
-    }, [channel]);
-    
+    }, [channel, activeTab]);
+
     // =================== sum the amount here ===================
     //handle next button
     useEffect(() => {
@@ -146,29 +147,29 @@ const Amount = ({ number, withdraw, deposite }) => {
     // ===================================== vaildation isProcessgcing and number channel ===========================
     useEffect(() => {
         // Check if all necessary data is available
-            const fetchData = async () => {
-                try {
-                    const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
-                    const convert = await response.json();
-                    console.log(paymentMethod);
-                    if (convert?.processingMessage) {
-                        setIsProccessing(convert?.processingMessage); // ispocessing transaction for vlidation message
-                    }
-                    if (convert?.paymentMethods.length > 0) {
-                        setAvailbePayment(convert?.paymentMethods); // set the availabe the method validation 
-                        const dataString = JSON.stringify(convert?.paymentMethods);
-                        localStorage.setItem('paymentMethods', dataString); // set the data to database 
-                        console.log(convert?.paymentMethods);
-                    }
-                    if (convert?.userPhoneNumber) {
-                        setUserPhoneNumber(convert?.userPhoneNumber)
-                    }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
+                const convert = await response.json();
+                console.log(paymentMethod);
+                if (convert?.processingMessage) {
+                    setIsProccessing(convert?.processingMessage); // ispocessing transaction for vlidation message
                 }
-            };
+                if (convert?.paymentMethods.length > 0) {
+                    setAvailbePayment(convert?.paymentMethods); // set the availabe the method validation 
+                    const dataString = JSON.stringify(convert?.paymentMethods);
+                    localStorage.setItem('paymentMethods', dataString); // set the data to database 
+                    console.log(convert?.paymentMethods);
+                }
+                if (convert?.userPhoneNumber) {
+                    setUserPhoneNumber(convert?.userPhoneNumber)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-            fetchData();
+        fetchData();
     }, [author, userName, paymentMethod]);
 
     // next button here 
@@ -197,8 +198,6 @@ const Amount = ({ number, withdraw, deposite }) => {
         setSumAmount(sumAmount + amount);
         setSelectedAmount(amount); // Set the selected amount
     }
-
-
 
     // handle th some amoun here 
     const onchangeHandleValue = (event) => {
@@ -270,40 +269,49 @@ const Amount = ({ number, withdraw, deposite }) => {
                 console.log('accesss');
                 channelList.push(item?.depositeChannel)
             }
-            
+
         });
         setSlectedPayment(channelList)
-    }, [availablePayment, setSlectedPayment,paymentMethod]);
+    }, [availablePayment, setSlectedPayment, paymentMethod]);
 
     console.log(isModalOpen);
 
+
+    const resetSumAmount = () => {
+        setSumAmount(0);
+        setSelectedAmount(null);
+    };
+
+
     return (
-        <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
+        <div className="bg-[#343333] pt-3 pb-4 px-3">
             {/* Payment Method use here  */}
             <div>
-                <div className="flex justify-between w-full items-center h-full ">
+                <div className="flex justify-between w-full items-center h-full pb-1.5">
                     <Title text={'Amount'} />
-                    <div className="text-gray-400 text-[12px]">
+                    <div className="text-white/40 text-[10px]">
                         {
-                            activeTab === 'withdraw' ? (
-                                <><span className="text-[12px]">৳</span> 500.00 - <span className="text-[12px]">৳</span> 25,000.00</>
-                            ) : (
-                                channel === 'sendmoney' || channel === 'payment' ? (
-                                    <><span className="text-[12px]">৳</span> 200.00 - <span className="text-[12px]">৳</span> 10,000.00</>
+                            activeTab === 'deposit' ? (
+                                channel === 'cashout' ? (
+                                    <><span className="text-[12px]">৳</span> 500.00 - <span className="text-[12px]">৳</span> 25,000.00</>
                                 ) : (
-                                    <><span className="text-[12px]">৳</span> 200.00 - <span className="text-[12px]">৳</span> 25,000.00</>
+                                    <><span className="text-[12px]">৳</span> 200.00 - <span className="text-[12px]">৳</span> 10,000.00</>
                                 )
+
+                            ) : (
+                                <><span className="text-[12px]">৳</span> 500.00 - <span className="text-[12px]">৳</span> 25,000.00</>
+
                             )
                         }
 
-
                     </div>
                 </div>
-                <div className="grid grid-cols-4 gap-[10px] mt-3 py-3 my-2 border border-gray-400 border-opacity-40 border-x-transparent border-b-transparent border-t-1">
+
+                <div className="grid grid-cols-4 gap-[10px] pt-2.5 border border-gray-400 border-opacity-30 border-x-transparent border-b-transparent border-t-1">
                     {
                         amount.map((item, index) => (
-                            <div key={index} className="rounded-[3px] border-[1.2px] border-gray-500/80 border-opacity-50 w-full h-full flex items-center justify-center py-1.5 px-3 hover:border-[#FFE43C] hover:text-[#FFE43C]">
-                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white text-[11px]">{selectedAmount !== null ? (
+                            <div key={index} className="rounded-[3px] border-[1.2px] border-gray-500/80 border-opacity-50 w-full h-full flex items-center justify-center hover:border-[#FFE43C] hover:text-[#FFE43C]">
+                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white w-full text-center py-[5.5px] pb-[6.5px] px-3 text-[11px]">{selectedAmount !== null ? (
                                     <span className='mr-1'>+</span>
                                 ) : null}
                                     {item.amount}</h1>
@@ -314,13 +322,15 @@ const Amount = ({ number, withdraw, deposite }) => {
             </div>
             {/* Input File Here  */}
 
-            <div className="py-2 relative my-3">
+            <div className="relative">
                 <input
-                    className="w-full h-full py-3 px-3 bg-transparent text-right placeholder:text-left focus:outline-none text-[12px] text-DarkGreen border border-gray-400 border-opacity-40 border-x-transparent border-t-transparent"
+                    className="w-full h-full py-3 px-3 bg-transparent text-right placeholder:text-left focus:outline-none text-[12px] text-DarkGreen border border-gray-400 border-opacity-30 border-x-transparent border-t-transparent"
                     value={sumAmount}
                     placeholder="$"
                     type="text"
                     onChange={onchangeHandleValue}
+                    onClick={resetSumAmount}
+                    readOnly
                 />
                 {customError && (
                     <div className="relative p-[6px] mt-3 rounded-sm bg-inputlartBg my-1">
@@ -328,62 +338,66 @@ const Amount = ({ number, withdraw, deposite }) => {
                         <p className="text-alartColor text-sm mb-1 ml-8">{customError}</p>
                     </div>
                 )}
-                {/* {activeTab !== 'withdraw' && ( */}
-                <TbCurrencyTaka className="absolute top-6 text-md left-2 text-DarkGreen" />
-                {/* )} */}
+                {activeTab !== 'withdraw' && (
+                    <TbCurrencyTaka className="absolute top-6 text-md left-2 text-DarkGreen" />
+                )}
             </div>
 
             {/* Notification here  */}
-            <div className="bg-notifyBlack border-[1px] border-DarkGreen/50 rounded-[4px] px-2 py-2 my-2">
+            <div className="bg-notifyBlack border-[1px] border-DarkGreen/50 rounded-[4px] mt-2 px-2 py-2">
                 {
                     activeTab === 'deposit' ? (
                         <div className="flex gap-2 h-full w-full">
                             <div>
-                                <span className="text-white">
+                                <span className="text-white text-[13px]">
                                     <BsInfoCircleFill />
                                 </span>
                             </div>
                             <div>
                                 {findNode && (
-                                    <div className="-mt-[3px] -space-y-1">
+                                    <div className="-mt-[1px]">
                                         {findNode.note?.title && (
-                                            <h2 className="text-[11px] text-white">{findNode.note.title}</h2>
+                                            <p className="text-[11.5px] leading-[12.5px] tracking-tighter text-white">{findNode.note.title}</p>
                                         )}
                                         {findNode.note?.list && findNode.note.list.length > 0 && (
                                             <div className="flex flex-col">
                                                 {findNode.note.list.map((item, index) => (
-                                                    <p key={index} className="text-[11px] text-white">
-                                                        <span className="font-medium">
+                                                    <p key={index} className="text-[11.5px] leading-[12.5px] tracking-tighter text-white">
+                                                        <span className="font-medium mr-[2.4px]">
                                                             {index + 1}.
                                                         </span>
-                                                        &nbsp; {item}
+                                                        {item}
                                                     </p>
                                                 ))}
                                             </div>
                                         )}
 
                                         {findNode.note?.remainder && (
-                                            <h1 className="text-[11px] -mt-1 text-white">Reminder: <br /> {findNode.note.remainder}</h1>
+                                            <p className="text-[11.5px] leading-[12.5px] tracking-tighter text-white">Reminder: <br /> {findNode.note.remainder}</p>
                                         )}
                                     </div>
                                 )}
                             </div>
                         </div >
                     ) : (
-                        <div className="flex gap-2 py-1 h-full w-full">
+                        <div className="flex gap-2 h-full w-full">
                             <div>
-                                <span className="text-white">
+                                <span className="text-white text-[13px]">
                                     <BsInfoCircleFill />
                                 </span>
                             </div>
                             <div>
-                                <h1 className="text-[11px] leading-3 -mt-1 text-white/80">Reminder: <br />
-                                    <span>1. Please double check the recipient's account details before procceding.</span><br />
-                                    <span>2. DO NOT share your account with any one to avoid losing fund on money.</span><br />
-                                    <span>2. Please make sure your bank account holder name and WinBD registered name should match to prevent from withdrawal rejection</span><br />
-                                </h1>
+                                {findNode && (
+                                    <div className="">
+                                        <h1 className="text-[11.5px] leading-[12.8px] tracking-[-0.04em] -mt-1 text-white">Reminder: <br />
+                                            <span>1. Please double check the recipient's account details before procceding.</span><br />
+                                            <span>2. DO NOT share your account with any one to avoid losing fund on money.</span><br />
+                                            <span>2. Please make sure your bank account holder name and WinBD registered name should match to prevent from withdrawal rejection</span><br />
+                                        </h1>
+                                    </div>
+                                )}
                             </div>
-                        </div >
+                        </div>
 
                     )
                 }
@@ -392,11 +406,11 @@ const Amount = ({ number, withdraw, deposite }) => {
 
             {
                 activeTab === 'withdraw' &&
-                <>
-                    <Title text={'Phone Number'} />
+                <div className="mt-2">
+                    <Title text={'Please select phone number'} />
                     <div className="border border-gray-400 border-opacity-90 my-2"></div>
 
-
+                    {/* bg-[url('https://img.b112j.com/bj/h5/assets/images/player/bg-bankcard.png?v=1716890719883')] */}
                     <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
                         <div className="absolute top-12 -right-12 z-10 w-40 h-40 rounded-full scale-150 opacity-50 duration-500 bg-emerald-950"></div>
                         <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
@@ -404,7 +418,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                         <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
                         <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> {userPhoneNumber}</p>
                     </button>
-                </>
+                </div>
             }
 
             {/* button  here */}
