@@ -280,6 +280,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     const resetSumAmount = () => {
         setSumAmount(0);
         setSelectedAmount(null);
+        setCustomError('')
     };
 
 
@@ -314,7 +315,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                                 <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white w-full text-center py-[5.5px] pb-[6.5px] px-3 text-[11px]">{selectedAmount !== null ? (
                                     <span className='mr-1'>+</span>
                                 ) : null}
-                                    {item.amount}</h1>
+                                    {item.amount === 1000 ? '1,000' : item.amount === 2000 ? '2,000' : item.amount === 3000 ? '3,000' : item.amount === 5000 ? '5,000' : item.amount === 10000 ? '10,000' : item.amount === 15000 ? '15,000' : item.amount === 20000 ? '20,000' : item.amount === 25000 ? '25,000' : item.amount}</h1>
                             </div>
                         ))
                     }
@@ -339,7 +340,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                     </div>
                 )}
                 {activeTab !== 'withdraw' && (
-                    <TbCurrencyTaka className="absolute top-6 text-md left-2 text-DarkGreen" />
+                    <TbCurrencyTaka className="absolute top-3.5 text-md left-2 text-DarkGreen" />
                 )}
             </div>
 
