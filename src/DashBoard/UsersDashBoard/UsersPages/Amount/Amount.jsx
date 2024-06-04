@@ -233,9 +233,6 @@ const Amount = ({ number, withdraw, deposite }) => {
         localStorage.setItem('userPhoneNumber', JSON.stringify(userPhoneNumber));
     }, [availablePayment, paymentMethod, channel, userPhoneNumber]);
 
-
-
-
     useEffect(() => {
         // Check if the payment method is included
         const isIncluded = availablePayment?.some(payment => payment.transactionMethod === paymentMethod || '');
