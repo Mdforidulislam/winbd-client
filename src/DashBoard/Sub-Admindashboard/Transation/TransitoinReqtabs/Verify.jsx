@@ -1,45 +1,45 @@
 import axios from "axios";
-import { useEffect, useState } from "react";    
-import ModalTransaction from "./Modal/ModalTransaction";
+import { useEffect, useState } from "react";
+import bkash from '../../../../../public/bkash.png';
+import nagad from '../../../../../public/nagad.png';
+import rocket from '../../../../../public/rocket.jpg';
 import { MdOutlineDoubleArrow } from "react-icons/md";
+import ModalTransaction from "./Modal/ModalTransaction";
+import { useQuery } from "@tanstack/react-query";
 import Loader from "../../../../Components/Loader/Loader";
-// import Pagination from "../../../../Components/Shared/Pagination"; 
+// import { Pagination } from "../../../../Components/Shared/Pagination";
 
-const DepositeTable = () => {
-    const [storeData, setStoreData] = useState([]);
-    const [localData, setLocalData] = useState('');
-    // const [pageNumber, setPageNumbers] = useState(0);
-    const [loading, setLoading] = useState(true);
+
+
+const Verify = () => {
     const [openModal, setOpenModal] = useState(false);
-    const [data, setData] = useState(null);
+    const [dataList, setData] = useState(null);
+    const [authoreId, setauthoreId] = useState(); // set author id here ;
 
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
-        setLocalData(authurId);
-    }, []);
+        setauthoreId(authurId);
+    },[])
 
-    useEffect(() => {
-        const trnasctionDeposite = async () => {
-            if (localData) {
-                setLoading(true);
-                try {
-                    const response = await axios.get(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`);
-                    setStoreData(response.data?.queryDepositeData);
-                    // console.log(response);
-                } catch (error) {
-                    console.error('Error fetching deposit data:', error);
-                } finally {
-                    setLoading(false);
-                }
-            }
-        };
-        trnasctionDeposite();
-    }, [localData]);
+    const { isLoading, data, refetch } = useQuery({
+        
+        queryKey: ['QueryDataDeposite',authoreId],
+        queryFn: () =>
+            fetch(`https://sever.win-pay.xyz/getingVerifydata?authoreId=${authoreId}`).then((res) =>
+                res.json(),
+            ),
+        refetchInterval: 5000, // Refresh every 5 seconds
+    });
+
+
+
 
     const handleModal = (item) => {
         setData(item);
         setOpenModal(true);
     };
+
+
 
     return (
         <div className="">
@@ -55,21 +55,21 @@ const DepositeTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? (
+                        {isLoading ? (
                             <tr>
                                 <td colSpan="5">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
-                            storeData?.map((item, i) => (
+                            data?.queryVerifyData?.map((item, i) => (
                                 <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
                                             src={
-                                                item?.paymentMethod === 'bkash' ? 'https://i.ibb.co/C0mhx9D/bkash.png' :
-                                                    item?.paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
-                                                        item?.paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
+                                                item?.paymentMethod === 'bkash' ? bkash :
+                                                    item?.paymentMethod === 'nogod' ? nagad :
+                                                        item?.paymentMethod === 'rocket' ? rocket : ''
                                             }
                                             alt={item?.paymentMethod}
                                             className="h-6 md:h-8 w-6 md:w-8 object-contain"
@@ -87,9 +87,9 @@ const DepositeTable = () => {
                 </table>
             </div>
             {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
-            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} />}
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={dataList} />}
         </div>
     );
 };
 
-export default DepositeTable;
+export default Verify;

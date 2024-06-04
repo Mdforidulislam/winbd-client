@@ -4,33 +4,31 @@ import Title from "../../../../Components/Titile/Title";
 import '../style.css';
 
 const DepositeChennel = () => {
-    // Accessing context values
-    const [depositeChanel, setDepositeChanel] = useState();
-
+    const [depositeChanel, setDepositeChanel] = useState("cashout");
     const { slectedPayment, userDepositeChanel } = useContext(AuthContext);
 
-    // Initialize state with the first value of the selectedPayment array
-
-    // Effect to handle updates to depositeChanel
+    // Update user deposite channel in context whenever it changes
     useEffect(() => {
-        userDepositeChanel(depositeChanel); // send data with API context
+        if (depositeChanel) {
+            userDepositeChanel(depositeChanel);
+        }
     }, [depositeChanel, userDepositeChanel]);
 
-    //  bydefault selted the value here 
-
+    // Set default deposit channel to the first item in the selectedPayment array
     useEffect(() => {
-        setDepositeChanel(slectedPayment[0])
-    },[slectedPayment])
+        if (slectedPayment.length > 0) {
+            setDepositeChanel(slectedPayment[0]);
+        }
+    }, [slectedPayment]);
 
-  console.log(slectedPayment, depositeChanel, 'check the payment syste');
     return (
         <div className="bg-GlobalDarkGray px-4 py-4 bottom-to-top">
             <Title text="Deposite Chennel" />
             <div className="flex gap-3 justify-start py-3 my-2 border border-gray-400 border-x-transparent border-b-transparent border-t-1">
-                {slectedPayment && slectedPayment.map((item) => (
+                {slectedPayment && slectedPayment.map((item, index) => (
                     <button
-                        key={item._id}
-                        className={`relative border py-2 px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow' : 'text-white'} hover:border-[#FFE43C] capitalize text-[13px] ${depositeChanel === item ? 'border-[#FFE43C] border text-[#FFE43C]' : ''}`}
+                        key={index}
+                        className={`relative border py-2 px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow border-[#FFE43C] border ' : 'text-white'} hover:border-[#FFE43C] capitalize text-[13px]`}
                         onClick={() => setDepositeChanel(item)}
                     >
                         {item}

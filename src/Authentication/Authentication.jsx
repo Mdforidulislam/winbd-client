@@ -25,6 +25,7 @@ const Authentication = ({ children }) => {
   const [slectedPayment, setSlectedPayment] = useState([]); // selected channel payemnt mehtod 
   const [selectedFilters, setSelectedFilters] = useState([]); // 
   const [discount, setDiscount] = useState(); // set discount from promotion offer 
+  const [reload, setReload] = useState(null); // set reload here 
 
   //==================== ahutentication data ============================ 
 
@@ -32,7 +33,7 @@ const Authentication = ({ children }) => {
     try {
       const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userName}&password=${password}`);
       const data = await res.json();
-      console.log('response after login', data.message);
+      console.log('response after login', data.message,data);
 
       if (data.message) {
         toast.error("username & password didn't match")
@@ -41,7 +42,8 @@ const Authentication = ({ children }) => {
         setRole(data.role);
         const uniqueId = data.uniqueId;
         const authorId = data.authorId;
-        saveUserInfoLocalStore(userName, password, uniqueId, authorId);
+        const role = data?.role;
+        saveUserInfoLocalStore(userName, password, uniqueId, authorId,role);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -54,10 +56,12 @@ const Authentication = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
-        const data = await res.json()
-        setRole(data?.role)
-        setRegisterInfo(data)
+       if(userInfo.role){
+          const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
+          const data = await res.json()
+          setRole(data?.role)
+          setRegisterInfo(data)
+        }
         // console.log(data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -65,7 +69,7 @@ const Authentication = ({ children }) => {
     };
 
     fetchData();
-  }, [userInfo.userName, userInfo.password]);
+  }, [userInfo.userName, userInfo.password,userInfo.role]);
 
   // ---------------------------- ednd here ----------------------------
   // console.log(registerInfo);
@@ -151,7 +155,9 @@ const Authentication = ({ children }) => {
     selectedFilters, 
     setSelectedFilters,
     setDiscount,
-    discount
+    discount,
+    reload,
+    setReload
   };
 
   return (

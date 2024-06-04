@@ -19,10 +19,11 @@ const PrivetRouter = ({ children }) => {
 
     if (!role && !delayPassed) {
         return (
-            <div className=" bg-gray-800 min-h-screen flex justify-center items-center">
+            <div className="bg-gray-800 min-h-screen flex justify-center items-center">
                 <div className="text-white text-center">
-                    <div className=""></div>
-                    <div>Loading...</div>
+                    <div className="mb-4 flex justify-center items-center">
+                    <div className="w-8 h-8 border-4 border-t-4 border-white rounded-full animate-ping"></div>
+                    </div>
                 </div>
             </div>
         );
