@@ -180,3 +180,4 @@ const Profile = ({ setOpenModal }) => {
 };
 
 export default Profile;
+ 

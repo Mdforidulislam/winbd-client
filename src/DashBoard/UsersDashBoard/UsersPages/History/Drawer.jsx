@@ -11,7 +11,7 @@ const Drawer = ({ isOpen, onClose }) => {
   const [selectedPaymentTypes, setSelectedPaymentTypes] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [userName, setUsername] = useState('');
-  const { setUserSearchData, setSelectedFilters } = useContext(AuthContext);
+  const { setUserSearchData, setSelectedFilters, selectedFilters } = useContext(AuthContext);
 
   useEffect(() => {
     setUsername(JSON.parse(localStorage.getItem('userData'))?.userName);
@@ -20,7 +20,7 @@ const Drawer = ({ isOpen, onClose }) => {
   useEffect(() => {
     const getingSearchValue = async () => {
       if (userName) {
-        const getingResponse = await axios.get(`https://sever.win-pay.xyz/userHistory?userName=${userName}`);
+        const getingResponse = await axios.get(`https://sever.win-pay.xyz/userHistory?userName=${encodeURIComponent(userName)}`);
         const userSearchData = getingResponse?.data?.data;
         setUserSearchData(userSearchData);
       }
@@ -57,29 +57,27 @@ const Drawer = ({ isOpen, onClose }) => {
     }
   };
 
-
   if (!isOpen) {
     return null;
   }
 
   const handleActiongetingValueGeting = async () => {
     try {
-      if (selectedStatuses.length && selectedPaymentTypes.length && selectedDate && userName) {
-        const statusesQuery = selectedStatuses.join(',');
-        const paymentTypesQuery = selectedPaymentTypes.join(',');
-        const dateQuery = selectedDate;
-        const getingResponse = await axios.get(`https://sever.win-pay.xyz/userHistory?userName=${userName}&date=${dateQuery}&paymentType=${paymentTypesQuery}&status=${statusesQuery}`);
-        const userSearchData = getingResponse.data.data;
-        setUserSearchData(userSearchData);
-        onClose();
-      }
+      const queryString = selectedFilters
+        .filter(item => item) 
+        .map(item => `searchList=${encodeURIComponent(item)}`)
+        .join('&');
+
+      const getingResponse = await axios.get(`https://sever.win-pay.xyz/userHistory?userName=${encodeURIComponent(userName)}&${queryString}`);
+      const userSearchData = getingResponse.data.data;
+      console.log(userSearchData);
+      setUserSearchData(userSearchData);
+      onClose();
     } catch (error) {
       console.log(error);
     }
   };
 
-  //due
-  //multiple filtering in the backend
   return (
     <div className={`fixed inset-0 z-50 w-full h-screen bg-black flex flex-col justify-between pb-2 bg-opacity-100 transform transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       <div>

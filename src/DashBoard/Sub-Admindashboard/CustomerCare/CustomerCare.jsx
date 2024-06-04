@@ -3,19 +3,21 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import axios from 'axios';
 import { FaFacebookMessenger, FaTelegramPlane, FaWhatsapp } from "react-icons/fa";
 import toast from 'react-hot-toast';
+import { SiGmail } from 'react-icons/si';
+import { BiLogoGmail } from 'react-icons/bi';
 
 const AdminCustomerCare = () => {
     const [data, setData] = useState({});
     const [localData, setLocalData] = useState('');
-
+    console.log(data);
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
         setLocalData(authurId);
         const fetchData = async () => {
             try {
                 const response = await axios.get(`https://sever.win-pay.xyz/getSocialMFPF?authorId=${authurId}`);
-                setData(response.data.data.socialMediaLinks || {});
-                console.log(response.data.data.socialMediaLinks);
+                // setData(response.data.data.socialMediaLinks || {});
+                console.log(response);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -35,8 +37,9 @@ const AdminCustomerCare = () => {
                 }
             };
             console.log(updatedData);
-            toast.success('Link Updated successfully');
-            await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF?authorId=${localData}`, updatedData);
+            // toast.success('Link Updated successfully');
+            const res = await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF?authorId=${localData}`, updatedData);
+            console.log(res);
             setData(prevData => ({
                 ...prevData,
                 [platform]: { link }
@@ -60,7 +63,7 @@ const AdminCustomerCare = () => {
                         defaultValue={data.whatApp?.link || ""}
                         name="link"
                         className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your WhatsApp link..."
+                        placeholder="Add your WhatsApp link ..."
                     />
                     <button
                         type="submit"
@@ -81,7 +84,7 @@ const AdminCustomerCare = () => {
                         defaultValue={data.facebook?.link || ""}
                         name="link"
                         className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your Facebook Messenger link..."
+                        placeholder="Add your Facebook Messenger link ..."
                     />
                     <button
                         type="submit"
@@ -102,7 +105,29 @@ const AdminCustomerCare = () => {
                         defaultValue={data.teligram?.link || ""}
                         name="link"
                         className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
-                        placeholder="Add your Telegram link..."
+                        placeholder="Add your Telegram link ..."
+                    />
+                    <button
+                        type="submit"
+                        className="bg-green-500 w-full max-w-20 md:max-w-32 text-sm text-white py-2 px-3 rounded-sm hover:bg-DarkGreen transition duration-200"
+                    >
+                        Update
+                    </button>
+                </div>
+            </form>
+
+
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                handleUpdateCustomerCareNumber('email', e.target.elements.link.value);
+            }} className="mb-2">
+                <div className="flex justify-center gap-2 items-center">
+                    <div className='p-2 bg-GlobalGray rounded-full'><BiLogoGmail className='text-red-400 rounded-full text-2xl' /></div>
+                    <input
+                        defaultValue={data.email?.link || ""}
+                        name="link"
+                        className="w-full py-2 px-3 text-white rounded-sm bg-GlobalGray focus:outline-none"
+                        placeholder="Add your email ..."
                     />
                     <button
                         type="submit"
