@@ -120,8 +120,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
                   alt=""
                   className="h-8 w-8 md:h-12 md:w-12 object-contain"
                 />
-                <div className="flex flex-col gap-[2px] text-[10px] items-start">
-                  <p>{item?.userName}</p>
+                <div className="flex flex-col gap-[2px] text-[10px] md:text-[12px] items-start">
+                  <p className="md:text-[14px]">{item?.userName}</p>
                   <p>{item?.number}</p>
                 </div>
               </div>
@@ -139,9 +139,19 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
                 )
                 }
 
-                {item?.transactionId && (
+                {item?.transactionId ? (
                   <div className="flex justify-center items-center gap-2 relative">
                     <p className="text-white">{item?.transactionId}</p>
+                    <div
+                      className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
+                      onClick={handleCopyTrx}
+                    >
+                      {isCopiedTrx ? <FaCheck /> : <FaRegCopy />}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center gap-2 relative">
+                    <p className="text-white">{item?.totalTurnover}</p>
                     <div
                       className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
                       onClick={handleCopyTrx}
@@ -155,32 +165,52 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
             </div>
 
             <div className="w-full flex justify-between text-[10px] text-white md:text-sm">
-              <div className="flex flex-col items-start">
-                <p>Old Turnover</p>
-                <p>New Turnover</p>
-              </div>
-              <div className="flex flex-col items-end">
-                {item?.oldTurnover && item?.oldTurnover.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <p>{item}</p>
-                    {index < oldTurnover.length - 1 && ', '}
-                  </React.Fragment>
-                ))}
-                <p>{item?.newTurnover}</p>
-              </div>
+              {item?.transactionType === 'deposite' ? (
+                <div className="flex flex-col items-start">
+                  <p>Old Turnover</p>
+                  <p>New Turnover</p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-start">
+                  <p>ID : 001</p>
+                  <p>ID : 001</p>
+                </div>
+              )}
+
+              {item?.transactionType === 'deposite' ? (
+                <div className="flex flex-col items-end">
+                  {item?.oldTurnover && item?.oldTurnover.length > 0 ? (
+                    item.oldTurnover.map((turnover, index) => (
+                      <React.Fragment key={index}>
+                        <div>{turnover}</div>
+                        {index < item.oldTurnover.length - 1 && ', '}
+                      </React.Fragment>
+                    ))
+                  ) : (
+                    <div>No data available</div>
+                  )}
+                  <div>{item?.newTurnover}</div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-end">
+                  <p>18000</p>
+                  <p>18000</p>
+                </div>
+              )}
             </div>
+
 
             <form onSubmit={handleSubmit} className="space-y-3 w-full">
               <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="focus:outline-none w-full p-1 md:p-3 focus:border-transparent md:text-lg text-white text-[10px] min-h-10 md:min-h-40 rounded-md bg-GlobalGray" name="remark" id="remark"></textarea>
               {item?.transactionType === 'deposite' ? (
-                <div className="w-full flex justify-between gap-1 md:gap-5">
+                <div className="w-full flex justify-between gap-5 px-1">
                   <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-700 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
                   <button type="submit" onClick={() => setStatus("verify")} className="bg-yellow-400 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
                   <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
                 </div>
               ) : (
                 <div className="w-full">
-                  <input className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="tnxid" type="text" placeholder="Transaction number" />
+                  <input className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="tnxid" type="text" placeholder="Transaction id" />
                   <button className="bg-green-600 hover:bg-green-700 transition duration-200 px-8 py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Confirm")}>Confirm</button>
                 </div>
               )}

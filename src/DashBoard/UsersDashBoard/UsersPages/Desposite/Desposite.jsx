@@ -15,8 +15,8 @@ const Desposite = () => {
         <div className="">
             <div><Promotion/></div>
             <div className="mt-2"><PaymentMethod /></div>
-            <div className="mt-3"><DepositeChennel /></div>
-            <div className="mt-3"> <Amount deposite="deposite" /></div>
+            <div className="mt-2"><DepositeChennel /></div>
+            <div className="mt-2"> <Amount deposite="deposite" /></div>
         </div>
     );
 };

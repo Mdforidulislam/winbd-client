@@ -29,8 +29,8 @@ const Modal = () => {
               src="https://source.unsplash.com/300x300/?profile"
               alt="avatar navigate ui"
             />
-            <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 border-[3px]"></span>
-            <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 animate-ping"></span>
+            {/* <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 border-[3px]"></span> */}
+            {/* <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 animate-ping"></span> */}
           </div>
         </div>
 
