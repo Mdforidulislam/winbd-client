@@ -20,12 +20,15 @@ const DepositeChennel = () => {
             setDepositeChanel(slectedPayment[0]);
         }
     }, [slectedPayment]);
+    const order = ['cashout', 'sendmony', 'payment'];
+
+    const sortedPayment = slectedPayment.sort((a, b) => order.indexOf(a) - order.indexOf(b));
 
     return (
         <div className="bg-[#343333] pt-3 pb-4 px-3">
             <Title text="Deposite Chennel" />
             <div className="flex gap-3 justify-start pt-2.5 mt-2 border border-gray-400 border-opacity-30 border-x-transparent border-b-transparent border-t-1">
-                {slectedPayment && slectedPayment.map((item, index) => (
+                {sortedPayment && sortedPayment.map((item, index) => (
                     <button
                         key={index}
                         className={`relative border pt-[4px] pb-[7px] px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow border-[#FFE43C] border ' : 'text-white'} hover:border-[#FFE43C] text-[12.5px]`}
