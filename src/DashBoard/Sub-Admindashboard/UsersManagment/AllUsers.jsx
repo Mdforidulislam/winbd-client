@@ -43,16 +43,16 @@ const AllUsers = () => {
     };
 
     return (
-        <div className='md:my-8 px-2'>
+        <div className='md:my-8'>
             <div className='flex justify-center'>
                 <form onSubmit={handleActionSearchButton} className='flex justify-center'>
                     <input
                         type="text"
                         placeholder="Username or Number.."
                         name="search"
-                        className="bg-GlobalGray max-w-[80%] md:w-full text-[10px] md:text-[16px] focus:outline-none text-white md:px-6 px-2 py-1 md:py-3 rounded-l-sm md:rounded-l-md"
+                        className="bg-GlobalGray focus:outline-none text-white px-3 py-3 rounded-l-md"
                     />
-                    <button type='submit' className='bg-DarkGreen py-0.5 text-[10px] px-1 md:py-4 md:px-3 md:rounded-r-md rounded-r-sm text-white font-bold'><FaSearch /></button>
+                    <button type="submit" className='bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold'><FaSearch /></button>
                 </form>
             </div>
 
@@ -63,7 +63,7 @@ const AllUsers = () => {
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 hidden md:table-cell">Image</th>
                             <th className="md:py-3 py-1 px-2 md:px-1 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
                             <th className="py-3 text-left md:px-6 pl-5 text-[12px] md:text-lg border-b border-gray-500">Number</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 md:pl-10 pl-[18px] text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,7 +85,7 @@ const AllUsers = () => {
                                     </td>
                                     <td className="py-3 md:py-4 pl-3 text-white border-gray-500 px-6 border-b text-sm font-medium">{item?.userName}</td>
                                     <td className="py-3 md:py-4 md:px-6 border-b border-gray-500 text-white">{item.phoneNumber}</td>
-                                    <td className="py-3 md:py-4 px-6 md:pl-12 border-b border-gray-500 text-white"><MdOutlineDoubleArrow className="cursor-pointer" /></td>
+                                    <td className="py-3 md:py-4 px-6 md:pl-12 border-b border-gray-500 text-white"><span className='px-1 py-[1px] pb-[3px] text-[10px] md:text-sm bg-green-600 rounded-sm text-white'>update</span></td>
                                 </tr>
                             ))
                         )}
