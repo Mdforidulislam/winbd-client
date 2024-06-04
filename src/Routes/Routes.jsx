@@ -21,7 +21,6 @@ import ReferralRegistrationPage from "../DashBoard/Sub-Admindashboard/RefferLink
 import PaymentInstraction from "../DashBoard/AdminDashBoard/PaymentInstaction/PaymentInstraction";
 import ConfirmMsg from "../DashBoard/UsersDashBoard/UsersPages/ConfirmMsg";
 import ForgotPass from "../Pages/Log-In/ForgotPass/ForgotPass";
-import VerifyTable from "../DashBoard/Sub-Admindashboard/Transation/TransitoinReqtabs.jsx/VerifyTable";
 import AddNumberPage from "../DashBoard/Sub-Admindashboard/AddTransation/AddNumberPage";
 import CustomerCare from "../DashBoard/Sub-Admindashboard/CustomerCare/CustomerCare";
 import Promotion from "../DashBoard/AdminDashBoard/Promotion/Promotion";

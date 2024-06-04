@@ -6,7 +6,8 @@ const getLocalUserData = () => {
 
     const userName = convertParsData?.userName;
     const password = convertParsData?.password;
-    return {userName ,password}
+    const role = convertParsData?.role;
+    return {userName ,password,role}
 }
 
 

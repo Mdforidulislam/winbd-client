@@ -76,7 +76,7 @@ const AddNumber = () => {
           console.log(data.data);
         })
     }
-  }, [])
+  }, [getUniqueIdLocal])
 
 
   // ====================== configuration active and deactive and update ===========================
