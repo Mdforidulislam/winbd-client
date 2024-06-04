@@ -3,32 +3,41 @@ import axios from "axios";
 import { IoCloseSharp } from "react-icons/io5";
 import toast from "react-hot-toast";
 
-export const AllUserModal = ({ item, setOpenModal, openModal }) => {
-    console.log(item);
+export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data);
-        // axios.post("https://sever.win-pay.xyz/insertSubAdmin", data, {
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        // })
-        //     .then((response) => {
-        //         console.log(response.data); // Logging the response data from the server
-        //         if (response.data.message === 'subadmin insert successfully') {
-        //             toast.success('User Successfully Added');
-        //         } else {
-        //             toast.error('User already exists');
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error("There was a problem with the Axios operation:", error);
-        //     });
+    const onSubmit = async (data) => {
+        // Structure the data as required
+        const formattedData = {
+            userName: data.userName,
+            password: data.password,
+            phoneNumber: data.phoneNumber,
+            authorId: item?.authorId,
+            role: item?.role,
+        };
+
+        try {
+            const response = await axios.put(`https://sever.win-pay.xyz/updateUserInfoAPI?id=${item?._id}`, formattedData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            console.log(response.data); // Logging the response data from the server
+            if (response.data.message === 'Successfully updated the user') {
+                toast.success('User Successfully Updated');
+                setOpenModal(false);
+                userDataget();
+            } else {
+                toast.error('User already exists');
+            }
+        } catch (error) {
+            console.error("There was a problem with the Axios operation:", error);
+        }
     };
 
     return (
@@ -41,18 +50,6 @@ export const AllUserModal = ({ item, setOpenModal, openModal }) => {
                     <div className="flex flex-col items-center justify-center space-y-4 w-full p-4 pt-10 md:py-8 md:px-6">
                         <span onClick={() => setOpenModal(false)} className="absolute top-2 right-2 md:top-2 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
                         <form onSubmit={handleSubmit(onSubmit)} className="md:px-6 w-full space-y-4 md:space-y-6">
-                            {/* Sub admin unique id */}
-                            {/* <div>
-                                <input
-                                    className="w-full py-3 px-3 rounded-md text-white bg-GlobalGray focus:placeholder:text-white focus:border-DarkGreen outline-none"
-                                    placeholder="Unique id"
-                                    {...register("uniqueId", { required: "Enter subAdmin Unique id" })}
-                                    type="text"
-                                />
-                                {errors.uniqueId && (
-                                    <span className="text-red-600">{errors.uniqueId.message}</span>
-                                )}
-                            </div> */}
                             {/* user Name */}
                             <div>
                                 <label className="block text-start my-2 pl-2 text-white" htmlFor="userName">UserName</label>
@@ -60,12 +57,12 @@ export const AllUserModal = ({ item, setOpenModal, openModal }) => {
                                     id="userName"
                                     className="w-full py-3 px-3 rounded-md text-white bg-GlobalGray focus:placeholder:text-white focus:border-DarkGreen outline-none"
                                     placeholder="User Name"
-                                    {...register("subAdmin", { required: "Enter user name" })}
+                                    {...register("userName", { required: "Enter user name" })}
                                     type="text"
-                                    value={item?.userName}
+                                    defaultValue={item?.userName}
                                 />
-                                {errors.subAdmin && (
-                                    <span className="text-red-600">{errors.subAdmin.message}</span>
+                                {errors.userName && (
+                                    <span className="text-red-600">{errors.userName.message}</span>
                                 )}
                             </div>
                             {/* user Phone Number */}
@@ -77,7 +74,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal }) => {
                                     placeholder="Phone Number"
                                     {...register("phoneNumber", { required: "Enter Phone Number" })}
                                     type="text"
-                                    value={item?.phoneNumber}
+                                    defaultValue={item?.phoneNumber}
                                 />
                                 {errors.phoneNumber && (
                                     <span className="text-red-600">{errors.phoneNumber.message}</span>
@@ -92,7 +89,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal }) => {
                                     placeholder="Password"
                                     {...register("password", { required: "Enter Password Here" })}
                                     type="text"
-                                    value={item?.password}
+                                    defaultValue={item?.password}
                                 />
                                 {errors.password && (
                                     <span className="text-red-600">{errors.password.message}</span>

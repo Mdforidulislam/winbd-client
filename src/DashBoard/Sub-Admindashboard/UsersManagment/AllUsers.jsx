@@ -2,9 +2,8 @@ import { Pagination } from '../../../Components/Shared/Pagination';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaSearch } from 'react-icons/fa';
-import { FiEdit } from 'react-icons/fi';
-import Loader from '../../../Components/Loader/Loader';
 import { MdOutlineDoubleArrow } from 'react-icons/md';
+import Loader from '../../../Components/Loader/Loader';
 import { AllUserModal } from '../../../Components/Modals/AllUserModal';
 
 const AllUsers = () => {
@@ -12,40 +11,29 @@ const AllUsers = () => {
     const [searchData, setSearchData] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [data, setData] = useState(null);
-    // const [searchNumData, setSearchNumData] = useState('');
-    //due
-    //implement search functionality with number
     const [storeData, setStoreData] = useState([]);
-    const [loading, setLoading] = useState(true); // Add loading state
-    // console.log(searchNumData);
+    const [loading, setLoading] = useState(true);
     const uniqueId = JSON.parse(localStorage.getItem('userData'))?.uniqueId;
 
     const handleActionSearchButton = async (event) => {
         event.preventDefault();
         const searchValue = event.target.search.value;
-        console.log(searchValue);
         setSearchData(searchValue);
     };
-    // const handleActionNumberButton = async (event) => {
-    //     event.preventDefault();
-    //     const searchValue = event.target.search.value;
-    //     console.log(searchValue);
-    //     setSearchNumData(searchValue);
-    // };
+
+    const userDataget = async () => {
+        try {
+            const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
+            const getuserData = userSearch?.data?.queryUserInfo;
+            setStoreData(getuserData);
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const userDataget = async () => {
-            try {
-                const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
-                const getuserData = userSearch?.data?.queryUserInfo;
-                console.log(getuserData);
-                setStoreData(getuserData);
-                setLoading(false); // Set loading to false when data fetching completes
-            } catch (error) {
-                console.log(error);
-                setLoading(false); // Set loading to false in case of an error
-            }
-        };
         userDataget();
     }, [pageNumber, uniqueId, searchData]);
 
@@ -62,7 +50,6 @@ const AllUsers = () => {
                         type="text"
                         placeholder="Username or Number.."
                         name="search"
-                        id=""
                         className="bg-GlobalGray max-w-[80%] md:w-full text-[10px] md:text-[16px] focus:outline-none text-white md:px-6 px-2 py-1 md:py-3 rounded-l-sm md:rounded-l-md"
                     />
                     <button type='submit' className='bg-DarkGreen py-0.5 text-[10px] px-1 md:py-4 md:px-3 md:rounded-r-md rounded-r-sm text-white font-bold'><FaSearch /></button>
@@ -70,20 +57,20 @@ const AllUsers = () => {
             </div>
 
             <div className="md:flex md:justify-center md:items-center overflow-x-auto max-w-[1000px] mx-auto my-4 md:my-10">
-                <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500 ">
+                <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500">
                     <thead>
                         <tr className="bg-GlobalGray text-white">
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 hidden md:table-cell">Image</th>
                             <th className="md:py-3 py-1 px-2 md:px-1 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
                             <th className="py-3 text-left md:px-6 pl-5 text-[12px] md:text-lg border-b border-gray-500">Number</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 ">Update</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? ( // Check loading state
+                        {loading ? (
                             <tr>
                                 <td colSpan="5" className="py-8 text-center">
-                                    <Loader /> {/* Display loader */}
+                                    <Loader />
                                 </td>
                             </tr>
                         ) : (
@@ -103,15 +90,12 @@ const AllUsers = () => {
                             ))
                         )}
                     </tbody>
-
                 </table>
             </div>
-            {openModal && <AllUserModal setOpenModal={setOpenModal} openModal={openModal} item={data} />}
+            {openModal && <AllUserModal userDataget={userDataget} setOpenModal={setOpenModal} openModal={openModal} item={data} />}
             <Pagination storeData={storeData} setPageNumbers={setPageNumbers} />
         </div>
     );
 };
 
 export default AllUsers;
-
-

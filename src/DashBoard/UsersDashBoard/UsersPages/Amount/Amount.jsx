@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../Authentication/Authentication";
 import { BsInfoCircleFill } from "react-icons/bs";
 import "../style.css"
@@ -293,10 +293,10 @@ const Amount = ({ number, withdraw, deposite }) => {
 
                     </div>
                 </div>
-                <div className="grid grid-cols-4 gap-2 mt-3 py-3 my-2 border border-gray-400 border-x-transparent border-b-transparent border-t-1">
+                <div className="grid grid-cols-4 gap-[10px] mt-3 py-3 my-2 border border-gray-400 border-opacity-40 border-x-transparent border-b-transparent border-t-1">
                     {
                         amount.map((item, index) => (
-                            <div key={index} className="rounded-sm border border-gray-600 w-full h-full flex items-center justify-center pt-1.5 pb-2 px-3 hover:border-[#FFE43C] hover:text-[#FFE43C]">
+                            <div key={index} className="rounded-[3px] border-[1.2px] border-gray-500/80 border-opacity-50 w-full h-full flex items-center justify-center py-1.5 px-3 hover:border-[#FFE43C] hover:text-[#FFE43C]">
                                 <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white text-[11px]">{selectedAmount !== null ? (
                                     <span className='mr-1'>+</span>
                                 ) : null}
@@ -310,7 +310,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
             <div className="py-2 relative my-3">
                 <input
-                    className="w-full h-full py-3 px-3 bg-transparent text-right placeholder:text-left focus:outline-none text-[12px] text-DarkGreen border border-x-transparent border-t-transparent"
+                    className="w-full h-full py-3 px-3 bg-transparent text-right placeholder:text-left focus:outline-none text-[12px] text-DarkGreen border border-gray-400 border-opacity-40 border-x-transparent border-t-transparent"
                     value={sumAmount}
                     placeholder="$"
                     type="text"
@@ -328,7 +328,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             </div>
 
             {/* Notification here  */}
-            <div className="bg-notifyBlack px-2 py-2 my-2">
+            <div className="bg-notifyBlack border-[1px] border-DarkGreen/50 rounded-[4px] px-2 py-2 my-2">
                 {
                     activeTab === 'deposit' ? (
                         <div className="flex gap-2 h-full w-full">
@@ -339,14 +339,14 @@ const Amount = ({ number, withdraw, deposite }) => {
                             </div>
                             <div>
                                 {findNode && (
-                                    <div className="space-y-1">
+                                    <div className="-mt-[3px] -space-y-1">
                                         {findNode.note?.title && (
-                                            <h2 className="text-[12px] font-semibold text-white">{findNode.note.title}</h2>
+                                            <h2 className="text-[11px] text-white">{findNode.note.title}</h2>
                                         )}
                                         {findNode.note?.list && findNode.note.list.length > 0 && (
                                             <div className="flex flex-col">
                                                 {findNode.note.list.map((item, index) => (
-                                                    <p key={index} className="text-[10px] pl-4 text-white">
+                                                    <p key={index} className="text-[11px] text-white">
                                                         <span className="font-medium">
                                                             {index + 1}.
                                                         </span>
@@ -357,23 +357,25 @@ const Amount = ({ number, withdraw, deposite }) => {
                                         )}
 
                                         {findNode.note?.remainder && (
-                                            <h1 className="text-[12px] text-white">{findNode.note.remainder}</h1>
+                                            <h1 className="text-[11px] -mt-1 text-white">Reminder: <br /> {findNode.note.remainder}</h1>
                                         )}
                                     </div>
                                 )}
                             </div>
                         </div >
                     ) : (
-                        <div className="flex gap-2 h-full w-full">
+                        <div className="flex gap-2 py-1 h-full w-full">
                             <div>
                                 <span className="text-white">
                                     <BsInfoCircleFill />
                                 </span>
                             </div>
                             <div>
-                                <p className="text-[11px] -mt-1 text-white">
-                                    Lorem, ipsum dolor sit amet consectetur, officiis alias nihil asperiores aperiam quas unde deleniti tenetur voluptatibus.
-                                </p>
+                                <h1 className="text-[11px] leading-3 -mt-1 text-white/80">Reminder: <br />
+                                    <span>1. Please double check the recipient's account details before procceding.</span><br />
+                                    <span>2. DO NOT share your account with any one to avoid losing fund on money.</span><br />
+                                    <span>2. Please make sure your bank account holder name and WinBD registered name should match to prevent from withdrawal rejection</span><br />
+                                </h1>
                             </div>
                         </div >
 

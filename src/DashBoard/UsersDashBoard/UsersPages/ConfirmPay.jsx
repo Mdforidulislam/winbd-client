@@ -359,7 +359,7 @@ const ConfirmPay = () => {
                         htmlFor="file-upload"
                         className={`${paymentType === 'withdraw' || imageURL ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
                     >
-                        <span>{fileName || 'Choose a file'}</span>
+                        <span>{'Choose a file'}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
                     </label>
                 </div>

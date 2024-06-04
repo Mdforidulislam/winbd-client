@@ -11,11 +11,11 @@ const PaymentMethod = ({ number }) => {
 
   userPaymentMehtod(paymentType); // send the payment method
 
-//   set the payementod
+  //   set the payementod
   useEffect(() => {
     localStorage.setItem('payMethod', JSON.stringify(paymentType))
   }, [paymentType]);
-  
+
 
   useEffect(() => {
     fetch("/method.json")
@@ -32,12 +32,12 @@ const PaymentMethod = ({ number }) => {
           <div
             key={index}
             onClick={() => setPaymentType(item.title)}
-            className={`${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-sm flex w-full h-full items-center justify-center' : 'border border-gray-400 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
+            className={`${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-sm flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-50 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
           >
-            <div className=" py-2.5 relative h-full w-full flex flex-col justify-center items-center">
+            <div className=" py-[5px] relative h-full w-full flex flex-col justify-center items-center">
               <img width={20} height={22} src={item?.img} alt="" />
 
-              <h1 onClick={() => setPaymentType(item?.title)} className="text-white mt-1 hover:text-Customborder-CustomYellow text-[10px] capitalize">{item?.title}</h1>
+              <h1 onClick={() => setPaymentType(item?.title)} className={`${paymentType === item?.title ? 'text-CustomYellow' : 'text-white'} mt-1 hover:text-Customborder-CustomYellow text-[11px] capitalize`}>{item?.title}</h1>
               {optionValue === 'এক্সট্রা ১.৫% ডিপোজিট বোনাস' ?
                 <div className="absolute top-0.5 -right-0.5">
                   <Discount />
@@ -55,12 +55,14 @@ const PaymentMethod = ({ number }) => {
 
       </div>
 
-      {activeTab !== 'withdraw' && (
-        <button className="text-black text-[12px] px-10 rounded-[4px] py-2 capitalize bg-CustomYellow">
-          {paymentType} payment
-        </button>
-      )}
-    </div>
+      {
+        activeTab !== 'withdraw' && (
+          <button className="text-black text-[12px] px-10 rounded-[4px] py-2 capitalize bg-CustomYellow">
+            {paymentType} payment
+          </button>
+        )
+      }
+    </div >
   );
 };
 
