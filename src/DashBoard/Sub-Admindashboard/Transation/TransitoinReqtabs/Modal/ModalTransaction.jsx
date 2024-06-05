@@ -14,6 +14,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
   const [isCopiedNumber, setIsCopiedNumber] = useState(false);
   const [isCopiedAmount, setIsCopiedAmount] = useState(false);
   const [isCopiedTrx, setIsCopiedTrx] = useState(false);
+  const [showTransactionImageModal, setShowTransactionImageModal] = useState(false); // State to manage the visibility of the Transaction Image modal
+
   console.log(item);
 
   const handleSubmit = async (event) => {
@@ -81,6 +83,10 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
       });
   };
 
+  const toggleTransactionImageModal = () => {
+    setShowTransactionImageModal(!showTransactionImageModal);
+  };
+
   return (
     <div className="flex items-center justify-start">
       <div
@@ -94,8 +100,13 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
             : "translate-y-20 opacity-0 duration-1000"
             }`}
         >
-          <div className="relative px-4 md:px-12 flex flex-col items-center justify-center space-y-4 w-full py-8 ">
-
+          <div className="relative px-4 md:px-12 flex flex-col items-center justify-center space-y-4 w-full py-4">
+            <div
+              className={`${item?.transactionType === 'deposite' ? 'absolute top-1 left-4 text-xs rounded-md text-green-400 underline underline-offset-4 cursor-pointer' : 'hidden'}`}
+              onClick={toggleTransactionImageModal} // Toggle the modal when clicked
+            >
+              Transaction Image
+            </div>
             <div className="">
               <span onClick={() => setOpenModal(false)} className="absolute top-0 right-0 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
             </div>
@@ -233,6 +244,28 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
           </div>
         </div>
       </div >
+
+      {/* Transaction Image Modal */}
+      {showTransactionImageModal && item?.transactionImage && (
+        <div
+          onClick={toggleTransactionImageModal}
+          className="fixed z-[100] flex items-center text-white justify-center inset-0 bg-black/20 backdrop-blur-sm"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-[90%] md:w-1/3 rounded-lg bg-GlobalGray p-4 text-center drop-shadow-2xl"
+          >
+            <button
+              onClick={toggleTransactionImageModal}
+              className="absolute top-2 right-2 text-2xl"
+            >
+              <IoCloseSharp />
+            </button>
+            <h2 className="text-lg font-semibold mb-4">Transaction Image</h2>
+            <img src={item?.transactionImage} alt="Transaction" className="w-full h-auto" />
+          </div>
+        </div>
+      )}
     </div >
   );
 };
