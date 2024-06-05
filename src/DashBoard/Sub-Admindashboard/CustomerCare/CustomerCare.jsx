@@ -23,6 +23,7 @@ const AdminCustomerCare = () => {
                 ]);
                 setData(socialResponse.data.data.socialMediaLinks || {});
                 setEmailData(emailResponse.data.getngEmail.email || '');
+                console.log(emailResponse.data.getngEmail.email);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -59,6 +60,7 @@ const AdminCustomerCare = () => {
             };
 
             const res = await axios.put(`https://sever.win-pay.xyz/updateSubAdminEmail?authoreId=${authorId}`, updatedData);
+            console.log(res);
             if (res.data.message === "Email updated successfully") {
                 toast.success('Email Updated successfully');
             }

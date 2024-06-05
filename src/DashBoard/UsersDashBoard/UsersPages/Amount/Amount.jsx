@@ -285,7 +285,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
 
     return (
-        <div className="bg-[#343333] pt-3 pb-4 px-3">
+        <div className="bg-[#343333] pt-3 pb-4  px-3">
             {/* Payment Method use here  */}
             <div>
                 <div className="flex justify-between w-full items-center h-full pb-1.5">
@@ -308,7 +308,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-4 gap-[10px] pt-2.5 border border-gray-400 border-opacity-30 border-x-transparent border-b-transparent border-t-1">
+                <div className="grid grid-cols-4 gap-[10px] pt-[11px] border border-gray-400 border-opacity-30 border-x-transparent border-b-transparent border-t-1">
                     {
                         amount.map((item, index) => (
                             <div key={index} className="rounded-[3px] border-[1.2px] border-gray-500/80 border-opacity-50 w-full h-full flex items-center justify-center hover:border-[#FFE43C] hover:text-[#FFE43C]">
@@ -323,7 +323,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             </div>
             {/* Input File Here  */}
 
-            <div className="relative">
+            <div className="relative mt-2">
                 <input
                     className="w-full h-full py-3 px-3 bg-transparent text-right placeholder:text-left focus:outline-none text-[12px] text-DarkGreen border border-gray-400 border-opacity-30 border-x-transparent border-t-transparent"
                     value={sumAmount}
@@ -345,7 +345,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             </div>
 
             {/* Notification here  */}
-            <div className="bg-notifyBlack border-[1px] border-DarkGreen/50 rounded-[4px] mt-2 px-2 py-2">
+            <div className="bg-notifyBlack border-[1px] border-DarkGreen/50 rounded-[4px] mt-2 mb-4 px-2 py-[11px]">
                 {
                     activeTab === 'deposit' ? (
                         <div className="flex gap-2 h-full w-full">
@@ -408,11 +408,11 @@ const Amount = ({ number, withdraw, deposite }) => {
             {
                 activeTab === 'withdraw' &&
                 <div className="mt-2">
-                    <Title text={'Please select phone number'} />
+                    <Title text={'Phone Number'} />
                     <div className="border border-gray-400 border-opacity-90 my-2"></div>
 
                     {/* bg-[url('https://img.b112j.com/bj/h5/assets/images/player/bg-bankcard.png?v=1716890719883')] */}
-                    <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
+                    <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 my-4 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
                         <div className="absolute top-12 -right-12 z-10 w-40 h-40 rounded-full scale-150 opacity-50 duration-500 bg-emerald-950"></div>
                         <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
                         <div className="absolute top-12 -right-12 z-10 w-24 h-24 rounded-full scale-150 opacity-50 duration-500 bg-emerald-700"></div>
