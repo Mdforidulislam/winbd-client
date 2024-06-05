@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../Authentication/Authentication";
 import { IoIosLogOut } from "react-icons/io";
@@ -10,10 +10,14 @@ import Title from "../../../../Components/Titile/Title";
 const Profile = ({ setOpenModal }) => {
     const [userName, setUserName] = useState('');
     const { role, setRole, setrediectionDW, setActiveTab } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleLogOutAction = () => {
+
         localStorage.removeItem('userData');
         setRole(undefined);
+        navigate('/login', { replace: true });
+        
     };
 
     useEffect(() => {

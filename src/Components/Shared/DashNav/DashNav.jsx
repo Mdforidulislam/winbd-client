@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import {
   MdOutlineDashboardCustomize,
   MdOutlineNotificationsActive,
@@ -21,18 +21,20 @@ import { RiCustomerService2Fill } from "react-icons/ri";
 const DashNav = () => {
   const [open, setOpen] = useState(false);
   const { role, setRole } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const adminInfo = JSON.parse(localStorage.getItem('userData'))?.userName;
 
   const handleAction = () => {
     localStorage.removeItem('userData');
-    setRole('undefine')
-
-  }
+    setRole('undefined');
+    navigate('/login', { replace: true });
+};
   const onClickFunction = () => {
     scrollToTop();
     setOpen(!open)
   }
+
 
   return (
     <div className="w-full md:w-[350px] md:min-h-screen md:p-5 bg-GlobalGray text-white">

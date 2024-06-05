@@ -34,7 +34,7 @@ const Promotion = () => {
                         const promotionData = response.data;
                         console.log(promotionData);
                         setPromotion(promotionData);
-                        if (promotionData.length > 0) {
+                        if (promotionData?.length > 0) {
                             handleOptionClick(promotionData[1]);
                         }
                     } else {

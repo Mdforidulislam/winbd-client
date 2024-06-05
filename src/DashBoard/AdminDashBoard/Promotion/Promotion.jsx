@@ -22,6 +22,11 @@ const Promotion = () => {
         timeType: 'allTime'
     });
 
+    console.log(formData);
+
+
+
+
     useEffect(() => {
         // Fetch campaigns data on component mount
         const fetchCampaigns = async () => {
