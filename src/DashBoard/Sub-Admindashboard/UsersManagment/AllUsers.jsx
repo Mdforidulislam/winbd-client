@@ -20,7 +20,8 @@ const AllUsers = () => {
         const searchValue = event.target.search.value;
         setSearchData(searchValue);
     };
-
+    //due
+    //rejected updated code from foridul bhai so need to do it again
     const userDataget = async () => {
         try {
             const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
