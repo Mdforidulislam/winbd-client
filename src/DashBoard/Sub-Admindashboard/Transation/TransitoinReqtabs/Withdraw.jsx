@@ -19,7 +19,7 @@ const DepositeTable = () => {
             const response = await fetch(`https://sever.win-pay.xyz/transactionReqWith?authurId=${localData}`);
             return response.json();
         },
-        refetchInterval: 5000, // Refresh every 5 seconds
+        refetchInterval: 2000, // Refresh every 5 seconds
     });
 
     // Update local data when user data changes
