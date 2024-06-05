@@ -14,7 +14,6 @@ const AllUsers = () => {
     const [storeData, setStoreData] = useState([]);
     const [loading, setLoading] = useState(true);
     const uniqueId = JSON.parse(localStorage.getItem('userData'))?.uniqueId;
-
     const handleActionSearchButton = async (event) => {
         event.preventDefault();
         const searchValue = event.target.search.value;
@@ -26,6 +25,7 @@ const AllUsers = () => {
         try {
             const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
             const getuserData = userSearch?.data?.queryUserInfo;
+            console.log(userSearch);
             setStoreData(getuserData);
             setLoading(false);
         } catch (error) {
@@ -60,11 +60,11 @@ const AllUsers = () => {
             <div className="md:flex md:justify-center md:items-center overflow-x-auto max-w-[1000px] mx-auto my-4 md:my-10">
                 <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500">
                     <thead>
-                        <tr className="bg-GlobalGray text-white">
-                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 hidden md:table-cell">Image</th>
-                            <th className="md:py-3 py-1 px-2 md:px-1 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
-                            <th className="py-3 text-left md:px-6 pl-5 text-[12px] md:text-lg border-b border-gray-500">Number</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 md:pl-10 pl-10 text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
+                        <tr className="bg-DarkGreen text-white">
+                            <th className="md:py-3 md:rounded-tl-md py-1 px-2 text-[12px] md:text-lg text-center border-b border-gray-500">Sl.</th>
+                            <th className="md:py-3 py-1 px-2 md:pl-5 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
+                            <th className="py-3 text-left md:px-6 md:pl-5 text-[12px] md:text-lg border-b border-gray-500">Number</th>
+                            <th className="md:py-3 md:rounded-tr-md py-1 px-2 md:px-6 md:pl-10 pl-10 text-[12px] md:text-lg text-left border-b border-gray-500">Update</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,15 +76,9 @@ const AllUsers = () => {
                             </tr>
                         ) : (
                             storeData?.map((item, i) => (
-                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer hover:bg-black/20 transition duration-300`}>
-                                    <td className="py-3 md:py-4 md:px-6 pl-2 pr-10 md:pr-0 md:pl-10 border-b border-gray-500 hidden md:table-cell">
-                                        <img
-                                            src="https://source.unsplash.com/300x300/?profile"
-                                            alt=""
-                                            className="h-8 w-8 object-contain"
-                                        />
-                                    </td>
-                                    <td className="py-3 md:py-4 pl-3 text-white border-gray-500 px-6 border-b text-sm font-medium">{item?.userName}</td>
+                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#3c3c3c]' : 'bg-[#343434]'} cursor-pointer hover:bg-black/20 transition duration-300`}>
+                                    <td className="py-3 md:py-4 text-white text-center border-gray-500 border-b text-sm font-medium">{i + 1}</td>
+                                    <td className="py-3 md:py-4 pl-3 text-white border-gray-500 px-0 md:px-6 border-b text-sm font-medium">{item?.userName}</td>
                                     <td className="py-3 md:py-4 md:px-6 border-b border-gray-500 text-white">{item.phoneNumber}</td>
                                     <td className="py-3 md:py-4 px-6 md:pl-12  border-b border-gray-500 text-white"><span className='px-1 py-[1px] ml-5 md:ml-0 pb-[3px] text-[10px] md:text-sm bg-green-600 rounded-sm text-white'>update</span></td>
                                 </tr>
