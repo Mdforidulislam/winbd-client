@@ -1,58 +1,76 @@
-import { Pagination } from '../../../Components/Shared/Pagination';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaSearch } from 'react-icons/fa';
-import { MdOutlineDoubleArrow } from 'react-icons/md';
 import Loader from '../../../Components/Loader/Loader';
 import { AllUserModal } from '../../../Components/Modals/AllUserModal';
+import { Pagination } from '../../../Components/Shared/Pagination';
 
 const AllUsers = () => {
-    const [pageNumber, setPageNumbers] = useState(0);
+    const [pageNumber, setPageNumber] = useState(0);
     const [searchData, setSearchData] = useState('');
     const [openModal, setOpenModal] = useState(false);
-    const [data, setData] = useState(null);
+    const [userLength, setTotallenghtUser] = useState(null);
     const [storeData, setStoreData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [singeleItem, setSigleItem] = useState(); // add single item send to modal 
     const uniqueId = JSON.parse(localStorage.getItem('userData'))?.uniqueId;
 
-    const handleActionSearchButton = async (event) => {
+    const handleSearchSubmit = async (event) => {
         event.preventDefault();
-        const searchValue = event.target.search.value;
+        const searchValue = event.target.search.value.trim();
         setSearchData(searchValue);
     };
-
-    const userDataget = async () => {
-        try {
-            const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
-            const getuserData = userSearch?.data?.queryUserInfo;
-            setStoreData(getuserData);
-            setLoading(false);
-        } catch (error) {
-            console.log(error);
-            setLoading(false);
+    // userRegiser geting legth 
+    
+    useEffect(() => {
+        const userRegiserLenght = async () => {
+            const userRegisterCount = await axios.get(`https://sever.win-pay.xyz/getingUserCountList?authoreId=${uniqueId}`);
+            const userLenght = userRegisterCount?.data;
+            setTotallenghtUser(userLenght)
+            console.log(userLenght);
         }
-    };
+        userRegiserLenght()
+    },[uniqueId])
+
+;
 
     useEffect(() => {
-        userDataget();
+            //  calthe api  for geting data all the user 
+    const fetchUserData = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get(`https://sever.win-pay.xyz/getinguse`, {
+                params: {
+                    uniqueId,
+                    searchValue: searchData,
+                    pageNumber,
+                },
+            });
+            setStoreData(response.data.queryUserInfo || []);
+            console.log(pageNumber);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        } finally {
+            setLoading(false);
+        }
+        }
+        fetchUserData()
     }, [pageNumber, uniqueId, searchData]);
 
-    const handleModal = (item) => {
-        setData(item);
-        setOpenModal(true);
-    };
 
     return (
         <div className='md:my-8'>
             <div className='flex justify-center'>
-                <form onSubmit={handleActionSearchButton} className='flex justify-center'>
+                <form onSubmit={handleSearchSubmit} className='flex'>
                     <input
                         type="text"
-                        placeholder="Username or Number.."
+                        placeholder="Username or Number..."
                         name="search"
                         className="bg-GlobalGray focus:outline-none text-white px-3 py-3 rounded-l-md"
                     />
-                    <button type="submit" className='bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold'><FaSearch /></button>
+                    <button type="submit" className='bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold'>
+                        <FaSearch />
+                    </button>
                 </form>
             </div>
 
@@ -69,21 +87,21 @@ const AllUsers = () => {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan="5" className="py-8 text-center">
+                                <td colSpan="4" className="py-8 text-center">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
-                            storeData?.map((item, i) => (
-                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer hover:bg-black/20 transition duration-300`}>
+                            storeData.map((item, index) => (
+                                <tr key={index} onClick={()=>setSigleItem(item)} className={`${index % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} cursor-pointer hover:bg-black/20 transition duration-300`}>
                                     <td className="py-3 md:py-4 md:px-6 pl-2 pr-10 md:pr-0 md:pl-10 border-b border-gray-500 hidden md:table-cell">
                                         <img
                                             src="https://source.unsplash.com/300x300/?profile"
-                                            alt=""
+                                            alt="Profile"
                                             className="h-8 w-8 object-contain"
                                         />
                                     </td>
-                                    <td className="py-3 md:py-4 pl-3 text-white border-gray-500 px-6 border-b text-sm font-medium">{item?.userName}</td>
+                                    <td className="py-3 md:py-4 pl-3 text-white border-gray-500 px-6 border-b text-sm font-medium">{item.userName}</td>
                                     <td className="py-3 md:py-4 md:px-6 border-b border-gray-500 text-white">{item.phoneNumber}</td>
                                     <td className="py-3 md:py-4 px-6 md:pl-12  border-b border-gray-500 text-white"><span className='px-1 py-[1px] ml-5 md:ml-0 pb-[3px] text-[10px] md:text-sm bg-green-600 rounded-sm text-white'>update</span></td>
                                 </tr>
@@ -93,7 +111,7 @@ const AllUsers = () => {
                 </table>
             </div>
             {openModal && <AllUserModal userDataget={userDataget} setOpenModal={setOpenModal} openModal={openModal} item={data} />}
-            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
+            {/* <Pagination userLength={userLength} setPageNumber={setPageNumber} */}
         </div>
     );
 };

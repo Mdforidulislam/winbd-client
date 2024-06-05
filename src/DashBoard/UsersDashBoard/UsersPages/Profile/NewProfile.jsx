@@ -7,8 +7,33 @@ import { AiTwotoneEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Title from "../../../../Components/Titile/Title";
 const NewProfile = ({ animation, handleClose }) => {
+    const [fetchedData, setFetchedData] = useState({});
     const [userName, setUserName] = useState('');
     const { role, setRole, setrediectionDW, setActiveTab } = useContext(AuthContext);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://sever.win-pay.xyz/getinPassordContact?authorId=user123');
+                //due
+                //have to set authorId dnamically
+                //need to check the links are the one for here or not
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setFetchedData(data);
+                console.log(data);
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const { socialMediaLinks } = fetchedData.data || {};
+
 
     const handleLogOutAction = () => {
         localStorage.removeItem('userData');
@@ -28,7 +53,7 @@ const NewProfile = ({ animation, handleClose }) => {
         <div className={`fixed overflow-x-hidden inset-0 md:max-w-lg md:mx-auto text-white bg-black w-full ${animation}`}>
 
             <div className="relative h-40 w-[115%] -ml-6 rounded-b-full overflow-x-hidden">
-                <div onClick={handleClose} className="absolute -right-1 -top-7 z-20">
+                <div onClick={handleClose} className="absolute right-2 -top-5 z-20">
                     <div className="bg-black rounded-full p-3 pr-8 pt-9">
                         <span className="w-full justify-end flex text-lg text-white">
                             <RxCross1 />
@@ -62,9 +87,9 @@ const NewProfile = ({ animation, handleClose }) => {
                 />
             </div>
 
-            <div className="absolute h-full top-[110px] w-full px-2 z-20">
+            <div className="absolute h-full top-[110px] w-full px-2.5 z-20">
                 {/* wallet section */}
-                <div className="flex justify-between bg-GlobalDarkGray px-2 rounded-sm py-4 mb-3 items-center">
+                <div className="flex justify-between bg-GlobalDarkGray px-2 rounded-sm py-4 mb-2.5 items-center">
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] font-medium tracking-wide text-[#7DBFAA]  capitalize">main wallet</span>
                         <span className="text-[14px] font-medium tracking-wide text-[#7DBFAA] "><TfiReload /></span>
@@ -95,7 +120,7 @@ const NewProfile = ({ animation, handleClose }) => {
                 </div>
 
                 {/* history section */}
-                <div className="bg-GlobalDarkGray px-2 rounded-sm mt-3">
+                <div className="bg-GlobalDarkGray px-2 rounded-sm mt-2.5">
                     <div className="text-left border-b pb-2 border-gray-500 pt-1">
                         <Title text={'history'} />
                     </div>
@@ -119,7 +144,7 @@ const NewProfile = ({ animation, handleClose }) => {
                 </div>
 
                 {/* profile info */}
-                <div className="bg-GlobalDarkGray px-2 rounded-sm mt-3">
+                <div className="bg-GlobalDarkGray px-2 rounded-sm mt-2.5">
                     <div className="text-left border-b pb-2 border-gray-500 pt-1">
                         <Title text={'history'} />
                     </div>
@@ -148,26 +173,28 @@ const NewProfile = ({ animation, handleClose }) => {
                 </div>
 
                 {/* contact info */}
-                <div className="bg-GlobalDarkGray px-2 rounded-sm mt-3">
+                <div className="bg-GlobalDarkGray px-2 rounded-sm mt-2.5">
                     <div className="text-left border-b pb-2 border-gray-500 pt-1">
                         <Title text={'Contact'} />
                     </div>
                     <div className="flex gap-4 mt-1 py-3 justify-between px-2">
                         {/* Personal Info */}
-                        <div className="flex flex-col items-center justify-center">
+                        <Link to={`${socialMediaLinks?.whatApp?.link}`} className="flex flex-col items-center justify-center">
                             <img width={35} src="https://img.b112j.com/bj/h5/assets/images/icon-set/theme-icon/icon-whatsapp.png?v=1715679064603" alt="" />
                             <h1 className="text-white text-[12px]">WhatsApp</h1>
-                        </div>
+                        </Link>
                         {/* Reset Password */}
+                        {/* //due
+                        //have to set email */}
                         <div className="flex flex-col items-center justify-center">
                             <img width={35} src="https://img.b112j.com/bj/h5/assets/images/icon-set/theme-icon/icon-email.png?v=1715679064603" alt="" />
                             <h1 className="text-white text-[12px]">Email</h1>
                         </div>
                         {/* Inbox */}
-                        <div className="flex flex-col items-center justify-center">
+                        <Link to={`${socialMediaLinks?.facebook?.link}`} className="flex flex-col items-center justify-center">
                             <img width={35} src="https://img.b112j.com/bj/h5/assets/images/icon-set/theme-icon/icon-facebook-messenger.png?v=1715679064603" alt="" />
                             <h1 className="text-white text-[12px]">Facebook</h1>
-                        </div>
+                        </Link>
                     </div>
                 </div>
 
