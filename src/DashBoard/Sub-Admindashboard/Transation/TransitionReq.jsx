@@ -1,10 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { TfiReload } from "react-icons/tfi";
+import React, {  useState } from 'react';
 
-
-
-import { AuthContext } from '../../../Authentication/Authentication';
-import { useQuery } from '@tanstack/react-query';
 import DepositeTable from './TransitoinReqtabs/DepositeTable';
 import Withdraw from './TransitoinReqtabs/Withdraw';
 import Verify from './TransitoinReqtabs/Verify';
@@ -18,27 +13,16 @@ const tabs = [
 ];
 
 const TransitionReq = () => {
-  const [activeTab, setActiveTab] = useState(1); // Default active tab index
-  const { setReload } = useContext(AuthContext); // set the authoContext here
-
+const [activeTab, setActiveTab] = useState(1); // Default active tab index
   // handle the tab action here
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  // reload action here
-
-  const hanldeReloadAction = () => {
-    setReload(true);
-  }
-
 
   return (
     <div className="md:mx-4 md:my-8 bg-GlobalDarkGray">
       
       <div className="flex py-2 gap-2 md:gap-20 px-2 justify-center">
-        <div onClick={hanldeReloadAction} className=' cursor-pointer bg-DarkGreen w-8 h-8 rounded-full flex justify-center items-center text-white text-2xl'>
-        <TfiReload />
-        </div>
         <div className="tab-container ">
           <input type="radio" name="tab" id="tab1" className="tab tab--1" />
           <label onClick={() => handleTabClick(1)} className="tab_label" htmlFor="tab1">Deposit</label>

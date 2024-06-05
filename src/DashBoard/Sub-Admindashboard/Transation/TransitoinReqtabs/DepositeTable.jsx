@@ -23,7 +23,7 @@ const DepositeTable = () => {
             fetch(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`).then((res) =>
                 res.json(),
             ),
-        refetchInterval: 5000, // Refresh every 5 seconds
+        refetchInterval: 2000, // Refresh every 5 seconds
     });
 
     const handleModal = (item) => {

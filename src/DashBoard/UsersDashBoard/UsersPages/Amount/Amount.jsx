@@ -236,7 +236,8 @@ const Amount = ({ number, withdraw, deposite }) => {
     useEffect(() => {
         // Check if the payment method is included
         const isIncluded = availablePayment?.some(payment => payment.transactionMethod === paymentMethod || '');
-        const findNumber = availablePayment?.find(item => item.transactionMethod === paymentMethod || '');
+        const findNumber = availablePayment?.find(item => item.transactionMethod === paymentMethod && item?.depositeChannel === channel);
+        console.log(channel,'echk the chanel');
         const numberGeting = findNumber?.number;
         localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
         console.log(numberGeting);
@@ -254,7 +255,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         } else {
             setIsModalOpen(false);
         }
-    }, [availablePayment, paymentMethod, isFirstLoad]);
+    }, [availablePayment, paymentMethod, isFirstLoad,channel]);
 
 
 
