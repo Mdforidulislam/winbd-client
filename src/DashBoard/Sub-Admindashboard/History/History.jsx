@@ -107,10 +107,10 @@ const History = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? ( // Check loading state
+                        {loading ? (
                             <tr>
                                 <td colSpan="5" className="py-8 text-center">
-                                    <Loader /> {/* Display loader */}
+                                    <Loader />
                                 </td>
                             </tr>
                         ) : (
