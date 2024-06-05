@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
-export const Pagination = ({ storeData, setPageNumbers }) => {
+export const Pagination = ({ userLength , setPageNumbers }) => {
     const [pageNumber, setPageNumber] = useState(0);
-    const totalPages = storeData?.totalPageNumber || 0;
-
+    const totalPages = userLength ;
+    // set paginatio nnumber
+    
     useEffect(() => {
-        if (setPageNumbers) {
+        if (pageNumber) {
             setPageNumbers(pageNumber);
         }
     }, [pageNumber, setPageNumbers]);
@@ -16,6 +17,8 @@ export const Pagination = ({ storeData, setPageNumbers }) => {
             setPageNumber(num);
         }
     };
+
+    console.log(pageNumber);
 
     const handlePageClick = (num) => () => {
         updatePageNumber(num);

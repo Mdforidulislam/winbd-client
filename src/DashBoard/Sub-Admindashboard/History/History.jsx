@@ -7,15 +7,17 @@ import "react-datepicker/dist/react-datepicker.css";
 // import { Pagination } from "../../../Components/Shared/Pagination";
 import { debounce } from 'lodash';
 import Loader from "../../../Components/Loader/Loader";
+import { Pagination } from "../../../Components/Shared/Pagination";
 
 const History = () => {
-    // const [pageNumber, setPageNumbers] = useState(0);
+    const [pageNumber, setPageNumbers] = useState(0);
     const [searchData, setSearchData] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [storeData, setStoreData] = useState([]);
     const [localData, setLocalData] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [loading, setLoading] = useState(false); // Add loading state variable
+    const [totalLenght , setTotalLenght] = useState(0);
 
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
@@ -33,19 +35,22 @@ const History = () => {
         if (searchValue) {
             url += `&userName=${searchValue}`;
         }
-        // if (pageNumber) {
-        //     url += `&pageNumber=${pageNumber}`;
-        // }
+        if (pageNumber) {
+            url += `&pageNumber=${pageNumber}`;
+        }
+        console.log(pageNumber,'page number');
         try {
             const response = await axios.get(url);
             setStoreData(response?.data?.requestApprovdeData);
+            setTotalLenght(response?.data?.showPageNumber);
+            console.log(response?.data);
             setLoading(false); // Set loading state to false once data is fetched
             console.log(response?.data?.requestApprovdeData);
         } catch (error) {
             setLoading(false); // Set loading state to false in case of error
             console.error('Error fetching data:', error);
         }
-    }, 300), [localData, selectedDate]);
+    }, 300), [localData, selectedDate , pageNumber]);
 
     const handleSearchChange = (event) => {
         const searchValue = event.target.value;
@@ -55,11 +60,13 @@ const History = () => {
 
     useEffect(() => {
         fetchData(searchData);
-    }, [selectedDate, localData, fetchData]);
+    }, [selectedDate, localData, fetchData,searchData]);
 
     const handleDateButtonClick = () => {
         setShowDatePicker(!showDatePicker);
     };
+
+    console.log(pageNumber);
 
     return (
         <div className="">
@@ -131,7 +138,7 @@ const History = () => {
 
                 </table>
             </div>
-            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
+            <Pagination userLength={totalLenght} setPageNumbers={setPageNumbers} />
         </div>
     );
 };

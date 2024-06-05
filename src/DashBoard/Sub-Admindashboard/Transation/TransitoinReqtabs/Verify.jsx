@@ -28,7 +28,7 @@ const Verify = () => {
             fetch(`https://sever.win-pay.xyz/getingVerifydata?authoreId=${authoreId}`).then((res) =>
                 res.json(),
             ),
-        refetchInterval: 5000, // Refresh every 5 seconds
+        refetchInterval: 2000, // Refresh every 5 seconds
     });
 
 

@@ -125,7 +125,7 @@ const AgentNumber = ({ paymentType, activeTab }) => {
                                     <input
                                         className="w-full py-2 px-3 text-sm rounded bg-GlobalDarkGray focus:outline-none"
                                         name="number"
-                                        defaultValue={`0${data?.number}`}
+                                        defaultValue={`${data?.number}`}
                                         type="text"
                                         placeholder="Phone Number"
                                     />
