@@ -10,9 +10,14 @@ import toast from "react-hot-toast";
 
 const ModalTransaction = ({ item, setOpenModal, openModal }) => {
   const [status, setStatus] = useState(null);
+  const [isCopiedUsername, setIsCopiedUsername] = useState(false);
   const [isCopiedNumber, setIsCopiedNumber] = useState(false);
+  const [isCopiedAmount, setIsCopiedAmount] = useState(false);
   const [isCopiedTrx, setIsCopiedTrx] = useState(false);
+  const [showTransactionImageModal, setShowTransactionImageModal] = useState(false); // State to manage the visibility of the Transaction Image modal
+
   console.log(item);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
@@ -29,7 +34,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
         params.append('status', status);
         response = await axios.put(transactionFeedbackUrl, null, { params });
       } else if (item?.transactionType === 'withdraw') {
-        params.append('status', transactionId);
+        params.append('status', status);
+        params.append('transactionId', transactionId);
         response = await axios.put(transactionFeedbackUrl, null, { params });
       }
 
@@ -62,34 +68,23 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
     }
   };
 
-  const handleCopyNumber = () => {
-    navigator.clipboard.writeText(item?.amount)
+  const handleCopy = (text, setState) => {
+    navigator.clipboard.writeText(text)
       .then(() => {
-        setIsCopiedNumber(true);
-        toast.success('Amount copied');
+        setState(true);
+        toast.success('Copied successfully');
         setTimeout(() => {
-          setIsCopiedNumber(false);
+          setState(false);
         }, 2000);
       })
       .catch(err => {
         console.error('Failed to copy text: ', err);
-        toast.error('Failed to copy amount.');
+        toast.error('Failed to copy text.');
       });
   };
 
-  const handleCopyTrx = () => {
-    navigator.clipboard.writeText(item?.transactionId)
-      .then(() => {
-        setIsCopiedTrx(true);
-        toast.success('Transaction Id copied');
-        setTimeout(() => {
-          setIsCopiedTrx(false);
-        }, 2000);
-      })
-      .catch(err => {
-        console.error('Failed to copy text: ', err);
-        toast.error('Failed to copy Transaction Id.');
-      });
+  const toggleTransactionImageModal = () => {
+    setShowTransactionImageModal(!showTransactionImageModal);
   };
 
   return (
@@ -105,24 +100,49 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
             : "translate-y-20 opacity-0 duration-1000"
             }`}
         >
-          <div className="relative px-4 md:px-12 flex flex-col items-center justify-center space-y-4 w-full py-8 ">
-
+          <div className="relative px-4 md:px-12 flex flex-col items-center justify-center space-y-4 w-full py-4">
+            <div
+              className={`${item?.transactionType === 'deposite' ? 'absolute top-1 left-4 text-xs rounded-md text-green-400 underline underline-offset-4 cursor-pointer' : 'hidden'}`}
+              onClick={toggleTransactionImageModal} // Toggle the modal when clicked
+            >
+              Transaction Image
+            </div>
             <div className="">
               <span onClick={() => setOpenModal(false)} className="absolute top-0 right-0 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
             </div>
 
             <div className="w-full pr-5 flex justify-between text-[10px] text-white md:text-sm border border-x-transparent border-t-transparent pb-2 border-b border-gray-200/30">
               <div className="flex items-center gap-4">
-                <img
-                  src={`${item?.paymentMethod === 'bkash' ? bkash :
-                    item?.paymentMethod === 'nogod' ? nagad :
-                      item?.paymentMethod === 'rocket' ? rocket : ''}`}
+                <img src={`${item?.paymentMethod === 'bkash' ? bkash :
+                  item?.paymentMethod === 'nogod' ? nagad :
+                    item?.paymentMethod === 'rocket' ? rocket : ''}`}
                   alt=""
                   className="h-8 w-8 md:h-12 md:w-12 object-contain"
                 />
+
                 <div className="flex flex-col gap-[2px] text-[10px] md:text-[12px] items-start">
-                  <p className="md:text-[14px]">{item?.userName}</p>
-                  <p>{item?.number}</p>
+                  {item?.userName && (
+                    <div className="flex justify-center items-center gap-2 mb-[2px] relative">
+                      <p className="text-white">{item?.userName}</p>
+                      <div
+                        className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
+                        onClick={() => handleCopy(item?.userName, setIsCopiedUsername)}
+                      >
+                        {isCopiedUsername ? <FaCheck /> : <FaRegCopy />}
+                      </div>
+                    </div>
+                  )}
+                  {item?.number && (
+                    <div className="flex justify-center items-center gap-2 mb-[2px] relative">
+                      <p className="text-white">{item?.number}</p>
+                      <div
+                        className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
+                        onClick={() => handleCopy(item?.number, setIsCopiedNumber)}
+                      >
+                        {isCopiedNumber ? <FaCheck /> : <FaRegCopy />}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col items-end">
@@ -131,9 +151,9 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
                     <p className="text-white">{item?.amount} TK</p>
                     <div
                       className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
-                      onClick={handleCopyNumber}
+                      onClick={() => handleCopy(item?.amount, setIsCopiedAmount)}
                     >
-                      {isCopiedNumber ? <FaCheck /> : <FaRegCopy />}
+                      {isCopiedAmount ? <FaCheck /> : <FaRegCopy />}
                     </div>
                   </div>
                 )
@@ -144,7 +164,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
                     <p className="text-white">{item?.transactionId}</p>
                     <div
                       className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
-                      onClick={handleCopyTrx}
+                      onClick={() => handleCopy(item?.transactionId, setIsCopiedTrx)}
                     >
                       {isCopiedTrx ? <FaCheck /> : <FaRegCopy />}
                     </div>
@@ -154,7 +174,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
                     <p className="text-white">{item?.totalTurnover}</p>
                     <div
                       className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
-                      onClick={handleCopyTrx}
+                      onClick={() => handleCopy(item?.totalTurnover, setIsCopiedTrx)}
                     >
                       {isCopiedTrx ? <FaCheck /> : <FaRegCopy />}
                     </div>
@@ -201,24 +221,52 @@ const ModalTransaction = ({ item, setOpenModal, openModal }) => {
 
 
             <form onSubmit={handleSubmit} className="space-y-3 w-full">
-              <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="focus:outline-none w-full p-1 md:p-3 focus:border-transparent md:text-lg text-white text-[10px] min-h-10 md:min-h-40 rounded-md bg-GlobalGray" name="remark" id="remark"></textarea>
+              <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="text-[12px] w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="remark" id="remark"></textarea>
               {item?.transactionType === 'deposite' ? (
                 <div className="w-full flex justify-between gap-5 px-1">
-                  <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-700 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
-                  <button type="submit" onClick={() => setStatus("verify")} className="bg-yellow-400 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
+                  <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
+                  <button type="submit" onClick={() => setStatus("verify")} className="bg-orange-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
                   <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
                 </div>
-              ) : (
+              ) : item?.transactionType === 'verify' ? (<div className="w-full flex justify-between gap-5 px-1">
+                <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
+                <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
+              </div>) : (
                 <div className="w-full">
-                  <input className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="tnxid" type="text" placeholder="Transaction id" />
-                  <button className="bg-green-600 hover:bg-green-700 transition duration-200 px-8 py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Confirm")}>Confirm</button>
+                  <input className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none text-[12px]" name="tnxid" type="text" placeholder="Transaction id" />
+                  <div className="flex gap-3">
+                    <button className="bg-green-600 hover:bg-green-700 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Confirm")}>Confirm</button>
+                    <button className="bg-red-600 hover:bg-red-700 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Rejected")}>Reject</button>
+                  </div>
                 </div>
               )}
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+
+      {/* Transaction Image Modal */}
+      {showTransactionImageModal && item?.transactionImage && (
+        <div
+          onClick={toggleTransactionImageModal}
+          className="fixed z-[100] flex items-center text-white justify-center inset-0 bg-black/20 backdrop-blur-sm"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-[90%] md:w-1/3 rounded-lg bg-GlobalGray p-4 text-center drop-shadow-2xl"
+          >
+            <button
+              onClick={toggleTransactionImageModal}
+              className="absolute top-2 right-2 text-2xl"
+            >
+              <IoCloseSharp />
+            </button>
+            <h2 className="text-lg font-semibold mb-4">Transaction Image</h2>
+            <img src={item?.transactionImage} alt="Transaction" className="w-full h-auto" />
+          </div>
+        </div>
+      )}
+    </div >
   );
 };
 

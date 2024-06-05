@@ -27,7 +27,7 @@ const PaymentMethod = ({ number }) => {
     <div className="bg-[#343333] pt-3 pb-4 px-3">
       {/* payment method history */}
       <Title text={'payment Method'} />
-      <div className="w-full grid grid-cols-3 gap-2 border border-t-[0.0625rem] border-x-transparent border-b-transparent border-gray-400 border-opacity-30 py-[9px] mt-2">
+      <div className="w-full grid grid-cols-3 gap-2 border border-t-[0.0625rem] border-x-transparent border-b-transparent border-gray-400 border-opacity-30 py-[11px] mt-2">
         {method?.slice(0, number).map((item, index) => (
           <div
             key={index}

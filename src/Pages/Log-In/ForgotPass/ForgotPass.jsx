@@ -16,6 +16,8 @@ const ForgotPass = () => {
         const fetchData = async () => {
             try {
                 const response = await fetch('https://sever.win-pay.xyz/getinPassordContact?authorId=user123');
+                //due
+                //have to set authorId dnamically
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

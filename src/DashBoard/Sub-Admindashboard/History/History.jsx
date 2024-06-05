@@ -100,8 +100,9 @@ const History = () => {
                         <tr className="bg-GlobalGray text-white">
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Type</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
-                            <th className="py-3 text-left border-b border-gray-500 pl-6 hidden md:table-cell">Number</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 pl-6 text-[12px] md:text-lg text-left border-b border-gray-500 ">Time</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 md:pl-5 pl-2 text-[12px] md:text-lg text-left border-b border-gray-500 ">Number</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 pl-8 text-[12px] md:text-lg text-left border-b border-gray-500 ">Date</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 pl-7 text-[12px] md:text-lg text-left border-b border-gray-500 ">TrxId</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 ">Amount</th>
                         </tr>
                     </thead>
@@ -126,8 +127,9 @@ const History = () => {
                                             className="h-6 md:h-8 w-6 md:w-8 object-contain"
                                         /></td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-7 -pl-2 border-b border-gray-700">{item?.userName}</td>
-                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 border-b border-gray-700 hidden md:table-cell">{item?.number}</td>
-                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-8 border-b border-gray-700">{item?.time}</td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 border-b border-gray-700">{item?.number}</td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.date}</td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.transactionId}</td>
                                     <td className="py-3 md:py-4 text-[13px] md:pl-10 pl-4 cursor-pointer md:px-6 border-b border-gray-700 ">{item?.amount}</td>
                                 </tr>
                             ))

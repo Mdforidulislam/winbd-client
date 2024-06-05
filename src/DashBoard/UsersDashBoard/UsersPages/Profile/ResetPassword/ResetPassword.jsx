@@ -17,6 +17,7 @@ const ResetPassword = () => {
     const [passwordMismatchError, setPasswordMismatchError] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
     const [findNode, setFindNode] = useState({
         note: {
             remainder: "Password Requirements",
@@ -123,7 +124,7 @@ const ResetPassword = () => {
             setPasswordMismatchError(''); // Clear password mismatch error only if password field or confirmPassword field is cleared
         }
     };
-    
+
 
     return (
         <div className="w-full flex min-h-screen bg-[#111111]">
@@ -140,8 +141,8 @@ const ResetPassword = () => {
                         </div>
                     </div>
                     <form className="px-1" onSubmit={handleSubmit}>
-                        <div className="w-[96%] mx-auto border rounded-t-sm border-gray-600">
-                            <div className="flex gap-11 items-center py-[14px] px-5 bg-[#292929] rounded-t-sm">
+                        <div className="w-[96%] px-1 mx-auto rounded-t-sm bg-[#292929]">
+                            <div className="flex gap-6 items-center py-[12px] px-5 border border-t-transparent border-x-transparent border-gray-400/50">
                                 <label htmlFor="" className="text-sm text-inputLabel">Username</label>
                                 <div className="relative w-full">
                                     <input
@@ -161,8 +162,8 @@ const ResetPassword = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-[96%] mx-auto border border-gray-600">
-                            <div className="flex gap-12 items-center py-3 px-5 relative bg-[#292929]">
+                        <div className="w-[96%] px-1 mx-auto bg-[#292929]">
+                            <div className="flex gap-7 items-center py-2 pb-2.5 px-5 relative">
                                 <label htmlFor="" className="text-sm leading-[1rem] text-inputLabel">New Password</label>
                                 <div className="w-full">
                                     <input
@@ -188,8 +189,8 @@ const ResetPassword = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-[96%] mx-auto border rounded-b-sm border-gray-600">
-                            <div className="flex gap-[36px] items-center py-3 px-5 relative bg-[#292929]">
+                        <div className="w-[96%] px-1 mx-auto rounded-b-sm bg-[#292929]">
+                            <div className="flex gap-[15px] items-center py-2 pb-2.5 px-5 relative  border border-x-transparent border-b-transparent border-gray-400/50">
                                 <label htmlFor="" className="text-sm leading-[1rem] text-inputLabel">Confirm Password</label>
                                 <div className="w-full">
                                     <input
@@ -224,29 +225,29 @@ const ResetPassword = () => {
                         </div>
                         )} */}
                         {passwordMismatchError && (
-                        <div className="relative p-[6px]">
-                            <span className="text-alartColor absolute left-3 top-[11px]"><BsExclamationCircleFill /></span>
-                            <p className="text-alartColor text-sm my-[2px] ml-7">{passwordMismatchError}</p>
-                        </div>
+                            <div className="relative p-[6px]">
+                                <span className="text-alartColor absolute left-3 top-[11px]"><BsExclamationCircleFill /></span>
+                                <p className="text-alartColor text-sm my-[2px] ml-7">{passwordMismatchError}</p>
+                            </div>
                         )}
 
-                        {/* <div className="bg-notifyBlack border border-green-900 rounded-sm mx-2 my-2 p-[6px]">
-                            <div className="flex gap-2 h-full w-full">
+                        <div className="bg-notifyBlack border border-green-900 rounded-sm mx-2 my-2 p-[6px]">
+                            <div className="flex gap-1.5 h-full w-full">
                                 <div className="mt-[3px]">
                                     <span className="text-white">
-                                        <BsExclamationCircleFill />
+                                        <BsExclamationCircleFill className="text-sm" />
                                     </span>
                                 </div>
                                 <div>
                                     {findNode && (
                                         <div className="space-y-1 ">
                                             {findNode.note?.remainder && (
-                                                <h1 className="text-[15px] font-bold text-white">{findNode.note.remainder}</h1>
+                                                <h1 className="text-[15px] text-white">{findNode.note.remainder}</h1>
                                             )}
                                             {findNode.note?.list && findNode.note.list.length > 0 && (
-                                                <div className="flex flex-col leading-4">
+                                                <div className="flex flex-col tracking-tight leading-4 -ml-5">
                                                     {findNode.note.list.map((item, index) => (
-                                                        <p key={index} className="text-[13px] text-white">
+                                                        <p key={index} className="text-[11.6px] text-white">
                                                             <span className="">{index + 1}. </span>
                                                             <span className=""> {item}</span>
                                                         </p>
@@ -257,7 +258,7 @@ const ResetPassword = () => {
                                     )}
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                         <div className="text-center my-2">
                             <button type="submit" className="text-white w-[96.5%] mx-auto bg-DarkGreen py-2 rounded-sm ">Confirm</button>
                         </div>
