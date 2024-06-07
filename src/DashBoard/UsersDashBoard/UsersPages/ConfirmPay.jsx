@@ -279,7 +279,7 @@ const ConfirmPay = () => {
                     </div>
                 </div>
 
-                <div className={`${paymentType === 'withdraw' ? 'text-white text-center' : 'hidden'}`}>
+                <div className={`${paymentType === 'withdraw' ? 'text-white text-center font-bengali' : 'hidden'}`}>
                     অপ্রত্যাশিত লেনদেন বিষয়ক সমস্যাগুলি এড়াতে অনুগ্রহ করে সমস্ত বিবরণ পুনরায় যাচাই করুন এবং নিশ্চিত করুন।                </div>
                 {/*userNumber here  */}
                 <div className={`${paymentType === 'withdraw' ? 'hidden ' : ''} flex gap-2 my-4  items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>

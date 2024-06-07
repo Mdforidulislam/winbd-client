@@ -22,6 +22,10 @@ export default {
         "notifyBlack": '#03120D',
         "HistoryRed": '#C25151',
       },
+      fontFamily: {
+        'bengali-serif': ['Noto Serif Bengali', 'serif'],
+        'bengali': ['Noto Sans Bengali', 'sans-serif']
+      }
     },
   },
   plugins: [],
