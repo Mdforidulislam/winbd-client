@@ -17,7 +17,7 @@ const History = () => {
     const [localData, setLocalData] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [loading, setLoading] = useState(false); // Add loading state variable
-    const [totalLenght , setTotalLenght] = useState(0);
+    const [totalLenght, setTotalLenght] = useState(0);
 
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
@@ -33,12 +33,12 @@ const History = () => {
             url += `&date=${selectedDate}`;
         }
         if (searchValue) {
-            url += `&userName=${searchValue}`;
+            url += `&userName=${searchData}`;
         }
         if (pageNumber) {
             url += `&pageNumber=${pageNumber}`;
         }
-        console.log(pageNumber,'page number');
+        console.log(pageNumber, 'page number');
         try {
             const response = await axios.get(url);
             setStoreData(response?.data?.requestApprovdeData);
@@ -50,7 +50,7 @@ const History = () => {
             setLoading(false); // Set loading state to false in case of error
             console.error('Error fetching data:', error);
         }
-    }, 300), [localData, selectedDate , pageNumber]);
+    }, 300), [localData, selectedDate, pageNumber]);
 
     const handleSearchChange = (event) => {
         const searchValue = event.target.value;
@@ -60,7 +60,7 @@ const History = () => {
 
     useEffect(() => {
         fetchData(searchData);
-    }, [selectedDate, localData, fetchData,searchData]);
+    }, [selectedDate, localData, fetchData, searchData]);
 
     const handleDateButtonClick = () => {
         setShowDatePicker(!showDatePicker);
@@ -97,25 +97,27 @@ const History = () => {
             <div className="md:flex md:justify-center md:items-center overflow-x-auto max-w-[1000px] mx-auto my-10">
                 <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500 ">
                     <thead>
-                        <tr className="bg-GlobalGray text-white">
+                        <tr className="bg-DarkGreen text-white">
+                            <th className="md:py-3 md:rounded-tl-md py-1 px-2 text-[12px] md:text-lg text-center border-b border-gray-500">Sl.</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Type</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 md:pl-5 pl-2 text-[12px] md:text-lg text-left border-b border-gray-500 ">Number</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 pl-8 text-[12px] md:text-lg text-left border-b border-gray-500 ">Date</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 pl-8 text-[12px] md:text-lg text-left border-b border-gray-500 ">Date & Time</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 pl-7 text-[12px] md:text-lg text-left border-b border-gray-500 ">TrxId</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 ">Amount</th>
+                            <th className="md:py-3 md:rounded-tr-md py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 ">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? ( // Check loading state
+                        {loading ? (
                             <tr>
                                 <td colSpan="5" className="py-8 text-center">
-                                    <Loader /> {/* Display loader */}
+                                    <Loader />
                                 </td>
                             </tr>
                         ) : (
                             storeData?.map((item, i) => (
                                 <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
+                                    <td className="py-3 md:py-4 text-white text-center border-b border-gray-700 text-sm font-medium">{i + 1}</td>
                                     <td className="py-3 md:py-4 pl-3 md:pl-6 pr-3 border-b border-gray-700">
                                         <img
                                             src={
@@ -128,7 +130,7 @@ const History = () => {
                                         /></td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-7 -pl-2 border-b border-gray-700">{item?.userName}</td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 border-b border-gray-700">{item?.number}</td>
-                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.date}</td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.date} {item?.time}</td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.transactionId}</td>
                                     <td className="py-3 md:py-4 text-[13px] md:pl-10 pl-4 cursor-pointer md:px-6 border-b border-gray-700 ">{item?.amount}</td>
                                 </tr>

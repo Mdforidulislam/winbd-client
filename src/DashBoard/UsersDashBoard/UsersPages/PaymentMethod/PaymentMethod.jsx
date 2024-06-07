@@ -24,18 +24,18 @@ const PaymentMethod = ({ number }) => {
   }, []);
 
   return (
-    <div className="bg-[#343333] pt-3 pb-4 px-3">
+    <div className="bg-[#343333] h-auto pt-3 pb-4 mt-1.5 px-3">
       {/* payment method history */}
       <Title text={'payment Method'} />
-      <div className="w-full grid grid-cols-3 gap-2 border border-t-[0.0625rem] border-x-transparent border-b-transparent border-gray-400 border-opacity-30 py-[11px] mt-2">
+      <div className="w-full grid grid-cols-3 gap-[10px] border border-t-[0.0625rem] border-x-transparent border-b-transparent border-gray-400 border-opacity-30 py-[11px] mt-2">
         {method?.slice(0, number).map((item, index) => (
           <div
             key={index}
             onClick={() => setPaymentType(item.title)}
-            className={`py-[0.3rem] ${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-[0.1875rem] flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-50 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
+            className={`py-[7%] ${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-[0.1875rem] flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-50 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
           >
             <div className="relative h-full w-full flex flex-col justify-center items-center">
-              <div className={`h-[1.375rem] w-[3.75rem]`}>
+              <div className={`h-[1.6rem] w-[4.5rem]`}>
                 <img
                   className={`h-full w-full ${item?.title === 'surecash' ? 'object-cover' : 'object-contain'}`}
                   src={item?.img}
@@ -43,13 +43,13 @@ const PaymentMethod = ({ number }) => {
                 />
               </div>
 
-              <h1 onClick={() => setPaymentType(item?.title)} className={`${paymentType === item?.title ? 'text-CustomYellow' : 'text-white'} mt-1 hover:text-Customborder-CustomYellow text-[0.7rem]`}>{item?.title === 'bkash' ? 'bKash' : item?.title === 'rocket' ? 'Rocket' : item?.title === 'nogod' ? 'Nagad' : item?.title === 'upay' ? 'Upay' : item?.title === 'surecash' ? 'SureCash' : item?.title === 'okwallet' ? 'OKWallet' : item?.title}</h1>
+              <h1 onClick={() => setPaymentType(item?.title)} className={`${paymentType === item?.title ? 'text-CustomYellow' : 'text-white'} mt-1 hover:text-Customborder-CustomYellow text-[0.820rem]`}>{item?.title === 'bkash' ? 'bKash' : item?.title === 'rocket' ? 'Rocket' : item?.title === 'nogod' ? 'Nagad' : item?.title === 'upay' ? 'Upay' : item?.title === 'surecash' ? 'SureCash' : item?.title === 'okwallet' ? 'OKWallet' : item?.title}</h1>
 
-              {optionValue === 'এক্সট্রা ১.৫% ডিপোজিট বোনাস' ?
-                <div className="absolute top-0.5 -right-0.5">
+              {optionValue === 'এক্সট্রা ১.৫% ডিপোজিট বোনাস' && activeTab === 'deposit' && (
+                <div className="absolute -top-[5px] -right-[3px]">
                   <Discount />
-                </div> : null
-              }
+                </div>
+              )}
             </div>
             <div className={`${paymentType === item?.title ? 'triangle h-[1rem] w-[1.25rem] flex justify-center items-center bg-CustomYellow absolute bottom-0 right-0' : 'hidden'}`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="0.625rem" height="0.625rem" viewBox="0 0 24 24" fill="currentColor" className={`${paymentType === item?.title ? 'absolute bottom-0 right-[0.125rem]' : 'hidden'}`}>

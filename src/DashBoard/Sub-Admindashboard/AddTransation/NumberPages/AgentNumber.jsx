@@ -22,6 +22,7 @@ const AgentNumber = ({ paymentType, activeTab }) => {
         status: [],
         loading: true,
     });
+    console.log(state);
 
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem("userData"));

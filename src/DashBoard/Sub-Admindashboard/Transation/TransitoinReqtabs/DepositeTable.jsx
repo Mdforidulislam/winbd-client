@@ -9,6 +9,7 @@ const DepositeTable = () => {
     const [localData, setLocalData] = useState('');
     const [openModal, setOpenModal] = useState(false);
     const [dataList, setDataList] = useState(null);
+    const activeTab = 'deposit';
 
     const { reload } = useContext(AuthContext);
 
@@ -34,14 +35,14 @@ const DepositeTable = () => {
     return (
         <div className="">
             <div className="md:flex md:justify-center md:items-center overflow-x-auto">
-                <table className="w-full md:w-[1200px] text-white shadow-md border-gray-500 ">
+                <table className="w-full md:w-[1200px] text-white shadow-md border-LightGreen ">
                     <thead>
-                        <tr className="bg-GlobalGray text-white">
-                            <th className="md:py-3 py-1 px-2 md:pl-6 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Type</th>
-                            <th className="md:py-3 py-1 px-2 md:pl-5 md:pr-5 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 pl-5 md:pl-7 text-[12px] md:text-lg text-left border-b border-gray-500">Time</th>
-                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Amount</th>
-                            <th className="py-3 text-left border-b border-gray-500 pl-6 hidden md:table-cell">Submit</th>
+                        <tr className="bg-DarkGreen text-white">
+                            <th className="md:py-3 md:rounded-tl-md py-1 px-2 md:pl-6 md:px-6 text-[12px] md:text-lg text-left border-b border-LightGreen">Type</th>
+                            <th className="md:py-3 py-1 px-2 md:pl-5 pl-3 md:pr-5 text-[12px] md:text-lg text-left border-b border-LightGreen">Name</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 pl-5 md:pl-7 text-[12px] md:text-lg text-left border-b border-LightGreen">Time</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-LightGreen">Amount</th>
+                            <th className="py-3 md:rounded-tr-md text-left border-b border-LightGreen pl-6 hidden md:table-cell">Submit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +69,7 @@ const DepositeTable = () => {
                                     <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 pl-4 border-b border-gray-700">{item?.userName}</td>
                                     <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 border-b border-gray-700">{item?.TimeDay}</td>
                                     <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-12 pl-5 border-b border-gray-700">{item?.amount}</td>
-                                    <td className="py-2 text-[12px] md:text-sm pl-12 cursor-pointer px-6 border-b border-gray-700 hidden md:table-cell"><MdOutlineDoubleArrow className="cursor-pointer" /></td>
+                                    <td className="py-2 text-[12px] md:text-sm pl-8 cursor-pointer px-6 border-b border-gray-700 text-LightGreen hidden md:table-cell ">Action</td>
                                 </tr>
                             ))
                         )
@@ -76,7 +77,7 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={dataList} />}
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} activeTab={activeTab} openModal={openModal} item={dataList} />}
         </div>
     );
 };

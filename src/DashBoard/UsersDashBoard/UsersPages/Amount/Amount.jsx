@@ -283,7 +283,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
 
     return (
-        <div className="bg-[#343333] pt-3 pb-4  px-3">
+        <div className="bg-[#343333] h-auto pt-3 pb-4 px-3">
             {/* Payment Method use here  */}
             <div>
                 <div className="flex justify-between w-full items-center h-full pb-1.5">
@@ -354,7 +354,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                             </div>
                             <div>
                                 {findNode && (
-                                    <div className="-mt-[1px]">
+                                    <div className="-mt-[1px] pr-4">
                                         {findNode.note?.title && (
                                             <p className="text-[11.5px] leading-[12.5px] tracking-tighter text-white">{findNode.note.title}</p>
                                         )}
@@ -387,7 +387,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                             </div>
                             <div>
                                 {findNode && (
-                                    <div className="">
+                                    <div className="pr-10">
                                         <h1 className="text-[11.5px] leading-[12.8px] tracking-[-0.04em] -mt-1 text-white">Reminder: <br />
                                             <span>1. Please double check the recipient's account details before procceding.</span><br />
                                             <span>2. DO NOT share your account with any one to avoid losing fund on money.</span><br />
@@ -415,7 +415,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                         <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
                         <div className="absolute top-12 -right-12 z-10 w-24 h-24 rounded-full scale-150 opacity-50 duration-500 bg-emerald-700"></div>
                         <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
-                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> {userPhoneNumber}</p>
+                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" />+88 {userPhoneNumber}</p>
                     </button>
                 </div>
             }
