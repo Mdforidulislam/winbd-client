@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -8,6 +8,8 @@ import bkash from '../../../../public/bkash.png';
 import nagad from '../../../../public/nagad.png';
 import rocket from '../../../../public/rocket.jpg';
 import two from '../../../../public/two.png';
+import { IoIosArrowBack } from "react-icons/io";
+import { AuthContext } from "../../../Authentication/Authentication";
 
 const ConfirmPay = () => {
     const initialTime = 5 * 60; // 5 minutes in seconds
@@ -28,7 +30,7 @@ const ConfirmPay = () => {
     const [subAdminNumber, setSubAdminNumber] = useState(); // set subadmin phone number
     const [imageUrl, setImageUrl] = useState(''); // img url set inside the post request to imgbb site
     const [promotionTitle, setPromotionTitle] = useState(''); // set the promotion title  here 
-
+    const { activeTab } = useContext(AuthContext)
     const navigate = useNavigate();
 
     // ================== Timer calculation =====================
@@ -204,7 +206,7 @@ const ConfirmPay = () => {
     };
 
     const handleCopyNumber = () => {
-        navigator.clipboard.writeText('01710101016')
+        navigator.clipboard.writeText(subAdminNumber)
             //due
             //have to make it dynamic
             .then(() => {
@@ -221,11 +223,17 @@ const ConfirmPay = () => {
     };
 
     return (
-        <div className="flex flex-col items-center gap-3 w-full py-2 px-2 bg-[#424242] min-h-screen">
+        <div className="relative flex flex-col items-center gap-3 w-full py-2 px-2 bg-[#424242] min-h-screen">
             {/* Top Portion */}
+            <Link to={'/profile/user'} className={`${activeTab === 'deposit' ? 'hidden' : 'absolute top-4 left-4 p-2 rounded-full bg-GlobalGray text-white '}`}>
+                <IoIosArrowBack className="text-xl" />
+            </Link>
             <div className={`${paymentType === 'withdraw' ? 'hidden' : ' w-full space-y-6 bg-[#313131] px-3 py-3 rounded-md'}`}>
                 <div className="text-left space-y-4">
-                    <div className="bg-[#313131] rounded-md w-full h-full flex flex-col">
+                    <div className="bg-[#313131] rounded-md w-full relative h-full flex flex-col">
+                        <Link to={'/profile/user'} className="absolute top-0 left-0 p-2 rounded-full bg-GlobalGray text-white ">
+                            <IoIosArrowBack className="text-xl" />
+                        </Link>
                         <div className="flex justify-center gap-2 items-center">
                             {localDat?.paymentMethod && (
                                 <div className="h-8 w-8">
@@ -329,7 +337,7 @@ const ConfirmPay = () => {
                         htmlFor="file-upload"
                         className={`${paymentType === 'withdraw' || imageURL ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
                     >
-                        <span>{ 'Choose a file'}</span>
+                        <span>{'Choose a file'}</span>
                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
                     </label>
                 </div>

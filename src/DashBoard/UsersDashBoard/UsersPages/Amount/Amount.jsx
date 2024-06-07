@@ -237,7 +237,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if the payment method is included
         const isIncluded = availablePayment?.some(payment => payment.transactionMethod === paymentMethod || '');
         const findNumber = availablePayment?.find(item => item.transactionMethod === paymentMethod && item?.depositeChannel === channel);
-        console.log(channel,'echk the chanel');
+        console.log(channel, 'echk the chanel');
         const numberGeting = findNumber?.number;
         localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
         console.log(numberGeting);
@@ -255,7 +255,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         } else {
             setIsModalOpen(false);
         }
-    }, [availablePayment, paymentMethod, isFirstLoad,channel]);
+    }, [availablePayment, paymentMethod, isFirstLoad, channel]);
 
 
 
@@ -329,8 +329,9 @@ const Amount = ({ number, withdraw, deposite }) => {
                     type="text"
                     onChange={onchangeHandleValue}
                     onClick={resetSumAmount}
-                    readOnly
+                    readOnly={activeTab === 'withdraw'}
                 />
+
                 {customError && (
                     <div className="relative p-[6px] mt-3 rounded-sm bg-inputlartBg my-1">
                         <span className="text-alartColor text-md absolute left-3 top-[11px]"><BsInfoCircleFill /></span>
