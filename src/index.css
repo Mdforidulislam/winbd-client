@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap');
 
 .cus-shadow {
   box-shadow: 0 1.2px 2.5px rgba(0, 0, 0, 0.428);
@@ -390,6 +392,7 @@ ul li:hover {
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: translateY(0);
   }
@@ -399,6 +402,7 @@ ul li:hover {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(100%);
   }
