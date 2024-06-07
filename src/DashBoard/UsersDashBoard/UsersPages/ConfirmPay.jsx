@@ -204,7 +204,7 @@ const ConfirmPay = () => {
     };
 
     const handleCopyNumber = () => {
-        navigator.clipboard.writeText('01710101016')
+        navigator.clipboard.writeText(subAdminNumber)
             //due
             //have to make it dynamic
             .then(() => {
