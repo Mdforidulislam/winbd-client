@@ -21,27 +21,25 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, se
     };
 
     return (
-        <div
-            className={`fixed backdrop-blur-sm inset-0 z-50 flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-28 block' : 'translate-y-[800px] hidden'}`}
-        >
-            <div className="w-full h-full bg-GlobalDarkGray rounded-t-2xl ">
-                <div className="relative w-full">
+        <div className={`fixed backdrop-blur-sm bg-black/80 inset-0 z-50 flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-0 block' : 'translate-y-[800px] hidden'}`}>
+            <div className="w-full h-full absolute rounded-t-2xl top-28 bg-GlobalDarkGray ">
+                <div className="relative w-full rounded-t-2xl">
                     {/* Header Part */}
-                    <div className="bg-[#555555] rounded-t-2xl px-2 p-[0.1px]">
+                    <div className="bg-[#555555] px-2 rounded-t-2xl p-[0.1px]">
                         {/* Logo and Title */}
-                        <div className="absolute -mt-11 flex justify-center w-full">
-                            <div className="bg-gray-600 p-2 flex gap-2 rounded-xl">
+                        <div className="absolute -mt-14 flex justify-center items-center w-full">
+                            <div className="bg-GlobalDarkGray items-center px-3 py-2 flex gap-2 rounded-xl">
                                 <img
                                     width={25}
                                     height={25}
                                     src={
                                         paymentMethod === 'bkash' ? 'https://i.ibb.co/C0mhx9D/bkash.png' :
-                                        paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
-                                        paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
+                                            paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
+                                                paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
                                     }
                                     alt="Bkash"
                                 />
-                                <h1 className="text-white font-semibold text-sm">{paymentMethod}</h1>
+                                <h1 className="text-white font-semibold text-sm">{paymentMethod === 'bkash' ? 'bKash' : paymentMethod === 'rocket' ? 'Rocket' : paymentMethod === 'nogod' ? 'Nagad' : paymentMethod === 'upay' ? 'Upay' : paymentMethod === 'surecash' ? 'SureCash' : paymentMethod === 'okwallet' ? 'OKWallet' : paymentMethod}</h1>
                             </div>
                         </div>
 
@@ -92,22 +90,12 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, se
                     {/* Tab Content */}
                     <div className="tab-content px-2">
                         {activeTab === 'tab1' && (
-                            <div
-                                className="transition-all duration-500"
-                                style={{
-                                    transform: 'translateX(0px)',
-                                }}
-                            >
+                            <div className="transition-all duration-500" style={{ transform: 'translateX(0px)', }} >
                                 <ModalProgress showProgress={showProgress} historyModal={historyModal} />
                             </div>
                         )}
                         {activeTab === 'tab2' && (
-                            <div
-                                className="transition-all duration-500"
-                                style={{
-                                    transform: 'translateX(0px)',
-                                }}
-                            >
+                            <div className="transition-all duration-500" style={{ transform: 'translateX(0px)', }}  >
                                 <ModalInfoShow historyModal={historyModal} />
                             </div>
                         )}

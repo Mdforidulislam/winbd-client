@@ -79,7 +79,7 @@ const Drawer = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className={`fixed inset-0 z-50 w-full h-screen bg-black flex flex-col justify-between pb-2 bg-opacity-100 transform transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className={`fixed inset-0 z-50 w-full pb-16 min-h-screen bg-black flex flex-col justify-between bg-opacity-100 transform transition-transform duration-500 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       <div>
         <div className=" ">
           <div className="flex justify-start items-center gap-4 border-b-[0.5px] border-gray-800">

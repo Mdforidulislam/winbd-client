@@ -5,7 +5,7 @@ import { AuthContext } from "../../../../Authentication/Authentication";
 import { useContext, useState } from "react";
 
 const WithDraw = () => {
-  const { userTransationOption} = useContext(AuthContext)
+  const { userTransationOption } = useContext(AuthContext)
   userTransationOption('withdraw')
 
   const [isRotating, setIsRotating] = useState(false);
@@ -20,10 +20,12 @@ const WithDraw = () => {
 
 
   return (
-    <div>
-      <PaymentMethod number={3} />
-      <div className="mt-2">
-        <Amount number={8} withdraw='withdraw' />
+    <div className="min-h-screen flex flex-col">
+      <div className="mt-2 flex-shrink-0">
+        <PaymentMethod number={3} />
+      </div>
+      <div className="mt-2 flex-grow flex">
+        <Amount withdraw='withdraw' />
       </div>
     </div>
   );

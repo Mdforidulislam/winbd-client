@@ -50,46 +50,43 @@ const NewProfile = ({ animation, handleClose }) => {
         setOpenModal(false);
     };
     return (
-        <div className={`fixed overflow-x-hidden inset-0 md:max-w-lg md:mx-auto text-white bg-black w-full ${animation}`}>
-
-            <div className="relative h-40 w-[115%] -ml-6 rounded-b-full overflow-x-hidden">
-                <div onClick={handleClose} className="absolute right-2 -top-5 z-20">
-                    <div className="bg-black rounded-full p-3 pr-8 pt-9">
+        <div className={`fixed overflow-x-hidden flex flex-col items-center justify-start inset-0 md:max-w-lg md:mx-auto text-white bg-black w-full ${animation}`}>
+            <div className="relative h-44 w-[120%] rounded-b-full overflow-x-hidden">
+                <div onClick={handleClose} className="absolute right-5 -top-6 z-20">
+                    <div className="bg-black rounded-full p-4 pr-8 pt-9">
                         <span className="w-full justify-end flex text-lg text-white">
                             <RxCross1 />
                         </span>
                     </div>
                 </div>
-                <div className="flex w-full gap-2 items-center top-8 absolute z-20">
-                    <div className="ml-7">
+                <div className="flex gap-2 absolute left-12 items-center top-8 z-20">
+                    <div className="">
                         <img
-                            className="w-[55px] h-[55px]"
+                            className="w-[65px] h-[65px]"
                             src="https://img.b112j.com/bj/h5/assets/images/vip/bdt/normal.png?v=1715679064603"
                             alt=""
                         />
                     </div>
                     <div className="-mt-2">
-                        <h1 className="text-white text-sm capitalize ml-1 -mb-[4px] text-left">
+                        <h1 className="text-white text-lg capitalize ml-1 -mb-[4px] text-left">
                             {userName}
                         </h1>
-                        <div>
-                            <span className="text-white bg-GlobalDarkGray rounded-full text-[11px] px-[12px] pb-[3px] pt-[2px]">
-                                VIP Points (VP) <span className="text-LightGreen">&#160;***&#160;</span> | My VIP
-                            </span>
-                        </div>
+                        <span className="text-white bg-GlobalDarkGray rounded-full text-[11px] px-[14px] pb-[4px] pt-[4px]">
+                            VIP Points (VP) <span className="text-LightGreen">&#160;***&#160;</span> | My VIP
+                        </span>
                     </div>
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40 to-transparent rounded-b-full z-10"></div>
                 <img
-                    className="absolute scale-105 rounded-b-full -top-5"
+                    className="absolute scale-100 rounded-b-full -top-[37%]"
                     src="https://img.b112j.com/bj/h5/assets/images/member-header-bg.png?v=1715679064603"
                     alt=""
                 />
             </div>
 
-            <div className="absolute h-full top-[110px] w-full px-2.5 z-20">
+            <div className="absolute h-full top-[140px] w-full px-2.5 z-20">
                 {/* wallet section */}
-                <div className="flex justify-between bg-GlobalDarkGray px-2 rounded-sm py-4 mb-2.5 items-center">
+                <div className="flex justify-between bg-GlobalDarkGray px-2 rounded-sm py-6 mb-2.5 items-center">
                     <div className="flex items-center gap-2">
                         <span className="text-[11px] font-medium tracking-wide text-[#7DBFAA]  capitalize">main wallet</span>
                         <span className="text-[14px] font-medium tracking-wide text-[#7DBFAA] "><TfiReload /></span>

@@ -1,15 +1,28 @@
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
     const [userName, setUsername] = useState('');
+    const [redirectUrl, setRedirectUrl] = useState('');
 
     useEffect(() => {
         const userData = localStorage.getItem('userData');
         if (userData) {
             setUsername(JSON.parse(userData).userName);
         }
+    }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('https://sever.win-pay.xyz/getingDynamicallyUrl');
+                setRedirectUrl(res.data.data[0].redirectUrl);
+            } catch (error) {
+                console.error('Error fetching the data:', error);
+            }
+        };
+        fetchData();
     }, []);
 
     return (
@@ -18,9 +31,9 @@ const Nav = () => {
                 <div className="flex justify-between w-full items-center px-4 py-2">
                     <div className="flex items-center gap-2">
                         {/* Left arrow */}
-                        <div className="text-2xl text-white">
+                        <Link to={redirectUrl} className="text-2xl text-white">
                             <MdKeyboardArrowLeft />
-                        </div>
+                        </Link>
                         {/* User's name */}
                         <div>
                             <h1 className="text-white text-sm">{userName}</h1>
