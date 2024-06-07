@@ -11,6 +11,7 @@
     "host": "vite --host"
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.4",
     "@nivo/bar": "^0.86.0",
     "@nivo/core": "^0.86.0",
     "@nivo/line": "^0.86.0",
