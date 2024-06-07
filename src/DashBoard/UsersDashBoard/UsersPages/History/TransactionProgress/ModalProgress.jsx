@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { FaFlag } from "react-icons/fa";
-
 import { GrInProgress } from "react-icons/gr";
 import { GrCompliance } from "react-icons/gr";
+import { FaFlag } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import { FaCheck } from "react-icons/fa";
 
 const ModalProgress = ({ historyModal, showProgress }) => {
     const { amount, date, requestStatus, time, transactionType, statusNote } = historyModal;
-
+    console.log(historyModal?.requestStatus);
     const [showOrder1, setShowOrder1] = useState(false);
     const [showOrder2, setShowOrder2] = useState(false);
     const [showOrder3, setShowOrder3] = useState(false);
@@ -33,32 +34,40 @@ const ModalProgress = ({ historyModal, showProgress }) => {
                 <h1 className="text-white">Transaction Progress</h1>
                 <p className={`px-2 py-[2px] rounded-md text-[12px] ${requestStatus === 'success' ? 'bg-green-600' :
                     requestStatus === 'Approved' ? 'bg-green-600' :
-                        requestStatus === 'Processing' ? 'bg-yellow-500' :
-                            requestStatus === 'Rejected' ? 'bg-red-600' : ''}`}>
+                        requestStatus === 'Processing' ? 'bg-slate-700' :
+                            requestStatus === 'verify' ? 'bg-yellow-600' :
+                                requestStatus === 'Rejected' ? 'bg-HistoryRed' : ''}`}>
                     {requestStatus}
                 </p>
             </div>
             {/* line activities work */}
             <div className="flex w-full gap-6 ">
                 {/* line active bar  */}
-                <div className=" h-[190px] mt-14 ml-3 mr-2 w-1 bg-CustomYellow  justify-items-stretch relative">
-                    <div id="order-4" className={`absolute top-0 ${showOrder4 ? 'animate-scalee' : ''}`}>
-                        <span className="bg-white h-[12px] w-[12px] rounded-full absolute -ml-1 "></span>
-                        <div className={`text-md text-white bg-CustomYellow  p-2 rounded-full border-white border-[3px] -ml-4 -mt-4 ${requestStatus === 'Processing' || requestStatus === 'fail' ? "" : "hidden"}`}>
-                            <span className="animate-spin font-bold bg-white"><FaFlag /></span>
+                <div className={`h-[180px] mt-14 ml-3 mr-2 w-1 ${requestStatus === 'success' ? 'bg-green-600' : requestStatus === 'Approved' ? 'bg-green-600' : requestStatus === 'Processing' ? 'bg-slate-700' : requestStatus === 'verify' ? 'bg-yellow-600' : requestStatus === 'Rejected' ? 'bg-HistoryRed' : ''} justify-items-stretch relative`}>
+                    <div id="order-4" className={`absolute z-10 top-0 ${showOrder4 ? 'animate-scalee' : ''}`}>
+                        <div className={`text-xl ${requestStatus === 'success' ? 'bg-green-600' :
+                            requestStatus === 'Approved' ? 'bg-green-600' :
+                                requestStatus === 'Processing' ? 'bg-slate-700' :
+                                    requestStatus === 'verify' ? 'bg-yellow-600' :
+                                        requestStatus === 'Rejected' ? 'bg-HistoryRed' : ''} text-white w-10 h-10 flex justify-center items-center rounded-full border-white border-[3px] -ml-4 -mt-4`}>
+                            {requestStatus === 'success' ? (
+                                <FaCheck />
+                            ) : requestStatus === 'Approved' ? (
+                                <FaCheck />
+                            ) : requestStatus === 'verify' ? (
+                                <FaFlag />
+                            ) : requestStatus === 'Processing' ? (
+                                <FaFlag />
+                            ) : requestStatus === 'Rejected' ? (
+                                <RxCross2 />
+                            ) : null}
                         </div>
                     </div>
-                    <div className="absolute top-[95px]">
+                    <div className="absolute top-20">
                         <span className="bg-white h-[12px] w-[12px] rounded-full absolute -ml-1 "></span>
-                        <div className={`text-md text-white bg-CustomYellow  p-2 rounded-full border-white border-[3px] -ml-4 -mt-4 ${requestStatus === 'verify' ? "" : "hidden"}`}>
-                            <span className="animate-spin font-bold bg-white"><GrInProgress /></span>
-                        </div>
                     </div>
-                    <div className="absolute bottom-0">
+                    <div className="absolute bottom-3">
                         <span className="bg-white h-[12px] w-[12px] rounded-full absolute -ml-1 "></span>
-                        <div className={`text-md text-white bg-CustomYellow  p-2 rounded-full border-white border-[3px] -ml-4 -mt-4 ${requestStatus === 'Approved' || requestStatus === 'payment' ? "" : "hidden"}`}>
-                            <span className="animate-spin font-bold bg-white"><GrCompliance /></span>
-                        </div>
                     </div>
                 </div>
                 {/* info bar  */}
@@ -69,7 +78,19 @@ const ModalProgress = ({ historyModal, showProgress }) => {
                             <p className="text-[12px] text-white -ml-3 ">{date}</p>
                         </div>
                         <div className={`${showOrder1 ? 'animate-slideIn' : 'hiddenn'} flex justify-between px-2 py-3 rounded-sm bg-[#4D4D4D]`}>
-                            <p className="text-white text-[12px] capitalize">Processing {transactionType}</p>
+                            <p className="text-white text-[12px] capitalize">
+                                {requestStatus === 'success' ? (
+                                    `Withdrawal money successfully transferred.`
+                                ) : requestStatus === 'Approved' ? (
+                                    `${transactionType} has been approved.`
+                                ) : requestStatus === 'verify' ? (
+                                    `${transactionType} is verifying.`
+                                ) : requestStatus === 'Processing' ? (
+                                    `${transactionType} is processing.`
+                                ) : requestStatus === 'Rejected' ? (
+                                    `${transactionType} request rejected.`
+                                ) : null}
+                            </p>
                             <p className="text-white text-[12px]">{time}</p>
                         </div>
                     </div>
