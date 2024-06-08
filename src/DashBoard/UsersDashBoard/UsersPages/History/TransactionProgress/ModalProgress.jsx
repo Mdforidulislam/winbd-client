@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import { FaCheck } from "react-icons/fa";
 
 const ModalProgress = ({ historyModal, showProgress }) => {
-    const { amount, date, requestStatus, time, transactionType, statusNote } = historyModal;
+    const { date, requestStatus, time, transactionType, statusNote } = historyModal;
     console.log(historyModal?.requestStatus);
     const [showOrder1, setShowOrder1] = useState(false);
     const [showOrder2, setShowOrder2] = useState(false);
@@ -82,49 +82,47 @@ const ModalProgress = ({ historyModal, showProgress }) => {
                 </div>
                 {/* info bar  */}
                 <div className="w-full">
-                    {/* first step */}
                     <div className={`mt-5 space-y-1 relative`}>
                         <div>
                             <p className="text-[12px] text-white -ml-3 ">{date}</p>
                         </div>
                         <div className={`${showOrder1 ? 'animate-slideIn' : 'hiddenn'} flex justify-between px-2 py-3 rounded-sm bg-[#4D4D4D]`}>
-                            <p className="text-white text-[12px] capitalize">
-                                {requestStatus === 'success' ? (
-                                    `Withdrawal money successfully transferred.`
-                                ) : requestStatus === 'Approved' ? (
-                                    `${transactionType} has been approved.`
-                                ) : requestStatus === 'verify' ? (
-                                    `${transactionType} is verifying.`
-                                ) : requestStatus === 'Processing' ? (
-                                    `${transactionType} is processing.`
-                                ) : requestStatus === 'Rejected' ? (
-                                    `${transactionType} request rejected.`
-                                ) : null}
-                            </p>
-                            <p className="text-white text-[12px]">{time}</p>
+                            {requestStatus === 'Processing' || requestStatus === 'Rejected' ? (
+                                <p className="text-white text-[12px] capitalize">{statusNote}</p>
+                            ) : (
+                                <p className="text-white/50 text-[12px]">Deposit Information Received.</p>
+                            )}
+                            <p className="text-white/50 text-[12px]">{time}</p>
                         </div>
                     </div>
-                    {/* send step processing */}
                     <div className={`mt-5 space-y-1 relative`}>
                         <div>
                             <p className="text-[12px] text-white -ml-3 ">{date}</p>
                         </div>
                         <div className={`${showOrder2 ? 'animate-slideIn' : 'hiddenn'} flex justify-between px-2 py-3 rounded-sm bg-[#4D4D4D]`}>
-                            <p className="text-white/50 text-[12px] capitalize">{statusNote}</p>
+                            {requestStatus === 'verify' ? (
+                                <p className="text-white text-[12px] capitalize">{statusNote}</p>
+                            ) : (
+                                <p className="text-white/50 text-[12px]">Deposit Information Received.</p>
+                            )}
                             <p className="text-white/50 text-[12px]">{time}</p>
                         </div>
                     </div>
-                    {/* receive data */}
                     <div className={`mt-5 space-y-1 relative`}>
                         <div>
                             <p className="text-[12px] text-white -ml-3 ">{date}</p>
                         </div>
-                        <div className={` ${showOrder3 ? 'animate-slideIn' : 'hiddenn'} flex justify-between px-2 py-3 rounded-sm bg-[#4D4D4D]`}>
-                            <p className="text-white/50 text-[12px] capitalize">{transactionType} initiated</p>
+                        <div className={`${showOrder3 ? 'animate-slideIn' : 'hiddenn'} flex justify-between px-2 py-3 rounded-sm bg-[#4D4D4D]`}>
+                            {requestStatus === 'success' || requestStatus === 'Approved' ? (
+                                <p className="text-white text-[12px] capitalize">{statusNote}</p>
+                            ) : (
+                                <p className="text-white/50 text-[12px]">Deposit Initiated.</p>
+                            )}
                             <p className="text-white/50 text-[12px]">{time}</p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     );
