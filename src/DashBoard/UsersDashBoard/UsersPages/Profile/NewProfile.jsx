@@ -69,8 +69,8 @@ const NewProfile = ({ animation, handleClose }) => {
     const { socialMediaLinks } = fetchedData.data || {};
 console.log(socialMediaLinks);
     return (
-        <div className={`fixed overflow-x-hidden flex flex-col items-center justify-start inset-0 md:max-w-lg md:mx-auto text-white bg-black w-full ${animation}`}>
-            <div className="relative h-44 w-[120%] rounded-b-full overflow-x-hidden">
+        <div className={`fixed overflow-x-hidden flex flex-col items-center justify-start inset-0 md:max-w-[28%] md:overflow-hidden md:mx-auto text-white bg-black w-full ${animation}`}>
+            <div className="relative h-44 w-[120%] md:ml-4 rounded-b-full overflow-x-hidden">
                 <div onClick={handleClose} className="absolute right-5 -top-6 z-20">
                     <div className="bg-black rounded-full p-4 pr-8 pt-9">
                         <span className="w-full justify-end flex text-lg text-white">
