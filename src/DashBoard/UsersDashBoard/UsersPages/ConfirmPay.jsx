@@ -151,7 +151,9 @@ const ConfirmPay = () => {
             try {
                 const insertData = await axios.post('https://sever.win-pay.xyz/insertTransaction', transactionInfo);
                 console.log(insertData.data.message);
-                if (insertData.data.message === 'Transaction inserted successfully') {
+                if (insertData.data.message === 'Transaction ID must be unique.') {
+                    toast.error('Transaction ID must be unique.')
+                } else if (insertData.data.message === 'Transaction inserted successfully') {
                     setShowMassage(insertData.data.message);
                     navigate('/profile/confirm-message');
                 } else if (insertData.data.message === 'An error occurred while inserting transaction') {
