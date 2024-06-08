@@ -67,6 +67,9 @@
     {
         "withdraw": [
             {
+                "amount": 50
+            },
+            {
                 "amount": 100
             },
             {

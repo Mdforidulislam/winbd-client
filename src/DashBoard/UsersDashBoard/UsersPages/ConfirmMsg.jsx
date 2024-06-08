@@ -9,7 +9,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 const ConfirmMsg = () => {
     const [localDat, setLocalData] = useState({}); // set data 
     const [userName, setUserName] = useState('')
-
+    console.log(localDat);
     useEffect(() => {
         const getingSubmInfo = localStorage.getItem('userTransaction');
         const convertParsData = JSON.parse(getingSubmInfo)
@@ -36,7 +36,7 @@ const ConfirmMsg = () => {
             </div>
             <div className='px-4 flex flex-col items-center gap-6 -mt-40'>
                 <p className="font-bengali text-white font-semibold text-[1.118rem] text-center">
-                    অভিনন্দন ! আপনার পেমেন্ট রিকোয়েস্ট {localDat.amount}৳ গ্রহণ করা হয়েছে। যাচাইক্রমে আগামী ৫ মিনিটের মধ্যে আপনার ব্যালেন্স এড হয়ে যাবে।
+                    অভিনন্দন ! আপনার {localDat.type === 'withdraw' ? 'উত্তলন' : 'পেমেন্ট'} রিকোয়েস্ট {localDat.amount}৳ গ্রহণ করা হয়েছে। যাচাইক্রমে আগামী ৫ মিনিটের মধ্যে আপনার একাউন্টে ব্যালেন্স এড হয়ে যাবে।
                 </p>
                 <Link to={'/profile/user'} className="text-center overflow-hidden relative w-32 p-2 h-12 bg-LightGreen text-white border-none rounded-md text-xl font-bold cursor-pointer z-10 group">Close
                     <span className="absolute w-36 h-32 -top-8 -left-2 bg-green-200 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-bottom"></span>
