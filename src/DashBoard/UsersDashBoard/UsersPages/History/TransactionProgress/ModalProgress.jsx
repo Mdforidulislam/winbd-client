@@ -43,8 +43,18 @@ const ModalProgress = ({ historyModal, showProgress }) => {
             {/* line activities work */}
             <div className="flex w-full gap-6 ">
                 {/* line active bar  */}
-                <div className={`h-[180px] mt-14 ml-3 mr-2 w-1 ${requestStatus === 'success' ? 'bg-green-600' : requestStatus === 'Approved' ? 'bg-green-600' : requestStatus === 'Processing' ? 'bg-slate-700' : requestStatus === 'verify' ? 'bg-yellow-600' : requestStatus === 'Rejected' ? 'bg-HistoryRed' : ''} justify-items-stretch relative`}>
-                    <div id="order-4" className={`absolute z-10 top-0 ${showOrder4 ? 'animate-scalee' : ''}`}>
+                <div className={`h-[180px] mt-14 ml-2 mr-2 w-1 ${requestStatus === 'success' ? 'bg-green-600' : requestStatus === 'Approved' ? 'bg-green-600' : requestStatus === 'Processing' ? 'bg-slate-700' : requestStatus === 'verify' ? 'bg-yellow-600' : requestStatus === 'Rejected' ? 'bg-HistoryRed' : ''} justify-items-stretch relative`}>
+                    <div className="absolute top-0">
+                        <span className="bg-white h-[12px] w-[12px] rounded-full absolute -ml-1 "></span>
+                    </div>
+                    <div id="order-4" className={`absolute z-10 
+                    ${requestStatus === 'success' ? '-bottom-3.5' :
+                            requestStatus === 'Approved' ? '-bottom-3.5' :
+                                requestStatus === 'Processing' ? 'top-0' :
+                                    requestStatus === 'verify' ? 'top-1/2' :
+                                        requestStatus === 'Rejected' ? 'top-0' : ''}
+                    
+                    ${showOrder4 ? 'animate-scalee' : ''}`}>
                         <div className={`text-xl ${requestStatus === 'success' ? 'bg-green-600' :
                             requestStatus === 'Approved' ? 'bg-green-600' :
                                 requestStatus === 'Processing' ? 'bg-slate-700' :
@@ -100,7 +110,7 @@ const ModalProgress = ({ historyModal, showProgress }) => {
                             <p className="text-[12px] text-white -ml-3 ">{date}</p>
                         </div>
                         <div className={`${showOrder2 ? 'animate-slideIn' : 'hiddenn'} flex justify-between px-2 py-3 rounded-sm bg-[#4D4D4D]`}>
-                            <p className="text-white/50 text-[12px] capitalize">{transactionType} information Received</p>
+                            <p className="text-white/50 text-[12px] capitalize">{statusNote}</p>
                             <p className="text-white/50 text-[12px]">{time}</p>
                         </div>
                     </div>
@@ -115,10 +125,6 @@ const ModalProgress = ({ historyModal, showProgress }) => {
                         </div>
                     </div>
                 </div>
-            </div>
-            {/* note section */}
-            <div className="mt-3 ">
-                <h1 className="text-white text-[12px] font-thin">Note: {statusNote}</h1>
             </div>
         </div>
     );
