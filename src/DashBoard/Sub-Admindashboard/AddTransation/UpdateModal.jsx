@@ -73,6 +73,7 @@ const UpdateModal = ({ setNewNote, setOpenModal, openModal, data }) => {
                                     className="w-full py-2 px-3 rounded-sm bg-GlobalGray focus:outline-none" placeholder="Start title.."
                                 />
                             </div>
+                            {/* list item here */}
                             <div className="">
                                 {
                                     formData.list.map((item, index) => (
@@ -83,6 +84,9 @@ const UpdateModal = ({ setNewNote, setOpenModal, openModal, data }) => {
                                                 value={item}
                                                 onChange={(e) => handleListChange(index, e.target.value)}
                                                 className="w-full py-2 px-3 rounded-sm bg-GlobalGray focus:outline-none" placeholder="List item.." />
+                                            
+                                            {/* remove button here */}
+                                            
                                             <button
                                                 type="button"
                                                 onClick={() => removeListItem(index)}
@@ -94,6 +98,7 @@ const UpdateModal = ({ setNewNote, setOpenModal, openModal, data }) => {
                                     ))
                                 }
                             </div>
+                            {/* list item add button here  */}
                             <div className="flex justify-center my-2 mb-3">
                                 <button
                                     type="button" // Ensure this button does not submit the form
@@ -103,6 +108,7 @@ const UpdateModal = ({ setNewNote, setOpenModal, openModal, data }) => {
                                     Add <IoMdAdd />
                                 </button>
                             </div>
+                            {/* last remainder title here */}
                             <div className="mb-4">
                                 <input
                                     type="text"
@@ -112,6 +118,7 @@ const UpdateModal = ({ setNewNote, setOpenModal, openModal, data }) => {
                                     className="w-full py-2 px-3 rounded-sm bg-GlobalGray focus:outline-none" placeholder="End title.."
                                 />
                             </div>
+                            {/* note done or save button */}
                             <button
                                 onClick={handleSubmit}
                                 className="w-full bg-[#17936C] text-white py-2 px-4 rounded-lg hover:bg-[#127354] transition duration-200"

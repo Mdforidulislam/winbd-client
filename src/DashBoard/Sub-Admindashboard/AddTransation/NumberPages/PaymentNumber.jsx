@@ -86,8 +86,6 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         try {
             const { data: res } = await axios.patch('https://sever.win-pay.xyz/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
-                const updatedActiveID = [...(JSON.parse(localStorage.getItem("activeId")) || []), newId.id];
-                localStorage.setItem("activeId", JSON.stringify(updatedActiveID));
                 toast.success(res.message);
             }
         } catch (error) {
@@ -109,7 +107,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
                                 <input
                                     className="w-full py-2 px-3 text-sm rounded bg-GlobalDarkGray focus:outline-none"
                                     name="number"
-                                    defaultValue={`0${data?.number}`}
+                                    defaultValue={`${data?.number}`}
                                     type="text"
                                     placeholder="Phone Number"
                                 />

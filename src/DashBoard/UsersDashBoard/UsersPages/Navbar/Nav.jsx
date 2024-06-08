@@ -2,6 +2,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Nav = () => {
     const [userName, setUsername] = useState('');
