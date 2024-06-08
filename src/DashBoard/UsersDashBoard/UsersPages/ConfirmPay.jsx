@@ -10,6 +10,7 @@ import rocket from '../../../../public/rocket.jpg';
 import two from '../../../../public/two.png';
 import { IoIosArrowBack } from "react-icons/io";
 import { AuthContext } from "../../../Authentication/Authentication";
+import Loader from "../../../Components/Loader/Loader";
 
 const ConfirmPay = () => {
     const initialTime = 5 * 60; // 5 minutes in seconds
@@ -32,7 +33,7 @@ const ConfirmPay = () => {
     const [promotionTitle, setPromotionTitle] = useState(''); // set the promotion title  here 
     const { activeTab } = useContext(AuthContext)
     const navigate = useNavigate();
-
+    const [isUploading, setIsUploading] = useState(false);
     // ================== Timer calculation =====================
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -55,8 +56,8 @@ const ConfirmPay = () => {
         setSecond(seconds);
     }, [timeRemaining]);
 
-    console.log(minute);
-    console.log(second);
+    // console.log(minute);
+    // console.log(second);
 
 
 
@@ -107,7 +108,7 @@ const ConfirmPay = () => {
         if (file) {
             const formData = new FormData();
             formData.append('image', file);
-
+            setIsUploading(true);
             try {
                 // Upload image to imgbb
                 const responseImg = await axios.post('https://api.imgbb.com/1/upload', formData, {
@@ -120,7 +121,8 @@ const ConfirmPay = () => {
                 });
                 const imgURL = responseImg.data.data.url;
                 setImageURL(imgURL); // Update the state with the image URL
-
+                // Set isUploading to false when the upload completes
+                setIsUploading(false);
             } catch (error) {
                 console.error('Error uploading image:', error.message);
             }
@@ -148,15 +150,15 @@ const ConfirmPay = () => {
         if (transactionInfo) {
             try {
                 const insertData = await axios.post('https://sever.win-pay.xyz/insertTransaction', transactionInfo);
-                console.log(insertData);
+                console.log(insertData.data.message);
                 if (insertData.data.message === 'Transaction inserted successfully') {
                     setShowMassage(insertData.data.message);
                     navigate('/profile/confirm-message');
-                } else if (insertData.data.message === 'transaction already exists') {
+                } else if (insertData.data.message === 'An error occurred while inserting transaction') {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Transaction already exists!',
+                        text: 'Transaction id already exists!',
                     });
                 }
                 if (insertData.data.message === "Transaction already exists") {
@@ -283,15 +285,16 @@ const ConfirmPay = () => {
                     অপ্রত্যাশিত লেনদেন বিষয়ক সমস্যাগুলি এড়াতে অনুগ্রহ করে সমস্ত বিবরণ পুনরায় যাচাই করুন এবং নিশ্চিত করুন।                </div>
                 {/*userNumber here  */}
                 <div className={`${paymentType === 'withdraw' ? 'hidden ' : ''} flex gap-2 my-4  items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
-                    <label htmlFor="" className="text-sm pt-[0.8px] leading-[1rem] text-DarkGreen">+880</label>
+                    <label htmlFor="" className="text-sm pt-[0.8px] leading-[1rem] text-DarkGreen">+88</label>
                     <div className="w-full">
                         <input
-                            className={`w-full items-center pl-2 bg-[#272727] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen`}
+                            className={`w-full items-center bg-[#272727] text-sm focus:outline-none placeholder:text-gray-100/50 placeholder:font-normal placeholder:text-sm text-DarkGreen`}
                             type="text"
                             onChange={(e) => setPhoneValue(e.target.value)}
                             defaultValue={userNumber}
                             placeholder="Phone Number"
                             readOnly={paymentType === 'withdraw'}
+                            required
                         />
                     </div>
                 </div>
@@ -301,7 +304,7 @@ const ConfirmPay = () => {
                         <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
                         <div className="absolute top-12 -right-12 z-10 w-24 h-24 rounded-full scale-150 opacity-50 duration-500 bg-emerald-700"></div>
                         <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
-                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +880 {userNumber}</p>
+                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +88 {userNumber}</p>
                     </button>
                 </div>
 
@@ -314,37 +317,55 @@ const ConfirmPay = () => {
                             type="text"
                             onChange={(e) => setTransactionValue(e.target.value)}
                             placeholder="Reference No/ transaction ID"
+                            required
                         />
                     </div>
                 </div>
 
                 {/* image filed here */}
-
-                <div className="w-full my-4">
-                    {imageURL ? (
-                        <div className="w-full flex justify-center ">
-                            <img src={imageURL} alt="Selected" className=" object-contain w-2/5 h-[150px] " />
-                        </div>
+                {
+                    isUploading ? (
+                        <Loader />
                     ) : (
-                        <input
-                            type="file"
-                            id="file-upload"
-                            onChange={handleImageChange}
-                            className="hidden"
-                        />
-                    )}
-                    <label
-                        htmlFor="file-upload"
-                        className={`${paymentType === 'withdraw' || imageURL ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
-                    >
-                        <span>{'Choose a file'}</span>
-                        <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
-                    </label>
-                </div>
+                        <div className="w-full my-4">
+                            {imageURL ? (
+                                <div className="w-full flex justify-center">
+                                    <img
+                                        src={imageURL}
+                                        alt="Selected"
+                                        className="object-contain w-2/5 h-[150px]"
+                                    />
+                                </div>
+                            ) : (
+                                <>
+                                    <input
+                                        type="file"
+                                        id="file-upload"
+                                        onChange={handleImageChange}
+                                        className="hidden"
+                                    />
+                                    <label
+                                        htmlFor="file-upload"
+                                        className={`${paymentType === 'withdraw' || imageURL ? "hidden" : ""} w-full py-2 px-3 bg-[#272727] focus:outline-none rounded-md text-white cursor-pointer flex justify-between items-center`}
+                                    >
+                                        <span>{'Choose a file'}</span>
+                                        <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
+                                    </label>
+                                </>
+                            )}
+                        </div>
+                    )
+                }
+
+
             </div>
 
-            <button onClick={handleSubmiteInsert} disabled={showMassage === 'Transaction inserted successfully'} className={`bg-[#19A277] hover:bg-green-700 text-white font-semibold py-2 px-4 rounded w-full`}>
-                Confirm <span className="capitalize">{localDat?.type}</span>
+            <button
+                onClick={handleSubmiteInsert}
+                disabled={!transactionValue || isUploading}
+                className={`w-full px-4 py-2 rounded-md ${!transactionValue || isUploading ? 'bg-green-700 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 cursor-pointer'}`}
+            >
+                Submit
             </button>
         </div >
     );
