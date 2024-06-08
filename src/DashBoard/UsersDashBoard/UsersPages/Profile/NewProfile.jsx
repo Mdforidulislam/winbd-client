@@ -6,49 +6,68 @@ import { TfiReload } from "react-icons/tfi";
 import { AiTwotoneEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Title from "../../../../Components/Titile/Title";
+
 const NewProfile = ({ animation, handleClose }) => {
-    const [fetchedData, setFetchedData] = useState({});
     const [userName, setUserName] = useState('');
-    const { role, setRole, setrediectionDW, setActiveTab } = useContext(AuthContext);
+    const [localData, setLocalData] = useState({});
+    const [fetchedData, setFetchedData] = useState({});
+    const [emailData, setEmailData] = useState(null);
+    const { setRole, setActiveTab } = useContext(AuthContext);
+
+    useEffect(() => {
+        const getingAuthrId = localStorage.getItem('registerAuthrId');
+        if (getingAuthrId) {
+            const convertParsData = JSON.parse(getingAuthrId);
+            setLocalData(convertParsData);
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://sever.win-pay.xyz/getinPassordContact?authorId=user123');
-                //due
-                //have to set authorId dnamically
-                //need to check the links are the one for here or not
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                if (localData) {
+                    const [socialResponse, emailResponse] = await Promise.all([
+                        fetch(`https://sever.win-pay.xyz/getinPassordContact?authorId=${localData}`),
+                        fetch(`https://sever.win-pay.xyz/getingSubAdminEmail?authoreId=${localData}`)
+                    ]);
+
+                    const socialData = await socialResponse.json();
+                    const emailData = await emailResponse.json();
+
+                    setFetchedData(socialData);
+                    setEmailData(emailData.getngEmail.email);
+
+                    console.log('Fetched Social Data:', socialData);
+                    console.log('Fetched Email Data:', emailData.getngEmail.email);
+                } else {
+                    console.log('No authorId found in localData:', localData); // Debug log
                 }
-                const data = await response.json();
-                setFetchedData(data);
-                console.log(data);
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
         };
 
         fetchData();
-    }, []);
-
-    const { socialMediaLinks } = fetchedData.data || {};
-
-
-    const handleLogOutAction = () => {
-        localStorage.removeItem('userData');
-        setRole(undefined);
-    };
+    }, [localData]);
 
     useEffect(() => {
         const userName = JSON.parse(localStorage.getItem('userData'))?.userName;
         setUserName(userName);
     }, []);
 
+    const handleLogOutAction = () => {
+        localStorage.removeItem('userData');
+        setRole(undefined);
+        console.log('User logged out, role cleared.'); // Debug log
+    };
+
     const handleChange = (value) => {
         setActiveTab(value);
-        setOpenModal(false);
+        console.log('Tab changed to:', value); // Debug log
     };
+
+    const { socialMediaLinks } = fetchedData.data || {};
+console.log(socialMediaLinks);
     return (
         <div className={`fixed overflow-x-hidden flex flex-col items-center justify-start inset-0 md:max-w-lg md:mx-auto text-white bg-black w-full ${animation}`}>
             <div className="relative h-44 w-[120%] rounded-b-full overflow-x-hidden">
@@ -184,9 +203,12 @@ const NewProfile = ({ animation, handleClose }) => {
                         {/* //due
                         //have to set email */}
                         <div className="flex flex-col items-center justify-center">
-                            <img width={35} src="https://img.b112j.com/bj/h5/assets/images/icon-set/theme-icon/icon-email.png?v=1715679064603" alt="" />
+                            <a href={`mailto:${emailData}?subject=Support Request&body=Hello, I need assistance with...`} target="_blank" rel="noopener noreferrer">
+                                <img width={35} src="https://img.b112j.com/bj/h5/assets/images/icon-set/theme-icon/icon-email.png?v=1715679064603" alt="Email" />
+                            </a>
                             <h1 className="text-white text-[12px]">Email</h1>
                         </div>
+
                         {/* Inbox */}
                         <Link to={`${socialMediaLinks?.facebook?.link}`} className="flex flex-col items-center justify-center">
                             <img width={35} src="https://img.b112j.com/bj/h5/assets/images/icon-set/theme-icon/icon-facebook-messenger.png?v=1715679064603" alt="" />

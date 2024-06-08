@@ -11,6 +11,7 @@ import two from '../../../../public/two.png';
 import { IoIosArrowBack } from "react-icons/io";
 import { AuthContext } from "../../../Authentication/Authentication";
 import Loader from "../../../Components/Loader/Loader";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 const ConfirmPay = () => {
     const initialTime = 5 * 60; // 5 minutes in seconds
@@ -34,6 +35,8 @@ const ConfirmPay = () => {
     const { activeTab } = useContext(AuthContext)
     const navigate = useNavigate();
     const [isUploading, setIsUploading] = useState(false);
+    const [isTransactionValueError, setIsTransactionValueError] = useState(false); // new state for transaction value error
+
     // ================== Timer calculation =====================
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -55,11 +58,6 @@ const ConfirmPay = () => {
         setMinute(minutes);
         setSecond(seconds);
     }, [timeRemaining]);
-
-    // console.log(minute);
-    // console.log(second);
-
-
 
     // BD time Function here
     useEffect(() => {
@@ -90,8 +88,6 @@ const ConfirmPay = () => {
             setPromotionTitle(promoTitle);
         }
     }, []);
-
-
 
     // Access the data here all the API or object 
     const author = localUser?.authorId;
@@ -130,6 +126,11 @@ const ConfirmPay = () => {
     };
 
     const handleSubmiteInsert = async () => {
+
+        if (activeTab === 'deposit' && !transactionValue) {
+            setIsTransactionValueError(true);
+            return;
+        }
         const transactionInfo = {
             userName: userName,
             transactionId: transactionValue || "",
@@ -141,7 +142,6 @@ const ConfirmPay = () => {
             authorId: author,
             transactionImage: imageURL ? imageURL : 'input author',
             offers: [{ title: promotionTitle ? promotionTitle : '', }],
-
         };
 
         console.log(transactionInfo);
@@ -209,11 +209,9 @@ const ConfirmPay = () => {
 
     const handleCopyNumber = () => {
         navigator.clipboard.writeText(subAdminNumber)
-            //due
-            //have to make it dynamic
             .then(() => {
                 setIsCopiedNumber(true);
-                toast.success('Number copied');
+                toast.success('Number copied!');
                 setTimeout(() => {
                     setIsCopiedNumber(false);
                 }, 2000);
@@ -283,7 +281,24 @@ const ConfirmPay = () => {
 
                 <div className={`${paymentType === 'withdraw' ? 'text-white text-center font-bengali' : 'hidden'}`}>
                     অপ্রত্যাশিত লেনদেন বিষয়ক সমস্যাগুলি এড়াতে অনুগ্রহ করে সমস্ত বিবরণ পুনরায় যাচাই করুন এবং নিশ্চিত করুন।                </div>
-                {/*userNumber here  */}
+                <div className={`${paymentType === 'withdraw' ? 'w-full mt-10 mb-4' : 'hidden'} flex justify-between gap-3`}>
+                    <button className="relative cursor-pointer p-1.5 text-white overflow-hidden w-14 h-11 rounded-md flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
+                        <div className="h-full w-full">
+                            <img
+                                src={
+                                    localDat.paymentMethod === 'bkash' ? 'https://i.ibb.co/C0mhx9D/bkash.png' :
+                                        localDat.paymentMethod === 'nogod' ? 'https://i.ibb.co/qxbhZVX/nagad.png' :
+                                            localDat.paymentMethod === 'rocket' ? 'https://i.ibb.co/q0t3nTP/rocket.jpg' : ''
+                                }
+                                alt=""
+                                className="h-full w-full object-contain"
+                            />
+                        </div>
+                    </button>
+                    <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
+                        <p className="z-10 flex justify-center text-lg font-medium items-center gap-4">Amount : {localDat?.amount}</p>
+                    </button>
+                </div>
                 <div className={`${paymentType === 'withdraw' ? 'hidden ' : ''} flex gap-2 my-4  items-center relative w-full py-2 pb-3 px-3 bg-[#272727] focus:outline-none rounded-md text-white`}>
                     <label htmlFor="" className="text-sm pt-[0.8px] leading-[1rem] text-DarkGreen">+88</label>
                     <div className="w-full">
@@ -298,13 +313,13 @@ const ConfirmPay = () => {
                         />
                     </div>
                 </div>
-                <div className={`${paymentType === 'withdraw' ? 'mt-10 w-full' : 'hidden'}`}>
+                <div className={`${paymentType === 'withdraw' ? 'w-full' : 'hidden'}`}>
                     <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">
                         <div className="absolute top-12 -right-12 z-10 w-40 h-40 rounded-full scale-150 opacity-50 duration-500 bg-emerald-950"></div>
                         <div className="absolute top-12 -right-12 z-10 w-32 h-32 rounded-full scale-150 opacity-50 duration-500 bg-emerald-800"></div>
                         <div className="absolute top-12 -right-12 z-10 w-24 h-24 rounded-full scale-150 opacity-50 duration-500 bg-emerald-700"></div>
                         <div className="absolute top-12 -right-12 z-10 w-14 h-14 rounded-full scale-150 opacity-50 duration-500 bg-emerald-600"></div>
-                        <p className="z-10 flex justify-center items-center gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +88 {userNumber}</p>
+                        <p className="z-10 flex justify-center items-center text-lg font-medium gap-4"><FaCheckCircle className="text-green-500 text-lg" /> +88 {userNumber}</p>
                     </button>
                 </div>
 
@@ -321,6 +336,12 @@ const ConfirmPay = () => {
                         />
                     </div>
                 </div>
+                {isTransactionValueError &&
+                    <div className={`${paymentType === 'withdraw' ? "hidden" : "w-full rounded-md relative p-[6px] mt-1 bg-inputlartBg my-1"}`}>
+                        <span className="text-alartColor text-md absolute left-3 top-[9px]"><BsInfoCircleFill /></span>
+                        <p className="text-alartColor text-sm mb-1 pt-[1px] ml-8">Transaction id is required</p>
+                    </div>
+                }
 
                 {/* image filed here */}
                 {
@@ -352,21 +373,43 @@ const ConfirmPay = () => {
                                         <span className="ml-2 bg-[#373737] px-3 py-1 rounded">Browse</span>
                                     </label>
                                 </>
-                            )}
-                        </div>
+                            )
+                            }
+                        </div >
                     )
                 }
 
 
-            </div>
+            </div >
 
-            <button
+            {/* <button
                 onClick={handleSubmiteInsert}
-                disabled={!transactionValue || isUploading}
+
                 className={`w-full px-4 py-2 rounded-md ${!transactionValue || isUploading ? 'bg-green-700 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 cursor-pointer'}`}
             >
                 Submit
-            </button>
+            </button> */}
+            < button
+                onClick={handleSubmiteInsert}
+                // Conditional disabling for "deposit" tab
+                className={`relative w-full duration-500 group overflow-hidden h-14 rounded-md p-2 flex justify-center items-center font-extrabold text-sky-50
+        ${activeTab === "deposit" && (isUploading)
+                        ? "cursor-not-allowed opacity-50 bg-emerald-700" // Disabled state styles
+                        : "hover:border-green-600 bg-emerald-800 cursor-pointer" // Enabled state styles
+                    }`
+                }
+            >
+                <div className="absolute z-10 w-80 h-48 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-800 delay-150 group-hover:delay-75"></div>
+                <div className="absolute z-10 w-64 h-40 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-700 delay-150 group-hover:delay-100"></div>
+                <div className="absolute z-10 w-48 h-32 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-600 delay-150 group-hover:delay-150"></div>
+                <div className="absolute z-10 w-32 h-24 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-500 delay-150 group-hover:delay-200"></div>
+                <div className="absolute z-10 w-20 h-16 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-400 delay-150 group-hover:delay-300"></div>
+                <p className="z-10">Confirm</p>
+            </button >
+
+
+
+
         </div >
     );
 };

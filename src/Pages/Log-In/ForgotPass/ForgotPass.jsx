@@ -11,11 +11,18 @@ import Facebook from "../../../DashBoard/UsersDashBoard/Facebook";
 
 const ForgotPass = () => {
     const [fetchedData, setFetchedData] = useState({});
+    const [localDat, setLocalData] = useState({});
+    console.log(localDat);
+    useEffect(() => {
+        const getingAuthrId = localStorage.getItem('registerAuthrId');
+        const convertParsData = JSON.parse(getingAuthrId)
+        setLocalData(convertParsData);
+    }, [])
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://sever.win-pay.xyz/getinPassordContact?authorId=user123');
+                const response = await fetch(`https://sever.win-pay.xyz/getinPassordContact?authorId=${localDat}`);
                 //due
                 //have to set authorId dnamically
                 if (!response.ok) {
@@ -33,6 +40,7 @@ const ForgotPass = () => {
     }, []);
 
     const { socialMediaLinks } = fetchedData.data || {};
+    console.log(socialMediaLinks);
     return (
         <div className=" w-full flex min-h-screen bg-[#171717]">
             <div className="h-full w-full flex justify-center items-center md:items-start md:min-h-screen ">
@@ -72,7 +80,10 @@ const ForgotPass = () => {
                                 </Link>
                             </li>
                             <li>
-                                <PiTelegramLogoLight />
+                                <Link to={`${socialMediaLinks?.teligram?.link}`} target="_blank" rel="noopener noreferrer">
+                                    <PiTelegramLogoLight />
+                                </Link>
+
                             </li>
                         </ul>
                     </div>

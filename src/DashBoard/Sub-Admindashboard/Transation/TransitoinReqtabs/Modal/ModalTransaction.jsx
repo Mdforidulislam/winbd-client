@@ -267,7 +267,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                     onChange={handleChange}
                   />
                   <div className="flex gap-3">
-                    <button className="bg-green-600 hover:bg-green-700 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Confirm")}>Confirm</button>
+                    <button className="bg-green-600 hover:bg-green-700 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("success")}>Confirm</button>
                     <button className="bg-orange-500 hover:bg-red-600 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("verify")}>Verify</button>
                     <button className="bg-red-600 hover:bg-red-700 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Rejected")}>Reject</button>
                   </div>
