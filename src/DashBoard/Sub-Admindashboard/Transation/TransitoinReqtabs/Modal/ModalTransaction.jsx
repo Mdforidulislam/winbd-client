@@ -186,22 +186,24 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
 
               </div>
             </div>
+            {
+              (item?.transactionType === 'deposite' || item?.requestStatus === 'verify') && (
+                <div className="w-full relative bg-GlobalGray p-2 rounded-sm flex justify-between text-[10px] text-white md:text-sm">
+                  <div className="absolute left-0 top-[65%] w-full h-[1px] bg-DarkGreen bg-opacity-40"></div>
+                  <div className="flex flex-col gap-1 items-start">
+                    <p>Main Amount</p>
+                    <p>Offer Amount</p>
+                    <p>Total Amount</p>
+                  </div>
+                  <div className="flex flex-col text-DarkGreen gap-1 items-end">
+                    <p>{item.amount}</p>
+                    <p>+ {item.offerAmount ? item.offerAmount : 0}</p>
+                    <p>{item.amount + (item.offerAmount ? item.offerAmount : 0)}</p>
+                  </div>
 
-            <div className="w-full relative bg-GlobalGray p-2 rounded-sm flex justify-between text-[10px] text-white md:text-sm">
-              <div className="absolute left-0 top-[65%] w-full h-[1px] bg-DarkGreen bg-opacity-40"></div>
-              <div className="flex flex-col gap-1 items-start">
-                <p>Main Amount</p>
-                <p>Offer Amount</p>
-                <p>Total Amount</p>
-              </div>
-              <div className="flex flex-col text-DarkGreen gap-1 items-end">
-                <p>{item.amount}</p>
-                <p>+ {item.offerAmount ? item.offerAmount : 0}</p>
-                <p>{item.amount + (item.offerAmount ? item.offerAmount : 0)}</p>
-              </div>
-
-            </div>
-
+                </div>
+              )
+            }
 
             <div className="w-full flex justify-between text-[10px] p-2 text-white md:text-sm">
               {item?.transactionType === 'deposite' ? (
@@ -228,7 +230,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                   ) : (
                     <div>No data available</div>
                   )}
-                  <div>{item?.newTurnover}</div>
+                  <div>{item.amount + (item.offerAmount ? item.offerAmount : 0)}</div>
                 </div>
               ) : (
                 <div className="flex flex-col items-end">
@@ -247,16 +249,15 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                 />
                 <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="text-[12px] w-full py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="remark" id="remark"></textarea>
               </div>
-              {activeTab === 'deposite' ? (
+              {!item.requestStatus && item.transactionType === 'deposite' ? (
                 <div className="w-full flex justify-between gap-5 px-1">
                   <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
                   <button type="submit" onClick={() => setStatus("verify")} className="bg-orange-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
                   <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
                 </div>
-              ) : activeTab === 'verify' ? (<div className="w-full flex justify-between gap-5 px-1">
-                <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
-                <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
-              </div>) : (
+              ) : null
+              }
+              {!item.requestStatus && item.transactionType === 'withdraw' ? (
                 <div className="w-full">
                   <input
                     className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none text-[12px]"
@@ -272,7 +273,16 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                     <button className="bg-red-600 hover:bg-red-700 transition duration-200 md:px-8 pb-0.5 md:py-3 text-white rounded-md w-full" type="submit" onClick={() => setStatus("Rejected")}>Reject</button>
                   </div>
                 </div>
-              )}
+              ) : null
+              }
+              {item.requestStatus === 'verify' ? (
+                <div className="w-full flex justify-between gap-5 px-1">
+                  <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
+                  <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
+                </div>
+              ) : null
+              }
+
             </form>
           </div>
         </div>
@@ -296,3 +306,5 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
 };
 
 export default ModalTransaction;
+
+
