@@ -20,11 +20,13 @@ const DepositeTable = () => {
     }, [reload]);
 
 
+    console.log(localData)
+
     // 
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['QueryDataDeposite'],
         queryFn: () =>
-            fetch(`http://localhost:5000/transactionReqDopsite?authurId=${localData}`).then((res) =>
+            fetch(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`).then((res) =>
                 res.json(),
             ),
         refetchInterval: 2000, // Refresh every 2 seconds
@@ -80,7 +82,7 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            {openModal && <ModalTransaction setOpenModal={setOpenModal} activeTab={activeTab} openModal={openModal} item={dataList} />}
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} activeTab={activeTab} openModal={openModal} item={dataList} data={data} />}
         </div>
     );
 };

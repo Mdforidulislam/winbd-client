@@ -25,7 +25,7 @@ const Verify = () => {
 
         queryKey: ['QueryDataDeposite', authoreId],
         queryFn: () =>
-            fetch(`http://localhost:5000/getingVerifydata?authoreId=${authoreId}`).then((res) =>
+            fetch(`https://sever.win-pay.xyz/getingVerifydata?authoreId=${authoreId}`).then((res) =>
                 res.json(),
             ),
         refetchInterval: 2000, // Refresh every 5 seconds

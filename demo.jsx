@@ -23,7 +23,7 @@ const AllUsers = () => {
 
     const userDataget = async () => {
         try {
-            const userSearch = await axios(`http://localhost:5000/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
+            const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
             const getuserData = userSearch?.data?.queryUserInfo;
             setStoreData(getuserData);
             setLoading(false);

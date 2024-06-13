@@ -31,7 +31,7 @@ const History = () => {
     //     if (!localData) return;
 
     //     setLoading(true);
-    //     let url = `http://localhost:5000/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+    //     let url = `https://sever.win-pay.xyz/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
     //     if (selectedDate) {
     //         url += `&date=${selectedDate.toISOString().split('T')[0]}`;
     //     }
@@ -79,7 +79,7 @@ const History = () => {
             if (!localData) return;
 
             setLoading(true);
-            let url = `http://localhost:5000/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+            let url = `https://sever.win-pay.xyz/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
     
             if (selectedDate) {
                 url += `&date=${selectedDate.toISOString().split('T')[0]}`;
@@ -106,6 +106,8 @@ const History = () => {
     const handleDateButtonClick = () => {
         setShowDatePicker(!showDatePicker);
     };
+
+    console.log(storeData);
 
     return (
         <div className="">
@@ -140,6 +142,7 @@ const History = () => {
                             <th className="md:py-3 py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500">Name</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 md:pl-5 pl-2 text-[12px] md:text-lg text-left border-b border-gray-500 ">Number</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 pl-8 text-[12px] md:text-lg text-left border-b border-gray-500 ">Date & Time</th>
+                            <th className="md:py-3 py-1 px-2 md:px-6 pl-8 text-[12px] md:text-lg text-left border-b border-gray-500 ">Status</th>
                             <th className="md:py-3 py-1 px-2 md:px-6 pl-7 text-[12px] md:text-lg text-left border-b border-gray-500 ">TrxId</th>
                             <th className="md:py-3 md:rounded-tr-md py-1 px-2 md:px-6 text-[12px] md:text-lg text-left border-b border-gray-500 ">Amount</th>
                         </tr>
@@ -167,8 +170,10 @@ const History = () => {
                                         />
                                     </td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-7 pl-2 border-b border-gray-700">{item?.userName}</td>
-                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 border-b border-gray-700">{item?.number}</td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 border-b border-gray-700">{item?.userNumber}</td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.date} {item?.time}</td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.requestStatus}</td>
+                                    
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.transactionId}</td>
                                     <td className="py-3 md:py-4 text-[13px] md:pl-10 pl-4 cursor-pointer md:px-6 border-b border-gray-700 ">{item?.amount}</td>
                                 </tr>

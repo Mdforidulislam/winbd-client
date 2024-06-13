@@ -16,7 +16,7 @@ const DepositeTable = () => {
     const { isLoading, data: serverData } = useQuery({
         queryKey: ['transactionReqWith', localData],
         queryFn: async () => {
-            const response = await fetch(`http://localhost:5000/transactionReqWith?authurId=${localData}`);
+            const response = await fetch(`https://sever.win-pay.xyz/transactionReqWith?authurId=${localData}`);
             return response.json();
         },
         refetchInterval: 2000, // Refresh every 5 seconds
@@ -68,7 +68,7 @@ const DepositeTable = () => {
                                         />
                                     </td>
                                     <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 pl-4 border-b border-gray-700">{item?.userName}</td>
-                                    <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 border-b border-gray-700">{item?.TimeDay}</td>
+                                    <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-7 border-b border-gray-700">{item?.todayTime}</td>
                                     <td className="py-2 text-[12px] md:text-sm px-3 md:px-6 md:pl-12 pl-5 border-b border-gray-700">{item?.amount}</td>
                                     <td className="py-2 text-[12px] md:text-sm pl-8 cursor-pointer px-6 border-b border-gray-700 text-LightGreen hidden md:table-cell ">Action</td>
                                 </tr>
@@ -78,7 +78,7 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} />}
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} data={serverData} />}
         </div>
     );
 };

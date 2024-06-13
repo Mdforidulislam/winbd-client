@@ -4,11 +4,12 @@ import { IoCloseSharp } from "react-icons/io5";
 import bkash from '../../../../../../public/bkash.png';
 import nagad from '../../../../../../public/nagad.png';
 import rocket from '../../../../../../public/rocket.jpg';
-import { useState } from "react";
+import React, { useState } from "react";
 import { FaCheck, FaRegCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { AiOutlineDelete } from "react-icons/ai";
 
-const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
+const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => {
   const [status, setStatus] = useState(null);
   const [isCopiedUsername, setIsCopiedUsername] = useState(false);
   const [transactionId, setTransactionId] = useState('');
@@ -30,7 +31,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
 
     try {
       let response;
-      const transactionFeedbackUrl = `http://localhost:5000/transactionFeedback?id=${item?._id}`;
+      const transactionFeedbackUrl = `https://sever.win-pay.xyz/transactionFeedback?id=${item?._id}`;
       const params = new URLSearchParams();
       params.append('note', note);
 
@@ -91,6 +92,17 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
     setShowTransactionImageModal(!showTransactionImageModal);
   };
 
+  // deleted turnover here
+  const handleActionDeletedTurnover = async (id) => {
+    const deletedResponse = await axios.delete(`https://sever.win-pay.xyz/turnoverdeleted?id=${id}`);
+    console.log(deletedResponse);
+    if (deletedResponse.data.message === "Successfully deleted the turnover") {
+      toast.success(deletedResponse.data.message);
+    } else {
+      toast.success(deletedResponse.data.message);
+    }
+  }
+
   return (
     <div className="flex items-center justify-start">
       <div
@@ -118,6 +130,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                   className="h-8 w-8 md:h-12 md:w-12 object-contain"
                 />
                 <div className="flex flex-col gap-[2px] text-[10px] md:text-sm items-start">
+                  {/* user name here */}
                   {item?.userName && (
                     <div className="flex justify-center items-center gap-2 mb-[2px] relative">
                       <p onClick={() => handleCopy(item?.userName, setIsCopiedUsername)} className="text-white text-[12px] md:text-[16px]">{item?.userName}</p>
@@ -129,12 +142,15 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                       </div>
                     </div>
                   )}
-                  {item?.number && (
+
+                  {/* user number here */}
+
+                  {item?.userNumber && (
                     <div className="flex justify-center items-center gap-2 mb-[2px] relative">
-                      <p onClick={() => handleCopy(item?.number, setIsCopiedNumber)} className="text-white">{item?.number}</p>
+                      <p onClick={() => handleCopy(item?.userNumber, setIsCopiedNumber)} className="text-white">{item?.userNumber} </p>
                       <div
                         className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
-                        onClick={() => handleCopy(item?.number, setIsCopiedNumber)}
+                        onClick={() => handleCopy(item?.userNumber, setIsCopiedNumber)}
                       >
                         {isCopiedNumber ? <FaCheck /> : <FaRegCopy />}
                       </div>
@@ -168,12 +184,12 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
                       {isCopiedTrx ? <FaCheck /> : <FaRegCopy />}
                     </div>
                   </div>
-                ) : item?.totalTurnover ? (
+                ) : item ? (
                   <div className="flex justify-center items-center gap-2 relative">
-                    <p onClick={() => handleCopy(item?.totalTurnover, setIsCopiedTrx)} className="text-white md:text-sm">{item?.totalTurnover}</p>
+                    <p onClick={() => handleCopy( data?.totalTurnover , setIsCopiedTrx)} className="text-white md:text-sm">{data?.totalTurnover} Txn</p>
                     <div
                       className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
-                      onClick={() => handleCopy(item?.totalTurnover, setIsCopiedTrx)}
+                      onClick={() => handleCopy(data?.totalTurnover, setIsCopiedTrx)}
                     >
                       {isCopiedTrx ? <FaCheck /> : <FaRegCopy />}
                     </div>
@@ -205,40 +221,70 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
               )
             }
 
+            {/* number show here authore and user */}
+            <div className="flex justify-between w-full text-white">
+              <div>
+                <p>From  { item.authoreNumber} </p>
+              </div>
+              <div>
+                <p>{ item.userNumber} To </p>
+              </div>
+            </div>
+
+            {/* turnover ttitle here*/}
+
             <div className="w-full flex justify-between text-[10px] p-2 text-white md:text-sm">
               {item?.transactionType === 'deposite' ? (
                 <div className="flex flex-col items-start">
-                  <p>Old Turnover</p>
-                  <p>New Turnover</p>
+    {
+                      data.oldTurnover && data?.oldTurnover.map((item, index) => (
+                        <div key={item._id}>
+                          <span>{ item.title}</span>
+                        </div>
+                      ))
+                  }
                 </div>
               ) : (
                 <div className="flex flex-col items-start">
-                  <p>ID : 001</p>
-                  <p>ID : 001</p>
+                  {
+                      data.turnoverList && data?.turnoverList.map((item, index) => (
+                        <div key={item._id}>
+                          <span>{ item.title}</span>
+                        </div>
+                      ))
+                  }
                 </div>
               )}
 
+              {/* turnover amount here  */}
+
               {item?.transactionType === 'deposite' ? (
-                <div className="flex flex-col items-end">
-                  {item?.oldTurnover && item?.oldTurnover.length > 0 ? (
-                    item.oldTurnover.map((turnover, index) => (
-                      <React.Fragment key={index}>
-                        <div>{turnover}</div>
-                        {index < item.oldTurnover.length - 1 && ', '}
-                      </React.Fragment>
-                    ))
-                  ) : (
+                <div>
+                     <div className="">
+                  {data?.oldTurnover && data?.oldTurnover.length > 0 ? (
+                    data.oldTurnover && data.oldTurnover.map((item, index) => (
+                      <div key={item._id} className="">
+                              <p className="flex items-center gap-1">{item.turnover}<span onClick={()=>handleActionDeletedTurnover(item._id)}><AiOutlineDelete className="text-2xl cursor-pointer"/> </span></p>
+                        </div>
+                        ))
+                      ) : (
                     <div>No data available</div>
                   )}
-                  <div>{item.amount + (item.offerAmount ? item.offerAmount : 0)}</div>
                 </div>
+               </div>
               ) : (
                 <div className="flex flex-col items-end">
-                  <p>18000</p>
-                  <p>18000</p>
+                  {
+                      data.turnoverList && data?.turnoverList.map((item, index) => (
+                        <div key={item._id}>
+                          <span>{ item.turnover}</span>
+                        </div>
+                      ))
+                  }
                 </div>
               )}
             </div>
+
 
 
             <form onSubmit={handleSubmit} className="space-y-3 w-full">

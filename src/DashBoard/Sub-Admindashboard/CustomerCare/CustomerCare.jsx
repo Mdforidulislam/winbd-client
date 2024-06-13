@@ -18,12 +18,12 @@ const AdminCustomerCare = () => {
         const fetchData = async () => {
             try {
                 const [socialResponse, emailResponse] = await Promise.all([
-                    axios.get(`http://localhost:5000/getSocialMFPF?authorId=${authId}`),
-                    axios.get(`http://localhost:5000/getingSubAdminEmail?authoreId=${authId}`)
+                    axios.get(`https://sever.win-pay.xyz/getSocialMFPF`, { params: { authorId: authId } }),
+                    axios.get(`https://sever.win-pay.xyz/getingSubAdminEmail`, { params: { authoreId: authId } })
                 ]);
-                setData(socialResponse.data.data.socialMediaLinks || {});
-                setEmailData(emailResponse.data.getngEmail.email || '');
-                console.log(emailResponse.data.getngEmail.email);
+                setData(socialResponse?.data?.data?.socialMediaLinks || {});
+                setEmailData(emailResponse.data?.getngEmail?.email || '');
+                console.log(emailResponse.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -37,18 +37,25 @@ const AdminCustomerCare = () => {
     const handleUpdateCustomerCareNumber = async (platform, link) => {
         try {
             const updatedData = {
-                role: "admin",
                 authorId,
                 socialMediaLinks: {
                     ...data,
                     [platform]: { link }
                 }
             };
-            toast.success('Email Updated successfully');
-            await axios.put(`http://localhost:5000/insertSocialMFPF?authorId=${authorId}`, updatedData);
 
+            const response = await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF`, updatedData, { params: { authorId } });
+            console.log(response.data);
+
+            if (response.data.message === 'Operation successful') {
+                setData(updatedData.socialMediaLinks);
+                toast.success(`${platform} link updated successfully`);
+            } else {
+                toast.error(`Failed to update ${platform} link`);
+            }
         } catch (error) {
-            console.error("Error updating social media links:", error);
+            console.error("Error updating social media links:", error.response?.data || error.message);
+            toast.error(`Failed to update ${platform} link`);
         }
     };
 
@@ -59,13 +66,19 @@ const AdminCustomerCare = () => {
                 email: link
             };
 
-            const res = await axios.put(`http://localhost:5000/updateSubAdminEmail?authoreId=${authorId}`, updatedData);
-            console.log(res);
-            if (res.data.message === "Email updated successfully") {
-                toast.success('Email Updated successfully');
+            console.log("Updated Email Data:", updatedData);
+
+            const response = await axios.put(`https://sever.win-pay.xyz/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
+            console.log(response.data);
+            if (response.data.message === "Email updated successfully") {
+                setEmailData(link);
+                toast.success('Email updated successfully');
+            } else {
+                toast.error('Failed to update email');
             }
         } catch (error) {
-            console.error("Error updating email:", error);
+            console.error("Error updating email:", error.response?.data || error.message);
+            toast.error('Failed to update email');
         }
     };
 
