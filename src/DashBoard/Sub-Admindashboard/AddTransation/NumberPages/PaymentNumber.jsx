@@ -41,7 +41,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true);
             try {
-                const { data: serverData } = await axios.get(`https://sever.win-pay.xyz/getingPaymentmethod`, {
+                const { data: serverData } = await axios.get(`http://localhost:5000/getingPaymentmethod`, {
                     params: {
                         uniqueId: localData,
                         paymentType,
@@ -84,7 +84,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         };
 
         try {
-            const { data: res } = await axios.patch('https://sever.win-pay.xyz/updatePaymentMethod', formValues);
+            const { data: res } = await axios.patch('http://localhost:5000/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
                 toast.success(res.message);
             }

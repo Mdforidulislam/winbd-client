@@ -16,7 +16,7 @@ const DepositeTable = () => {
     const { isLoading, data: serverData } = useQuery({
         queryKey: ['transactionReqWith', localData],
         queryFn: async () => {
-            const response = await fetch(`https://sever.win-pay.xyz/transactionReqWith?authurId=${localData}`);
+            const response = await fetch(`http://localhost:5000/transactionReqWith?authurId=${localData}`);
             return response.json();
         },
         refetchInterval: 2000, // Refresh every 5 seconds

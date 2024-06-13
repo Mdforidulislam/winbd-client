@@ -13,18 +13,21 @@ const DepositeTable = () => {
 
     const { reload } = useContext(AuthContext);
 
+    // 
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
         setLocalData(authurId);
     }, [reload]);
 
+
+    // 
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['QueryDataDeposite'],
         queryFn: () =>
-            fetch(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`).then((res) =>
+            fetch(`http://localhost:5000/transactionReqDopsite?authurId=${localData}`).then((res) =>
                 res.json(),
             ),
-        refetchInterval: 2000, // Refresh every 5 seconds
+        refetchInterval: 2000, // Refresh every 2 seconds
     });
 
     const handleModal = (item) => {

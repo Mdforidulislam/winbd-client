@@ -36,6 +36,7 @@ const ConfirmPay = () => {
     const navigate = useNavigate();
     const [isUploading, setIsUploading] = useState(false);
     const [isTransactionValueError, setIsTransactionValueError] = useState(false); // new state for transaction value error
+    const [isProcessing, setIsProcessing] = useState(null); // set processing button here
 
     // ================== Timer calculation =====================
     useEffect(() => {
@@ -131,12 +132,14 @@ const ConfirmPay = () => {
             setIsTransactionValueError(true);
             return;
         }
+
         const transactionInfo = {
             userName: userName,
             transactionId: transactionValue || "",
             transactionType: localDat?.type,
             amount: localDat?.amount,
-            number: PhoneValue || userNumber,
+            userNumber: PhoneValue || userNumber,
+            authoreNumber: subAdminNumber,
             paymentMethod: localDat?.paymentMethod,
             paymentChannel: localDat?.channel,
             authorId: author,
@@ -144,16 +147,20 @@ const ConfirmPay = () => {
             offers: [{ title: promotionTitle ? promotionTitle : '', }],
         };
 
+        // set the button is processcing
+        setIsProcessing(true);
+
         console.log(transactionInfo);
 
         // Ensure all fields are filled before making the API call
         if (transactionInfo) {
             try {
-                const insertData = await axios.post('https://sever.win-pay.xyz/insertTransaction', transactionInfo);
+                const insertData = await axios.post('http://localhost:5000/insertTransaction', transactionInfo);
                 console.log(insertData.data.message);
                 if (insertData.data.message === 'Transaction ID must be unique.') {
                     toast.error('Transaction ID must be unique.')
                 } else if (insertData.data.message === 'Transaction inserted successfully') {
+                    setIsProcessing(false);
                     setShowMassage(insertData.data.message);
                     navigate('/profile/confirm-message');
                 } else if (insertData.data.message === 'An error occurred while inserting transaction') {
@@ -223,6 +230,7 @@ const ConfirmPay = () => {
                 toast.error('Failed to copy number.');
             });
     };
+
 
     return (
         <div className="relative flex flex-col items-center gap-3 w-full py-2 px-2 bg-[#424242] min-h-screen">
@@ -391,23 +399,23 @@ const ConfirmPay = () => {
             >
                 Submit
             </button> */}
-            < button
-                onClick={handleSubmiteInsert}
-                // Conditional disabling for "deposit" tab
-                className={`relative w-full duration-500 group overflow-hidden h-14 rounded-md p-2 flex justify-center items-center font-extrabold text-sky-50
-        ${activeTab === "deposit" && (isUploading)
-                        ? "cursor-not-allowed opacity-50 bg-emerald-700" // Disabled state styles
-                        : "hover:border-green-600 bg-emerald-800 cursor-pointer" // Enabled state styles
-                    }`
-                }
-            >
-                <div className="absolute z-10 w-80 h-48 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-800 delay-150 group-hover:delay-75"></div>
-                <div className="absolute z-10 w-64 h-40 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-700 delay-150 group-hover:delay-100"></div>
-                <div className="absolute z-10 w-48 h-32 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-600 delay-150 group-hover:delay-150"></div>
-                <div className="absolute z-10 w-32 h-24 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-500 delay-150 group-hover:delay-200"></div>
-                <div className="absolute z-10 w-20 h-16 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-400 delay-150 group-hover:delay-300"></div>
-                <p className="z-10">Confirm</p>
-            </button >
+          <button
+            onClick={handleSubmiteInsert}
+            disabled={isProcessing} // Disable button while processing
+            className={`relative w-full duration-500 group overflow-hidden h-14 rounded-md p-2 flex justify-center items-center font-extrabold text-sky-50
+                ${activeTab === "deposit" && isProcessing
+                    ? "cursor-not-allowed opacity-50 bg-emerald-700" // Disabled state styles
+                    : "hover:border-green-600 bg-emerald-800 cursor-pointer" // Enabled state styles
+                }`
+            }
+        >
+            <div className="absolute z-10 w-80 h-48 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-800 delay-150 group-hover:delay-75"></div>
+            <div className="absolute z-10 w-64 h-40 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-700 delay-150 group-hover:delay-100"></div>
+            <div className="absolute z-10 w-48 h-32 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-600 delay-150 group-hover:delay-150"></div>
+            <div className="absolute z-10 w-32 h-24 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-500 delay-150 group-hover:delay-200"></div>
+            <div className="absolute z-10 w-20 h-16 rounded-full group-hover:scale-150 transition-all duration-500 ease-in-out bg-emerald-400 delay-150 group-hover:delay-300"></div>
+            <p className="z-10">{isProcessing ? "Loading..." : "Confirm"}</p>
+        </button>
 
 
 

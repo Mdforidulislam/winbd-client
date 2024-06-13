@@ -18,8 +18,8 @@ const AdminCustomerCare = () => {
         const fetchData = async () => {
             try {
                 const [socialResponse, emailResponse] = await Promise.all([
-                    axios.get(`https://sever.win-pay.xyz/getSocialMFPF?authorId=${authId}`),
-                    axios.get(`https://sever.win-pay.xyz/getingSubAdminEmail?authoreId=${authId}`)
+                    axios.get(`http://localhost:5000/getSocialMFPF?authorId=${authId}`),
+                    axios.get(`http://localhost:5000/getingSubAdminEmail?authoreId=${authId}`)
                 ]);
                 setData(socialResponse.data.data.socialMediaLinks || {});
                 setEmailData(emailResponse.data.getngEmail.email || '');
@@ -45,7 +45,7 @@ const AdminCustomerCare = () => {
                 }
             };
             toast.success('Email Updated successfully');
-            await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF?authorId=${authorId}`, updatedData);
+            await axios.put(`http://localhost:5000/insertSocialMFPF?authorId=${authorId}`, updatedData);
 
         } catch (error) {
             console.error("Error updating social media links:", error);
@@ -59,7 +59,7 @@ const AdminCustomerCare = () => {
                 email: link
             };
 
-            const res = await axios.put(`https://sever.win-pay.xyz/updateSubAdminEmail?authoreId=${authorId}`, updatedData);
+            const res = await axios.put(`http://localhost:5000/updateSubAdminEmail?authoreId=${authorId}`, updatedData);
             console.log(res);
             if (res.data.message === "Email updated successfully") {
                 toast.success('Email Updated successfully');

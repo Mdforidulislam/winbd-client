@@ -139,7 +139,7 @@ const Register = () => {
             data.authorId = registerAuthorId;
             console.log(registerAuthorId);
             console.log(data,'action here');
-            const register = await axios.post('https://sever.win-pay.xyz/insertUsers', data)
+            const register = await axios.post('http://localhost:5000/insertUsers', data)
             console.log(register);
             if (register.data.message === 'User already registered') {
                 toast.success("User already registered")

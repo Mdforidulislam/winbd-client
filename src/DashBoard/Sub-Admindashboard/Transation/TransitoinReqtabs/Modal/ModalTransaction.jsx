@@ -30,7 +30,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab }) => {
 
     try {
       let response;
-      const transactionFeedbackUrl = `https://sever.win-pay.xyz/transactionFeedback?id=${item?._id}`;
+      const transactionFeedbackUrl = `http://localhost:5000/transactionFeedback?id=${item?._id}`;
       const params = new URLSearchParams();
       params.append('note', note);
 
