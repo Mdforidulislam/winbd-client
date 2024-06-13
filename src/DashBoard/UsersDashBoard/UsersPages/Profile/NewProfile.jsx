@@ -27,8 +27,8 @@ const NewProfile = ({ animation, handleClose }) => {
             try {
                 if (localData) {
                     const [socialResponse, emailResponse] = await Promise.all([
-                        fetch(`http://localhost:5000/getinPassordContact?authorId=${localData}`),
-                        fetch(`http://localhost:5000/getingSubAdminEmail?authoreId=${localData}`)
+                        fetch(`https://sever.win-pay.xyz/getinPassordContact?authorId=${localData}`),
+                        fetch(`https://sever.win-pay.xyz/getingSubAdminEmail?authoreId=${localData}`)
                     ]);
 
                     const socialData = await socialResponse.json();

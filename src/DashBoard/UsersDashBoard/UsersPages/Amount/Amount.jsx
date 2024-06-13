@@ -137,7 +137,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(paymentMethod);
                 if (convert?.processingMessage) {

@@ -31,7 +31,7 @@ const Authentication = ({ children }) => {
 
   const loginUserNamePassword = async (userName, password) => {
     try {
-      const res = await fetch(`http://localhost:5000/userValidation?userName=${userName}&password=${password}`);
+      const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userName}&password=${password}`);
       const data = await res.json();
       console.log('response after login', data.message,data);
 
@@ -57,7 +57,7 @@ const Authentication = ({ children }) => {
     const fetchData = async () => {
       try {
        if(userInfo.role){
-          const res = await fetch(`http://localhost:5000/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
+          const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
           const data = await res.json()
           setRole(data?.role)
           setRegisterInfo(data)
