@@ -14,7 +14,6 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     const [amount, setAmount] = useState([]); // set the amount in here for send or selected
     const [sumAmount, setSumAmount] = useState(0);
-    const [payInsList, setPayinsList] = useState({}); // set data for show list for suggestion item 
     const [customError, setCustomError] = useState('');
     const [isInteracted, setIsInteracted] = useState(false);
     const [processing, setProcessing] = useState(false);
@@ -59,15 +58,6 @@ const Amount = ({ number, withdraw, deposite }) => {
         }
     }, [sumAmount, channel, isInteracted]);
 
-
-    // ================= geting payMentTransaction data list
-    useEffect(() => {
-        const getingInsetData = async () => {
-            const dataList = await axios.get(`https://sever.win-pay.xyz/getingPaymentInstraction`);
-            setPayinsList(dataList.data.data);
-        }
-        getingInsetData()
-    }, [])
 
 
     // ================= geting Amount===================
@@ -141,15 +131,13 @@ const Amount = ({ number, withdraw, deposite }) => {
     useEffect(() => {
         const seltedPayment = JSON.parse(localStorage.getItem('payMethod'));
         setPayMethod(seltedPayment);
-    }, [])
-    console.log(paymentMethod);
-
+    }, []);
     // ===================================== vaildation isProcessgcing and number channel ===========================
     useEffect(() => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`http://localhost:5000/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(paymentMethod);
                 if (convert?.processingMessage) {

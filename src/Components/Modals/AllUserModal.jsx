@@ -21,7 +21,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
         };
 
         try {
-            const response = await axios.put(`https://sever.win-pay.xyz/updateUserInfoAPI?id=${item?._id}`, formattedData, {
+            const response = await axios.put(`http://localhost:5000/updateUserInfoAPI?id=${item?._id}`, formattedData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
