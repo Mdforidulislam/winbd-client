@@ -144,7 +144,15 @@ const DashNav = () => {
                   <h1>Customer Care</h1>
                 </div>
               )}
-            </NavLink>
+              </NavLink>
+
+              <NavLink className="md:w-full" to={"/dashboard/refer"} onClick={onClickFunction}>
+                  <div className="flex justify-start items-start gap-2 font-medium hover:bg-DarkGreen transition duration-200 py-2  px-3 rounded-3xl   ">
+                    <BsFillShareFill className="text-2xl" />
+                    <h1 className="">share reffer link</h1>
+                  </div>
+              </NavLink>
+              
             <NavLink className="md:w-full" to="/dashboard/password" onClick={scrollToTop}>
               {({ isActive }) => (
                 <div className={`flex justify-start gap-2 items-center font-medium transition duration-200 py-2 px-3 rounded-3xl ${isActive ? 'bg-DarkGreen' : 'hover:bg-DarkGreen'}`}>

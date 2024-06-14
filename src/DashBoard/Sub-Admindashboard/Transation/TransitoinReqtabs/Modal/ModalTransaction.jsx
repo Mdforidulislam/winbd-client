@@ -103,6 +103,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
     }
   }
 
+  console.log(data)
+
   return (
     <div className="flex items-center justify-start">
       <div
@@ -162,11 +164,11 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
                 {item?.amount && (
                   <div className="flex justify-center items-center gap-2 mb-[2px] relative">
                     <p className="text-white md:text-sm">
-                      {item?.amount ? (item.offerAmount ? item.amount + item.offerAmount : item.amount) : ''} TK
+                      {item?.amount ? (item?.offerAmount ? item?.amount + item?.offerAmount : item?.amount) : ''} TK
                     </p>
                     <div
                       className="absolute top-0 -right-5 flex justify-center items-center gap-1 text-[12px] text-LightGreen cursor-pointer"
-                      onClick={() => handleCopy(item?.offerAmount ? item.amount + item.offerAmount : item.amount, setIsCopiedAmount)}
+                      onClick={() => handleCopy(item?.offerAmount ? item?.amount + item?.offerAmount : item?.amount, setIsCopiedAmount)}
                     >
                       {isCopiedAmount ? <FaCheck /> : <FaRegCopy />}
                     </div>
@@ -212,9 +214,9 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
                     <p>Total Amount</p>
                   </div>
                   <div className="flex flex-col text-DarkGreen gap-1 items-end">
-                    <p>{item.amount}</p>
-                    <p>+ {item.offerAmount ? item.offerAmount : 0}</p>
-                    <p>{item.amount + (item.offerAmount ? item.offerAmount : 0)}</p>
+                    <p>{item?.amount}</p>
+                    <p>+ {item?.offerAmount ? item?.offerAmount : 0}</p>
+                    <p>{item?.amount + (item?.offerAmount ? item.offerAmount : 0)}</p>
                   </div>
 
                 </div>
@@ -224,10 +226,10 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
             {/* number show here authore and user */}
             <div className="flex justify-between w-full text-white">
               <div>
-                <p>From  { item.authoreNumber} </p>
+                <p>From  { item?.authoreNumber} </p>
               </div>
               <div>
-                <p>{ item.userNumber} To </p>
+                <p>{ item?.userNumber} To </p>
               </div>
             </div>
 
@@ -237,7 +239,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
               {item?.transactionType === 'deposite' ? (
                 <div className="flex flex-col items-start">
     {
-                      data.oldTurnover && data?.oldTurnover.map((item, index) => (
+                      data?.oldTurnover && data?.oldTurnover.map((item, index) => (
                         <div key={item._id}>
                           <span>{ item.title}</span>
                         </div>
@@ -247,7 +249,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
               ) : (
                 <div className="flex flex-col items-start">
                   {
-                      data.turnoverList && data?.turnoverList.map((item, index) => (
+                      data?.turnoverList && data?.turnoverList.map((item, index) => (
                         <div key={item._id}>
                           <span>{ item.title}</span>
                         </div>
@@ -262,9 +264,9 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
                 <div>
                      <div className="">
                   {data?.oldTurnover && data?.oldTurnover.length > 0 ? (
-                    data.oldTurnover && data.oldTurnover.map((item, index) => (
-                      <div key={item._id} className="">
-                              <p className="flex items-center gap-1">{item.turnover}<span onClick={()=>handleActionDeletedTurnover(item._id)}><AiOutlineDelete className="text-2xl cursor-pointer"/> </span></p>
+                    data?.oldTurnover && data.oldTurnover.map((item, index) => (
+                      <div key={item?._id} className="">
+                              <p className="flex items-center gap-1">{item?.turnover}<span onClick={()=>handleActionDeletedTurnover(item?._id)}><AiOutlineDelete className="text-2xl cursor-pointer"/> </span></p>
                         </div>
                         ))
                       ) : (
@@ -275,9 +277,9 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
               ) : (
                 <div className="flex flex-col items-end">
                   {
-                      data.turnoverList && data?.turnoverList.map((item, index) => (
+                      data?.turnoverList && data?.turnoverList.map((item, index) => (
                         <div key={item._id}>
-                          <span>{ item.turnover}</span>
+                          <span>{ item?.turnover}</span>
                         </div>
                       ))
                   }
@@ -295,7 +297,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
                 />
                 <textarea placeholder="Remark: Your deposit is in progress, please wait.." className="text-[12px] w-full py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none" name="remark" id="remark"></textarea>
               </div>
-              {!item.requestStatus && item.transactionType === 'deposite' ? (
+              {!item?.requestStatus && item?.transactionType === 'deposite' ? (
                 <div className="w-full flex justify-between gap-5 px-1">
                   <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
                   <button type="submit" onClick={() => setStatus("verify")} className="bg-orange-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Verify</button>
