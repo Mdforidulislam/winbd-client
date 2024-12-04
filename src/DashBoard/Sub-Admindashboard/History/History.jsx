@@ -1,10 +1,9 @@
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { FaSearch } from 'react-icons/fa';
-import { MdDateRange, MdOutlineDoubleArrow } from 'react-icons/md';
+import { MdDateRange } from 'react-icons/md';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import { Pagination } from "../../../Components/Shared/Pagination";
 import { debounce } from 'lodash';
 import Loader from "../../../Components/Loader/Loader";
 import { Pagination } from "../../../Components/Shared/Pagination";
@@ -16,57 +15,97 @@ const History = () => {
     const [storeData, setStoreData] = useState([]);
     const [localData, setLocalData] = useState('');
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [loading, setLoading] = useState(false); // Add loading state variable
-    const [totalLenght, setTotalLenght] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [totalLength, setTotalLength] = useState(0);
+
 
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
         setLocalData(authurId);
     }, []);
 
-    const fetchData = useCallback(debounce(async (searchValue) => {
-        if (!localData) return;
 
-        setLoading(true); // Set loading state to true
-        let url = `https://sever.win-pay.xyz/getingHistory?authorId=${localData}`;
-        if (selectedDate) {
-            url += `&date=${selectedDate}`;
-        }
-        if (searchValue) {
-            url += `&userName=${searchData}`;
-        }
-        if (pageNumber) {
-            url += `&pageNumber=${pageNumber}`;
-        }
-        console.log(pageNumber, 'page number');
-        try {
-            const response = await axios.get(url);
-            setStoreData(response?.data?.requestApprovdeData);
-            setTotalLenght(response?.data?.showPageNumber);
-            console.log(response?.data);
-            setLoading(false); // Set loading state to false once data is fetched
-            console.log(response?.data?.requestApprovdeData);
-        } catch (error) {
-            setLoading(false); // Set loading state to false in case of error
-            console.error('Error fetching data:', error);
-        }
-    }, 300), [localData, selectedDate, pageNumber]);
+
+
+    // const fetchData = useCallback(debounce(async () => {
+    //     if (!localData) return;
+
+    //     setLoading(true);
+    //     let url = `http://localhost:5000/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+    //     if (selectedDate) {
+    //         url += `&date=${selectedDate.toISOString().split('T')[0]}`;
+    //     }
+    //     if (searchData) {
+    //         url += `&searchValue=${searchData}`;
+    //     }
+
+    //     try {
+    //         const response = await axios.get(url);
+    //         setStoreData(response?.data?.requestApprovedData || []);
+    //         setTotalLength(response?.data?.totalPages || 0);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         setLoading(false);
+    //         console.error('Error fetching data:', error);
+    //     }
+    // }, 300), [localData, selectedDate, searchData, pageNumber]);
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, [fetchData]);
+
+    // const handleSearchChange = (event) => {
+    //     setSearchData(event.target.value);
+    // };
+
+    // useEffect(() => {
+    //     if (searchData !== '') {
+    //         fetchData();
+    //     }
+    // }, [searchData]);
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, [selectedDate, pageNumber]);
+
 
     const handleSearchChange = (event) => {
-        const searchValue = event.target.value;
-        setSearchData(searchValue);
-        fetchData(searchValue);
+        setSearchData(event.target.value);
     };
 
     useEffect(() => {
-        fetchData(searchData);
-    }, [selectedDate, localData, fetchData, searchData]);
+        
+        const historyGetingUser = async () => {
+            if (!localData) return;
+
+            setLoading(true);
+            let url = `http://localhost:5000/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+    
+            if (selectedDate) {
+                url += `&date=${selectedDate.toISOString().split('T')[0]}`;
+            }
+            if (searchData) {
+                url += `&userName=${searchData}`;
+            }
+            try {
+                const response = await axios.get(url);
+                setStoreData(response?.data?.requestApprovedData || []);
+                setTotalLength(response?.data?.totalPages || 0);
+                setLoading(false);
+            } catch (error) {
+                setLoading(false);
+                console.error('Error fetching data:', error);
+            }
+        }
+        historyGetingUser();
+    }, [localData, pageNumber, searchData, selectedDate]);
+    
+
+
 
     const handleDateButtonClick = () => {
         setShowDatePicker(!showDatePicker);
     };
-
-    console.log(pageNumber);
 
     return (
         <div className="">
@@ -85,13 +124,11 @@ const History = () => {
                     <input
                         type="text"
                         placeholder="Search Transaction"
-                        name="search"
-                        id=""
                         className="bg-GlobalGray focus:outline-none text-white px-3 py-3 rounded-l-md"
                         value={searchData}
                         onChange={handleSearchChange}
                     />
-                    <button type="submit" className='bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold'><FaSearch /></button>
+                    <button type="submit" className='bg-DarkGreen py-4 px-3 rounded-r-md text-white text-md font-bold' onClick={handleSearchChange}><FaSearch /></button>
                 </div>
             </form >
             <div className="md:flex md:justify-center md:items-center overflow-x-auto max-w-[1000px] mx-auto my-10">
@@ -110,13 +147,13 @@ const History = () => {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan="5" className="py-8 text-center">
+                                <td colSpan="7" className="py-8 text-center">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
                             storeData?.map((item, i) => (
-                                <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
+                                <tr key={i} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-3 md:py-4 text-white text-center border-b border-gray-700 text-sm font-medium">{i + 1}</td>
                                     <td className="py-3 md:py-4 pl-3 md:pl-6 pr-3 border-b border-gray-700">
                                         <img
@@ -127,8 +164,9 @@ const History = () => {
                                             }
                                             alt={item?.paymentMethod}
                                             className="h-6 md:h-8 w-6 md:w-8 object-contain"
-                                        /></td>
-                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-7 -pl-2 border-b border-gray-700">{item?.userName}</td>
+                                        />
+                                    </td>
+                                    <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 md:pl-7 pl-2 border-b border-gray-700">{item?.userName}</td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 border-b border-gray-700">{item?.number}</td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.date} {item?.time}</td>
                                     <td className="py-3 md:py-4 px-3 text-[13px] md:px-6 pl-8 border-b border-gray-700">{item?.transactionId}</td>
@@ -137,10 +175,9 @@ const History = () => {
                             ))
                         )}
                     </tbody>
-
                 </table>
             </div>
-            <Pagination userLength={totalLenght} setPageNumbers={setPageNumbers} />
+            <Pagination totalPages={totalLength} setPageNumbers={setPageNumbers} />
         </div>
     );
 };

@@ -13,18 +13,24 @@ const AllUsers = () => {
     const [data, setData] = useState(null);
     const [storeData, setStoreData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [totalPages, setUserTotalPages] = useState(); // set userLength here 
+
+
     const uniqueId = JSON.parse(localStorage.getItem('userData'))?.uniqueId;
     const handleActionSearchButton = async (event) => {
         event.preventDefault();
         const searchValue = event.target.search.value;
         setSearchData(searchValue);
     };
+
     //due
     //rejected updated code from foridul bhai so need to do it again
     const userDataget = async () => {
         try {
-            const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
-            const getuserData = userSearch?.data?.queryUserInfo;
+            const userSearch = await axios(`http://localhost:5000/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
+            const getuserData = userSearch?.data?.userInfo;
+            const totalPages = userSearch?.data?.totalPages;
+            setUserTotalPages(totalPages);
             console.log(userSearch);
             setStoreData(getuserData);
             setLoading(false);
@@ -88,7 +94,7 @@ const AllUsers = () => {
                 </table>
             </div>
             {openModal && <AllUserModal userDataget={userDataget} setOpenModal={setOpenModal} openModal={openModal} item={data} />}
-            {/* <Pagination storeData={storeData} setPageNumbers={setPageNumbers} /> */}
+            <Pagination totalPages={totalPages} setPageNumbers={setPageNumbers} />
         </div>
     );
 };

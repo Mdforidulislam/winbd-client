@@ -14,7 +14,6 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     const [amount, setAmount] = useState([]); // set the amount in here for send or selected
     const [sumAmount, setSumAmount] = useState(0);
-    const [payInsList, setPayinsList] = useState({}); // set data for show list for suggestion item 
     const [customError, setCustomError] = useState('');
     const [isInteracted, setIsInteracted] = useState(false);
     const [processing, setProcessing] = useState(false);
@@ -59,15 +58,6 @@ const Amount = ({ number, withdraw, deposite }) => {
         }
     }, [sumAmount, channel, isInteracted]);
 
-
-    // ================= geting payMentTransaction data list
-    useEffect(() => {
-        const getingInsetData = async () => {
-            const dataList = await axios.get(`https://sever.win-pay.xyz/getingPaymentInstraction`);
-            setPayinsList(dataList.data.data);
-        }
-        getingInsetData()
-    }, [])
 
 
     // ================= geting Amount===================
@@ -141,15 +131,13 @@ const Amount = ({ number, withdraw, deposite }) => {
     useEffect(() => {
         const seltedPayment = JSON.parse(localStorage.getItem('payMethod'));
         setPayMethod(seltedPayment);
-    }, [])
-    console.log(paymentMethod);
-
+    }, []);
     // ===================================== vaildation isProcessgcing and number channel ===========================
     useEffect(() => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`http://localhost:5000/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(paymentMethod);
                 if (convert?.processingMessage) {
@@ -237,7 +225,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if the payment method is included
         const isIncluded = availablePayment?.some(payment => payment.transactionMethod === paymentMethod || '');
         const findNumber = availablePayment?.find(item => item.transactionMethod === paymentMethod && item?.depositeChannel === channel);
-        console.log(channel,'echk the chanel');
+        console.log(channel, 'echk the chanel');
         const numberGeting = findNumber?.number;
         localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
         console.log(numberGeting);
@@ -255,7 +243,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         } else {
             setIsModalOpen(false);
         }
-    }, [availablePayment, paymentMethod, isFirstLoad,channel]);
+    }, [availablePayment, paymentMethod, isFirstLoad, channel]);
 
 
 
@@ -288,7 +276,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             <div>
                 <div className="flex justify-between w-full items-center h-full pb-1.5">
                     <Title text={'Amount'} />
-                    <div className="text-white/40 text-[10px]">
+                    <div className="text-white/40 pr-1 text-[11px]">
                         {
                             activeTab === 'deposit' ? (
                                 channel === 'cashout' ? (
@@ -310,7 +298,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                     {
                         amount.map((item, index) => (
                             <div key={index} className="rounded-[3px] border-[1.2px] border-gray-500/80 border-opacity-50 w-full h-full flex items-center justify-center hover:border-[#FFE43C] hover:text-[#FFE43C]">
-                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white w-full text-center py-[5.5px] pb-[6.5px] px-3 text-[11px]">{selectedAmount !== null ? (
+                                <h1 onClick={() => handleSumAllAmount(item.amount)} className="hover:text-[#FFE43C] text-white w-full text-center py-[9px] pb-[11px] px-2.5 text-[12px]">{selectedAmount !== null ? (
                                     <span className='mr-1'>+</span>
                                 ) : null}
                                     {item.amount === 1000 ? '1,000' : item.amount === 2000 ? '2,000' : item.amount === 3000 ? '3,000' : item.amount === 5000 ? '5,000' : item.amount === 10000 ? '10,000' : item.amount === 15000 ? '15,000' : item.amount === 20000 ? '20,000' : item.amount === 25000 ? '25,000' : item.amount}</h1>
@@ -329,8 +317,9 @@ const Amount = ({ number, withdraw, deposite }) => {
                     type="text"
                     onChange={onchangeHandleValue}
                     onClick={resetSumAmount}
-                    readOnly
+                    readOnly={activeTab === 'withdraw'}
                 />
+
                 {customError && (
                     <div className="relative p-[6px] mt-3 rounded-sm bg-inputlartBg my-1">
                         <span className="text-alartColor text-md absolute left-3 top-[11px]"><BsInfoCircleFill /></span>
@@ -387,8 +376,8 @@ const Amount = ({ number, withdraw, deposite }) => {
                             </div>
                             <div>
                                 {findNode && (
-                                    <div className="pr-10">
-                                        <h1 className="text-[11.5px] leading-[12.8px] tracking-[-0.04em] -mt-1 text-white">Reminder: <br />
+                                    <div className="pr-6">
+                                        <h1 className="text-[13px] leading-[15px] tracking-[-0.04em] -mt-1 text-white">Reminder: <br />
                                             <span>1. Please double check the recipient's account details before procceding.</span><br />
                                             <span>2. DO NOT share your account with any one to avoid losing fund on money.</span><br />
                                             <span>2. Please make sure your bank account holder name and WinBD registered name should match to prevent from withdrawal rejection</span><br />
@@ -407,7 +396,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                 activeTab === 'withdraw' &&
                 <div className="mt-2">
                     <Title text={'Phone Number'} />
-                    <div className="border border-gray-400 border-opacity-90 my-2"></div>
+                    <div className="border border-gray-400 border-opacity-30 my-2"></div>
 
                     {/* bg-[url('https://img.b112j.com/bj/h5/assets/images/player/bg-bankcard.png?v=1716890719883')] */}
                     <button className="relative w-full cursor-pointer text-white overflow-hidden  rounded-md p-2 my-4 flex justify-start items-center font-normal bg-gradient-to-r from-emerald-600 to-DarkGreen">

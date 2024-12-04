@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
-export const Pagination = ({ userLength , setPageNumbers }) => {
+export const Pagination = ({ totalPages , setPageNumbers }) => {
     const [pageNumber, setPageNumber] = useState(0);
-    const totalPages = userLength ;
+    const pageNumbers = totalPages ;
     // set paginatio nnumber
     
     useEffect(() => {
@@ -13,7 +13,7 @@ export const Pagination = ({ userLength , setPageNumbers }) => {
     }, [pageNumber, setPageNumbers]);
 
     const updatePageNumber = (num) => {
-        if (num >= 0 && num < totalPages) {
+        if (num >= 0 && num < pageNumbers) {
             setPageNumber(num);
         }
     };
@@ -36,7 +36,7 @@ export const Pagination = ({ userLength , setPageNumbers }) => {
 
             {/* Page Numbers */}
             <div className='flex justify-center items-center gap-2'>
-                {Array.from({ length: totalPages }, (_, i) => (
+                {Array.from({ length: pageNumbers }, (_, i) => (
                     <div 
                         key={i} 
                         onClick={handlePageClick(i)}

@@ -41,7 +41,7 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get(`https://sever.win-pay.xyz/getingPaymentmethod`, {
+                const { data } = await axios.get(`http://localhost:5000/getingPaymentmethod`, {
                     params: { uniqueId: localData, paymentType }
                 });
                 setStoreData(data);
@@ -74,10 +74,8 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
             authorId: localData
         };
         try {
-            const { data: res } = await axios.patch('https://sever.win-pay.xyz/updatePaymentMethod', formValues);
+            const { data: res } = await axios.patch('http://localhost:5000/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
-                const updatedActiveID = [...(JSON.parse(localStorage.getItem("activeId")) || []), newId?.id];
-                localStorage.setItem("activeId", JSON.stringify(updatedActiveID));
                 toast.success(res.message);
             }
         } catch (error) {
@@ -105,7 +103,7 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
                                 <input
                                     className="w-full py-2 px-3 text-sm rounded bg-GlobalDarkGray focus:outline-none"
                                     name="number"
-                                    defaultValue={`0${data?.number}`}
+                                    defaultValue={`${data?.number}`}
                                     type="text"
                                     placeholder="Phone Number"
                                 />

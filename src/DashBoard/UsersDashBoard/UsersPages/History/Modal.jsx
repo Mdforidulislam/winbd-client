@@ -21,7 +21,7 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, se
     };
 
     return (
-        <div className={`fixed backdrop-blur-sm bg-black/80 inset-0 z-50 flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-0 block' : 'translate-y-[800px] hidden'}`}>
+        <div className={`fixed backdrop-blur-sm  md:max-w-[28%] overflow-hidden mx-auto bg-black/80 inset-0 z-50 flex items-end justify-center transition-transform duration-500 ${isModalOpen ? 'translate-y-0 block' : 'translate-y-[800px] hidden'}`}>
             <div className="w-full h-full absolute rounded-t-2xl top-28 bg-GlobalDarkGray ">
                 <div className="relative w-full rounded-t-2xl">
                     {/* Header Part */}

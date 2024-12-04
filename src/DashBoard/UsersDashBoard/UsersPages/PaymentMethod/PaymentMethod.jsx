@@ -32,7 +32,7 @@ const PaymentMethod = ({ number }) => {
           <div
             key={index}
             onClick={() => setPaymentType(item.title)}
-            className={`py-[7%] ${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-[0.1875rem] flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-50 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
+            className={`py-[7%] ${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-[0.1875rem] flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-40 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
           >
             <div className="relative h-full w-full flex flex-col justify-center items-center">
               <div className={`h-[1.6rem] w-[4.5rem]`}>
@@ -59,7 +59,7 @@ const PaymentMethod = ({ number }) => {
           </div>
         ))}
       </div>
-      <hr className={`${activeTab === 'deposit' ? 'border-b border-x-transparent border-t-transparent border-dotted border-gray-400 mb-3' : 'hidden'}`} />
+      <hr className={`${activeTab === 'deposit' ? 'border-b border-x-transparent border-t-transparent border-dotted border-gray-400 border-opacity-30 mb-3' : 'hidden'}`} />
 
       {
         activeTab !== 'withdraw' && (
