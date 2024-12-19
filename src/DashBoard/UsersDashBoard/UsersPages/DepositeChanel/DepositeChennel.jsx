@@ -26,7 +26,7 @@ const DepositeChennel = () => {
 
     return (
         <div className="bg-[#343333] h-auto pt-3 pb-4 px-3">
-            <Title text="Deposite Chennel" />
+            <Title text="Deposit Channel" />
             <div className="flex gap-3 justify-start pt-[11px] mt-2 border border-gray-400 border-opacity-30 border-x-transparent border-b-transparent border-t-1">
                 {sortedPayment && sortedPayment.map((item, index) => (
                     <button

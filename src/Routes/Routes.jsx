@@ -30,6 +30,7 @@ import ForgetPassword from "../DashBoard/Sub-Admindashboard/ForgetPassword/Forge
 import History from "../DashBoard/Sub-Admindashboard/History/History";
 import ResetPassword from "../DashBoard/UsersDashBoard/UsersPages/Profile/ResetPassword/ResetPassword";
 import Facebook from "../DashBoard/UsersDashBoard/Facebook";
+import Bkash from "../DashBoard/UsersDashBoard/UsersPages/PaymentSystems/bKash/Bkash";
 
 
 export const router = createBrowserRouter([
@@ -85,15 +86,6 @@ export const router = createBrowserRouter([
                 element: <PrivetRouter><Promotion /></PrivetRouter>
             },
             //    --------------------- Subadmin dashboard  routes    ------------------------
-            // {
-            //     path: '/dashboard/subAdmin/',
-            //     element: <PrivetRouter ><SubadminHome /></PrivetRouter>,
-            // },
-            // {
-            //     path: "/dashboard/notification",
-            //     element: <PrivetRouter><Subnotifications /></PrivetRouter>
-
-            // },
             {
                 path: "/dashboard/transtionReq",
                 element: <PrivetRouter><TransitionReq /></PrivetRouter>
@@ -137,6 +129,10 @@ export const router = createBrowserRouter([
             {
                 path: '/profile/confirmpay',
                 element: <PrivetRouter><ConfirmPay /></PrivetRouter>
+            },
+            {
+                path: '/profile/payment-methods',
+                element: <PrivetRouter><Bkash /></PrivetRouter>
             },
             {
                 path: "/profile/confirm-message",

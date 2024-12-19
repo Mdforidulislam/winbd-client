@@ -90,7 +90,7 @@ const History = () => {
                                             <span className={`${item?.transactionType === 'withdraw' ? 'text-red-400' : 'text-white'} pr-3`}>{item.amount}</span>
                                         </div>
                                         <div className={`flex-1 border-[0.2px] text-center py-1 border-l-transparent border-y-transparent border-white/20 text-[9px] capitalize`}>
-                                            <span className={`px-2 py-[2px] pb-[5px] ${item.requestStatus === "Approved" ? "bg-green-600 text-white rounded-[3px]" : item.requestStatus === "verify" ? 'bg-yellow-600 text-white rounded-[3px]' : item.requestStatus === "Processing" ? "bg-slate-700 text-white rounded-[3px]" : item.requestStatus === "Rejected" ? "bg-HistoryRed text-white rounded-[3px]" : item.requestStatus === "success" ? "bg-green-600 text-white rounded-[3px]" : ''}`}>
+                                            <span className={`px-2 py-1 ${item.requestStatus === "Approved" ? "bg-green-600 text-white rounded-[3px]" : item.requestStatus === "verify" ? 'bg-yellow-600 text-white rounded-[3px]' : item.requestStatus === "Processing" ? "bg-slate-700 text-white rounded-[3px]" : item.requestStatus === "Rejected" ? "bg-HistoryRed text-white rounded-[3px]" : item.requestStatus === "success" ? "bg-green-600 text-white rounded-[3px]" : ''}`}>
                                                 {item.requestStatus}
                                             </span>
                                         </div>
