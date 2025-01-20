@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Player } from '@lottiefiles/react-lottie-player';
+
 
 const ConfirmMsg = () => {
     const [localDat, setLocalData] = useState({}); // set data 
