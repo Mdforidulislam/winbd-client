@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
-import confrim from '../../../../public/confirm.json'
+
 const ConfirmMsg = () => {
     const [localDat, setLocalData] = useState({}); // set data 
     const [userName, setUserName] = useState('')
@@ -23,12 +23,12 @@ const ConfirmMsg = () => {
         < div className="w-full min-h-screen p-1 px-2 relative flex flex-col justify-start items-center bg-gradient-to-t from-emerald-700 to-emerald-600" >
 
             <div className='-mt-16'>
-                <Player
+                {/* <Player
                     src={confrim}
                     className="player"
                     loop
                     autoplay
-                />
+                /> */}
             </div>
             <div className='px-4 flex flex-col items-center gap-6 -mt-40'>
                 <p className="font-bengali text-white font-semibold text-[1.118rem] text-center">
