@@ -1,5 +1,4 @@
 
-import { CgProfile } from "react-icons/cg";
 import GlobalModal from "./Globalmodal/GlobalModal";
 
 

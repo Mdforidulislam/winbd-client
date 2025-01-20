@@ -1,4 +1,4 @@
-import { BsGraphDownArrow, BsGraphUpArrow } from "react-icons/bs";
+import { BsGraphUpArrow } from "react-icons/bs";
 import { FaDollarSign } from "react-icons/fa";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { GiWallet } from "react-icons/gi";

@@ -10,11 +10,10 @@ const History = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isModalOpen, setIsOpenModalOpen] = useState(false);
     const [historyModal, setHistoryModal] = useState({});
-    const [selectedStatus, setSelectedStatus] = useState("Processing");
     const { userSearchData, selectedFilters } = useContext(AuthContext);
-    console.log(selectedFilters);
+
     const [showProgress, setShowProgress] = useState(false);
-    console.log(historyModal);
+ 
     // drawer state here 
     const handleOpenDrawer = () => {
         setIsDrawerOpen(true);
@@ -33,8 +32,6 @@ const History = () => {
         setShowProgress(true);
     };
 
-    // console.log(userSearchData);
-    console.log(historyModal);
 
     return (
         <div className="">

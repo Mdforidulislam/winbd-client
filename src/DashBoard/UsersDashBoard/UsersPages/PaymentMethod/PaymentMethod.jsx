@@ -3,7 +3,7 @@ import { AuthContext } from "../../../../Authentication/Authentication";
 import Discount from "./Discount/Discount";
 import Title from "../../../../Components/Titile/Title";
 
-const PaymentMethod = ({ number }) => {
+const PaymentMethod = () => {
   const [method, setMehod] = useState([]); // store the all paymentmethod use for show data
   const [paymentType, setPaymentType] = useState('bkash');
   // console.log(paymentType);
@@ -23,12 +23,13 @@ const PaymentMethod = ({ number }) => {
       .then((data) => setMehod(data));
   }, []);
 
+
   return (
     <div className="bg-[#343333] h-auto pt-3 pb-4 mt-1.5 px-3">
       {/* payment method history */}
       <Title text={'payment Method'} />
       <div className="w-full grid grid-cols-3 gap-[10px] border border-t-[0.0625rem] border-x-transparent border-b-transparent border-gray-400 border-opacity-30 py-[11px] mt-2">
-        {method?.slice(0, number).map((item, index) => (
+        {method?.map((item, index) => (
           <div
             key={index}
             onClick={() => setPaymentType(item.title)}

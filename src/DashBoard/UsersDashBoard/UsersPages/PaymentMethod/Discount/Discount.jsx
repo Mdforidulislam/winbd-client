@@ -7,7 +7,6 @@ const Discount = () => {
 
   const isValidDiscount = !isNaN(parseFloat(discount)) && parseFloat(discount) > 1;
 
-  console.log(isValidDiscount);
   return (
     <div className={`${isValidDiscount ? "discount-badge rounded-r-[3px] " : "hidden"}`}>
       <span className={`${isValidDiscount ? "discount-badge-text tracking font-sans " : "hidden"}`}>+{discount}%</span>

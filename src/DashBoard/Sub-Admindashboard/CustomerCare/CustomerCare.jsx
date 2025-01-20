@@ -18,12 +18,12 @@ const AdminCustomerCare = () => {
         const fetchData = async () => {
             try {
                 const [socialResponse, emailResponse] = await Promise.all([
-                    axios.get(`https://sever.win-pay.xyz/getSocialMFPF`, { params: { authorId: authId } }),
-                    axios.get(`https://sever.win-pay.xyz/getingSubAdminEmail`, { params: { authoreId: authId } })
+                    axios.get(`http://localhost:5000/getSocialMFPF`, { params: { authorId: authId } }),
+                    axios.get(`http://localhost:5000/getingSubAdminEmail`, { params: { authoreId: authId } })
                 ]);
                 setData(socialResponse?.data?.data?.socialMediaLinks || {});
                 setEmailData(emailResponse.data?.getngEmail?.email || '');
-                console.log(emailResponse.data);
+ 
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -44,8 +44,8 @@ const AdminCustomerCare = () => {
                 }
             };
 
-            const response = await axios.put(`https://sever.win-pay.xyz/insertSocialMFPF`, updatedData, { params: { authorId } });
-            console.log(response.data);
+            const response = await axios.put(`http://localhost:5000/insertSocialMFPF`, updatedData, { params: { authorId } });
+ 
 
             if (response.data.message === 'Operation successful') {
                 setData(updatedData.socialMediaLinks);
@@ -66,10 +66,10 @@ const AdminCustomerCare = () => {
                 email: link
             };
 
-            console.log("Updated Email Data:", updatedData);
 
-            const response = await axios.put(`https://sever.win-pay.xyz/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
-            console.log(response.data);
+
+            const response = await axios.put(`http://localhost:5000/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
+
             if (response.data.message === "Email updated successfully") {
                 setEmailData(link);
                 toast.success('Email updated successfully');

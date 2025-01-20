@@ -12,7 +12,7 @@ const Modal = ({ setIsOpenModalOpen, isModalOpen, historyModal, showProgress, se
     const closeModal = () => {
         setIsOpenModalOpen(false);
         setShowProgress(false);
-        console.log("Modal closed, showProgress set to false");
+ 
     };
 
 

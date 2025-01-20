@@ -1,41 +1,64 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import bkash from '../../../../../public/bkash.png';
-import nagad from '../../../../../public/nagad.png';
-import rocket from '../../../../../public/rocket.jpg';
-import { MdOutlineDoubleArrow } from "react-icons/md";
+import { useContext, useEffect, useState } from "react";
+import bkash from '/bkash.png';
+import nagad from '/nagad.png';
+import rocket from '/rocket.jpg';
 import ModalTransaction from "./Modal/ModalTransaction";
-import { useQuery } from "@tanstack/react-query";
+
 import Loader from "../../../../Components/Loader/Loader";
+import { AuthContext } from "../../../../Authentication/Authentication";
 // import { Pagination } from "../../../../Components/Shared/Pagination";
 
 
 
-const Verify = () => {
+const VerifyTab = ({ activeTab  , uniqueValue}) => {
+
     const [openModal, setOpenModal] = useState(false);
-    const [dataList, setData] = useState(null);
-    const [authoreId, setauthoreId] = useState(); // set author id here ;
-    const activeTab = 'verify';
+    const [uniqueId, setUniqueId] = useState();
+    const [loading, setLoading] = useState(true);
+    const [userReqData, setUserReqData] = useState([]);
+    const [dataList, setDataList] = useState(null);
+
+    const { requestFilterId } = useContext(AuthContext);
+
+    // Retrieve userId from localStorage and set it in the context
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
-        setauthoreId(authurId);
-    }, [])
+        setUniqueId(authurId);
+    }, []);
 
-    const { isLoading, data, refetch } = useQuery({
+    // setCondtion For making Dependency
 
-        queryKey: ['QueryDataDeposite', authoreId],
-        queryFn: () =>
-            fetch(`https://sever.win-pay.xyz/getingVerifydata?authoreId=${authoreId}`).then((res) =>
-                res.json(),
-            ),
-        refetchInterval: 2000, // Refresh every 5 seconds
-    });
+    const isTrueData = requestFilterId ? true : false;
+
+    //  geting users Transaction request
+
+    useEffect(() => {
+
+        if(!uniqueId) return
+        const getingUserResquestInfo = async () => {
+            const response = await axios.get(`http://localhost:5000/getingVerifydata?authoreId=${uniqueId}`);
+            if (Array.isArray(response?.data?.queryVerifyData)) {
+                setUserReqData(response?.data?.queryVerifyData);
+                }
+            setLoading(false)
+
+        }
+      
+        getingUserResquestInfo()
+
+    }, [isTrueData,activeTab,uniqueId ,  requestFilterId , uniqueValue])
+
+    //   filter data here
+
+    
+   
 
 
 
 
     const handleModal = (item) => {
-        setData(item);
+        setDataList(item);
         setOpenModal(true);
     };
 
@@ -55,14 +78,14 @@ const Verify = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading ? (
+                        {loading ? (
                             <tr>
                                 <td colSpan="5">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
-                            data?.queryVerifyData?.map((item, i) => (
+                            userReqData?.map((item, i) => (
                                 <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
@@ -92,4 +115,4 @@ const Verify = () => {
     );
 };
 
-export default Verify;
+export default VerifyTab;

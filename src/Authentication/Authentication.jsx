@@ -26,12 +26,13 @@ const Authentication = ({ children }) => {
   const [selectedFilters, setSelectedFilters] = useState([]); // 
   const [discount, setDiscount] = useState(); // set discount from promotion offer 
   const [reload, setReload] = useState(null); // set reload here 
+  const [requestFilterId, setRequestFilterId] = useState(); // set the transaction request  status id could be update or approve or rejected 
 
   //==================== ahutentication data ============================ 
 
   const loginUserNamePassword = async (userName, password) => {
     try {
-      const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userName}&password=${password}`);
+      const res = await fetch(`http://localhost:5000/userValidation?userName=${userName}&password=${password}`);
       const data = await res.json();
       console.log('response after login', data.message,data);
 
@@ -57,7 +58,7 @@ const Authentication = ({ children }) => {
     const fetchData = async () => {
       try {
        if(userInfo.role){
-          const res = await fetch(`https://sever.win-pay.xyz/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
+          const res = await fetch(`http://localhost:5000/userValidation?userName=${userInfo.userName}&password=${userInfo.password}`);
           const data = await res.json()
           setRole(data?.role)
           setRegisterInfo(data)
@@ -127,6 +128,8 @@ const Authentication = ({ children }) => {
     console.log(transationInfo);
   }
 
+
+
   // context provide value 
   const authInfo = {
     loginUserNamePassword,
@@ -157,7 +160,9 @@ const Authentication = ({ children }) => {
     setDiscount,
     discount,
     reload,
-    setReload
+    setReload,
+    setRequestFilterId,
+    requestFilterId
   };
 
   return (

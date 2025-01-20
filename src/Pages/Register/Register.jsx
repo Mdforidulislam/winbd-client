@@ -39,13 +39,16 @@ const Register = () => {
 
         // Extract the 'ref' parameter value
         const refValue = getUrlParameter('ref');
+        
 
         // Check if refValue is not null and convert to number if needed
-        const refNumber = refValue ? parseInt(refValue, 10) : null;
+        const refNumber = refValue !== null ? Number(refValue) : null;
+
+  
 
         // Store data in localStorage
-        if (refNumber) {
-            localStorage.setItem('registerAuthrId', JSON.stringify(refNumber));
+        if (refValue) {
+            localStorage.setItem('registerAuthrId', JSON.stringify(refValue));
         }
 
         // Retrieve data from localStorage
@@ -137,12 +140,12 @@ const Register = () => {
         // login working here ========================
         const onSubmit = async (data) => {
             data.authorId = registerAuthorId;
-            console.log(registerAuthorId);
-            console.log(data,'action here');
-            const register = await axios.post('https://sever.win-pay.xyz/insertUsers', data)
-            console.log(register);
+       
+         
+            const register = await axios.post('http://localhost:5000/insertUsers', data)
+           
             if (register.data.message === 'User already registered') {
-                toast.success("User already registered")
+                toast.error("User already registered")
                 alert('User already registered')
             } else {
                 toast.success("successfully create account")

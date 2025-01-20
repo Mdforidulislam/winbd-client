@@ -2,7 +2,7 @@
 const ModalInfoShow = ({ historyModal }) => {
 
     const { amount, date, requestStatus, time, transactionType, stutusNote, number, paymentMethod, transactionId } = historyModal;
-console.log(requestStatus);
+
     return (
         <div className="mt-6 text-white">
             {/* tile the transaction info */}

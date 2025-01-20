@@ -4,10 +4,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { FaRegCopy, FaCheck, FaCheckCircle } from "react-icons/fa";
-import bkash from '../../../../public/bkash.png';
-import nagad from '../../../../public/nagad.png';
-import rocket from '../../../../public/rocket.jpg';
-import two from '../../../../public/two.png';
+import bkash from '/rocket.jpg';
+import nagad from '/nagad.png';
+import rocket from '/rocket.jpg';
+import two from '/two.png';
 import { IoIosArrowBack } from "react-icons/io";
 import { AuthContext } from "../../../Authentication/Authentication";
 import Loader from "../../../Components/Loader/Loader";
@@ -79,10 +79,18 @@ const ConfirmPay = () => {
             setUserNumber(JSON.parse(userNumber));
         }
 
-        // Getting subAdmin number
-        const subAdminNumber = localStorage.getItem('authorPhoneNumber');
+     // Getting subAdmin number
+        const subAdminNumber = localStorage.getItem('authorPhoneNumber') || {};
         if (subAdminNumber) {
-            setSubAdminNumber(JSON.parse(subAdminNumber));
+
+            try {
+                const subAdminNumberPars = JSON.parse(subAdminNumber);
+                setSubAdminNumber(subAdminNumberPars);
+            } catch (e) {
+                console.error("Parsing error:", e);
+                // Assuming the value might be a plain string and directly setting it
+                setSubAdminNumber(subAdminNumber);
+            }
         }
         const promoTitle = localStorage.getItem('promotion');
         if (promoTitle) {
@@ -150,13 +158,13 @@ const ConfirmPay = () => {
         // set the button is processcing
         setIsProcessing(true);
 
-        console.log(transactionInfo);
+        // console.log(transactionInfo);
 
         // Ensure all fields are filled before making the API call
         if (transactionInfo) {
             try {
-                const insertData = await axios.post('https://sever.win-pay.xyz/insertTransaction', transactionInfo);
-                console.log(insertData.data.message);
+                const insertData = await axios.post('http://localhost:5000/insertTransaction', transactionInfo);
+ 
                 if (insertData.data.message === 'Transaction ID must be unique.') {
                     toast.error('Transaction ID must be unique.')
                 } else if (insertData.data.message === 'Transaction inserted successfully') {
@@ -196,9 +204,9 @@ const ConfirmPay = () => {
         }
     }, [showMassage, minute, second]);
 
-    if (redirect) {
-        return <Navigate to="/profile/user" replace={true} />;
-    }
+    // if (redirect) {
+    //     return <Navigate to="/profile/user" replace={true} />;
+    // }
 
     // Copy function
     const handleCopyAmount = () => {

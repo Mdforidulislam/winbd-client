@@ -35,13 +35,13 @@ const AddNumber = () => {
 
     //   ======================== add tranaction number ==========================
 
-    axios.post("https://sever.win-pay.xyz/addTransaction", paymenetList, {
+    axios.post("http://localhost:5000/addTransaction", paymenetList, {
       headers: {
         "Content-Type": "application/json",
       }
     })
       .then((response) => {
-        console.log(response.data); // Logging the response data from the server
+
         if (response.data.message === 'insert data Sucessfully') {
           Swal.fire({
             position: "center",
@@ -68,11 +68,12 @@ const AddNumber = () => {
   // ========================= geting paymentMethod face  ==============================
 
   useEffect(() => {
+    
     if (getUniqueIdLocal) {
-      axios.get(`https://sever.win-pay.xyz/getingPaymentmethod?uniqueId=${getUniqueIdLocal}`)
+      axios.get(`http://localhost:5000/getingPaymentmethod?uniqueId=${getUniqueIdLocal}`)
         .then(data => {
           setAllPaymentMehod(data.data.getingPaymentMehod);
-          console.log(data.data);
+
         })
     }
   }, [getUniqueIdLocal])
@@ -82,13 +83,12 @@ const AddNumber = () => {
 
   const handleConfiguration = (number, id) => {
 
-    axios.patch("https://sever.win-pay.xyz/updatePaymentMethod/", { number, id }, {
+    axios.patch("http://localhost:5000/updatePaymentMethod/", { number, id }, {
       headers: {
         "Content-Type": "application/json",
       }
     })
       .then((response) => {
-        console.log(response.data); // Logging the response data from the server
         if (response.data.message === 'update data sucessfully') {
           Swal.fire({
             position: "center",

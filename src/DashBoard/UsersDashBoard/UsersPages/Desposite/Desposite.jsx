@@ -8,7 +8,6 @@ import { AuthContext } from "../../../../Authentication/Authentication";
 
 const Desposite = () => {
     const { userTransationOption } = useContext(AuthContext)
-   
     userTransationOption('deposite')
 
     return (

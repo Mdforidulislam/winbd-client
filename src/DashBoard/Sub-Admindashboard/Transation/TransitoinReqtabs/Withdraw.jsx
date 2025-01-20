@@ -1,35 +1,57 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import bkash from '../../../../../public/bkash.png';
-import nagad from '../../../../../public/nagad.png';
-import rocket from '../../../../../public/rocket.jpg';
-import { MdOutlineDoubleArrow } from "react-icons/md";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import bkash from '/bkash.png';
+import nagad from '/nagad.png';
+import rocket from '/rocket.jpg';
 import ModalTransaction from "./Modal/ModalTransaction";
 import Loader from "../../../../Components/Loader/Loader";
 
-const DepositeTable = () => {
+import { AuthContext } from "../../../../Authentication/Authentication";
+
+const WithDrawTalbe = (uniqueValue , tab) => {
     const [openModal, setOpenModal] = useState(false);
-    const [data, setData] = useState(null);
-    const [localData, setLocalData] = useState('');
+    const [uniqueId, setUniqueId] = useState();
+    const [loading, setLoading] = useState(true);
+    const [userReqData, setUserReqData] = useState([]);
+    const [dataList, setDataList] = useState(null);
 
-    // Fetch data using useQuery
-    const { isLoading, data: serverData } = useQuery({
-        queryKey: ['transactionReqWith', localData],
-        queryFn: async () => {
-            const response = await fetch(`https://sever.win-pay.xyz/transactionReqWith?authurId=${localData}`);
-            return response.json();
-        },
-        refetchInterval: 2000, // Refresh every 5 seconds
-    });
+    const { requestFilterId } = useContext(AuthContext);
 
-    // Update local data when user data changes
+    const activeTab = 'withdraw';
+
+    // Retrieve userId from localStorage and set it in the context
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
-        setLocalData(authurId);
+        setUniqueId(authurId);
     }, []);
 
+
+
+    //  geting users Transaction request
+    useEffect(() => {
+        if (!uniqueId) return
+        const getingUserResquestInfo = async () => {
+            const response = await axios.get(`http://localhost:5000/transactionReqWith?authurId=${uniqueId}`);
+            setUserReqData(response?.data);
+            setLoading(false);
+
+        }
+            getingUserResquestInfo()
+        
+    }, [uniqueId , uniqueValue, tab])
+ 
+    //   filter data here
+    
+    const dataFilter = Array.isArray(userReqData?.queryWithDrawData) ? userReqData?.queryWithDrawData?.filter(item => item._id !== requestFilterId || '') : userReqData?.queryWithDrawData;
+
+
+
+
+
+
+
     const handleModal = (item) => {
-        setData(item);
+        setDataList(item);
         setOpenModal(true);
     };
 
@@ -47,14 +69,14 @@ const DepositeTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading ? (
+                        {loading ? (
                             <tr>
                                 <td colSpan="5">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
-                            serverData?.queryWithDrawData?.map((item, i) => (
+                            dataFilter?.map((item, i) => (
                                 <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
@@ -78,9 +100,9 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            {openModal && <ModalTransaction setOpenModal={setOpenModal} openModal={openModal} item={data} data={serverData} />}
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} activeTab={activeTab} openModal={openModal} item={dataList} data={userReqData} />}
         </div>
     );
 };
 
-export default DepositeTable;
+export default WithDrawTalbe;

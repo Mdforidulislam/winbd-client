@@ -2,8 +2,30 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { IoCloseSharp } from "react-icons/io5";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => {
+    const [datList, setDataList] = useState(item)
+
+    const handleCheckboxChange = async (type,id) => {
+        const response = await axios.put(`http://localhost:5000/paymentUpdate?id=${id}&type=${type}`);
+        if(response.data.message === 'Successfully updated the payment information.'){
+            item.paymentPermissions = item.paymentPermissions.map((perm) => {
+                if (perm.type === type) {
+                  return {
+                    ...perm,
+                    allowed: !perm.allowed, // Toggle the `allowed` value
+                  };
+                }
+                return perm;
+              });
+        }
+    }
+
+
+
+  
+
     const {
         register,
         handleSubmit,
@@ -12,33 +34,68 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
 
     const onSubmit = async (data) => {
         // Structure the data as required
+        // for user object 
         const formattedData = {
-            userName: data.userName,
-            password: data.password,
-            phoneNumber: data.phoneNumber,
+            userName: data?.userName ,
+            password: data?.password,
+            phoneNumber: data?.phoneNumber,
             authorId: item?.authorId,
             role: item?.role,
         };
 
-        try {
-            const response = await axios.put(`https://sever.win-pay.xyz/updateUserInfoAPI?id=${item?._id}`, formattedData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+        // for subamdin update sent to database 
+        const updateSubAdmin = {
+            subAdmin: data?.userName,
+            phoneNumber: data?.phoneNumber,
+            password: data?.password,
+        }
 
-            console.log(response.data); // Logging the response data from the server
-            if (response.data.message === 'Successfully updated the user') {
-                toast.success('User Successfully Updated');
-                setOpenModal(false);
-                userDataget();
-            } else {
-                toast.error('User already exists');
+
+        try {
+
+            //  for update only users 
+            if (item.userName) {
+                const response = await axios.put(`http://localhost:5000/updateUserInfoAPI?id=${item?._id}`, formattedData, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+    
+
+                if (response.data.message === 'Successfully updated the user') {
+                    toast.success('User Successfully Updated');
+                    setOpenModal(false);
+                    userDataget();
+                } else {
+                    toast.error('User already exists');
+                }
             }
+
+            //  for update only subamdin 
+
+            if (item.subAdmin) {
+                const response = await axios.put(`http://localhost:5000/updatesubAdminInfoAPI?id=${item?._id}`, updateSubAdmin, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+    
+                if (response.data.message === 'Successfully updated the user') {
+                    toast.success('User Successfully Updated');
+                    setOpenModal(false);
+                } else {
+                    toast.error('User already exists');
+                }
+            }
+
+
         } catch (error) {
             console.error("There was a problem with the Axios operation:", error);
         }
     };
+
+
+
 
     return (
         <div className="flex w-full md:w-72 items-center justify-start">
@@ -59,7 +116,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
                                     placeholder="User Name"
                                     {...register("userName", { required: "Enter user name" })}
                                     type="text"
-                                    defaultValue={item?.userName}
+                                    defaultValue={item?.userName || item?.subAdmin}
                                 />
                                 {errors.userName && (
                                     <span className="text-red-600">{errors.userName.message}</span>
@@ -95,6 +152,49 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
                                     <span className="text-red-600">{errors.password.message}</span>
                                 )}
                             </div>
+                                {/* payment opiton add here  */}
+
+                                <div className="p-4">
+                                    <h1 className="text-left text-white font-serif mb-5 text-lg">Payment Method Available</h1>
+                                    <div className="flex flex-wrap gap-10">
+                                        {item?.paymentPermissions.map((permission, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex flex-col items-center justify-center gap-2 bg-gray-800 p-4 rounded-lg w-[120px] shadow-md"
+                                        >
+                                            {/* Payment Type Name */}
+                                            <h1 className="text-white capitalize text-sm">{permission?.type}</h1>
+                                            {/* Toggle Switch */}
+                                            <label
+                                            htmlFor={`toggle-${index}`}
+                                            className="flex cursor-pointer items-center"
+                                            >
+                                            <div className="relative">
+                                                <input
+                                                id={`toggle-${index}`}
+                                                type="checkbox"
+                                                checked={permission?.allowed}
+                                                onChange={()=>handleCheckboxChange(permission?.type,item?._id)}
+                                                className="sr-only"
+                                                />
+                                                {/* Switch Background */}
+                                                <div
+                                                className={`block h-6 w-12 rounded-full transition-all ${
+                                                    permission?.allowed ? 'bg-blue-500' : 'bg-gray-300'
+                                                }`}
+                                                ></div>
+                                                {/* Switch Knob */}
+                                                <div
+                                                className={`absolute top-1 left-1 h-4 w-4 rounded-full bg-black transition-transform ${
+                                                    permission?.allowed ? 'translate-x-6' : 'translate-x-0'
+                                                }`}
+                                                ></div>
+                                            </div>
+                                            </label>
+                                        </div>
+                                        ))}
+                                    </div>
+                                    </div>
                             <div className="text-center mt-5">
                                 <button
                                     type="submit"

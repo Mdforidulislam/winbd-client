@@ -12,14 +12,13 @@ export const ModalSub = ({ openModal, setOpenModal }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-    axios.post("https://sever.win-pay.xyz/insertSubAdmin", data, {
+    axios.post("http://localhost:5000/insertSubAdmin", data, {
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((response) => {
-        console.log(response.data); // Logging the response data from the server
+
         if (response.data.message === 'subadmin insert successfully') {
           toast.success('User Successfully Added');
         } else {

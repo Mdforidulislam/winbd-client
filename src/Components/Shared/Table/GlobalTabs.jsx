@@ -1,8 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext} from 'react';
 // import { FaAngleDown } from "react-icons/fa";
-import PaymentMethod from '../../../DashBoard/UsersDashBoard/UsersPages/PaymentMethod/PaymentMethod';
-import DepositeChennel from '../../../DashBoard/UsersDashBoard/UsersPages/DepositeChanel/DepositeChennel';
-import Amount from '../../../DashBoard/UsersDashBoard/UsersPages/Amount/Amount';
 import WithDraw from '../../../DashBoard/UsersDashBoard/UsersPages/Withdraw/WithDraw';
 import Desposite from '../../../DashBoard/UsersDashBoard/UsersPages/Desposite/Desposite';
 import History from '../../../DashBoard/UsersDashBoard/UsersPages/History/History';

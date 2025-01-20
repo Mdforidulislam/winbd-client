@@ -27,8 +27,8 @@ const NewProfile = ({ animation, handleClose }) => {
             try {
                 if (localData) {
                     const [socialResponse, emailResponse] = await Promise.all([
-                        fetch(`https://sever.win-pay.xyz/getinPassordContact?authorId=${localData}`),
-                        fetch(`https://sever.win-pay.xyz/getingSubAdminEmail?authoreId=${localData}`)
+                        fetch(`http://localhost:5000/getinPassordContact?authorId=${localData}`),
+                        fetch(`http://localhost:5000/getingSubAdminEmail?authoreId=${localData}`)
                     ]);
 
                     const socialData = await socialResponse.json();
@@ -37,8 +37,6 @@ const NewProfile = ({ animation, handleClose }) => {
                     setFetchedData(socialData);
                     setEmailData(emailData.getngEmail.email);
 
-                    console.log('Fetched Social Data:', socialData);
-                    console.log('Fetched Email Data:', emailData.getngEmail.email);
                 } else {
                     console.log('No authorId found in localData:', localData); // Debug log
                 }
@@ -58,16 +56,16 @@ const NewProfile = ({ animation, handleClose }) => {
     const handleLogOutAction = () => {
         localStorage.removeItem('userData');
         setRole(undefined);
-        console.log('User logged out, role cleared.'); // Debug log
+
     };
 
     const handleChange = (value) => {
         setActiveTab(value);
-        console.log('Tab changed to:', value); // Debug log
+       
     };
 
     const { socialMediaLinks } = fetchedData.data || {};
-console.log(socialMediaLinks);
+
     return (
         <div className={`fixed overflow-x-hidden flex flex-col items-center justify-start inset-0 md:max-w-[28%] md:overflow-hidden md:mx-auto text-white bg-black w-full ${animation}`}>
             <div className="relative h-44 w-[120%] md:ml-4 rounded-b-full overflow-x-hidden">

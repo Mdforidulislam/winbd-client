@@ -9,7 +9,6 @@ const WithDraw = () => {
   userTransationOption('withdraw')
 
   const [isRotating, setIsRotating] = useState(false);
-  const [balance, setBalance] = useState(0);
 
   const handleClick = () => {
     setIsRotating(true);

@@ -23,7 +23,7 @@ const GlobalChart = () => {
         <div>
             <div>
                 <div className=' bg-GlobalGray  shodow-xl shadow-[#4e587f] mt-5' id="chart">
-                    <ReactApexChart options={charts.options} series={charts.series} type="area" height={450} width={850}/>
+                    <ReactApexChart options={charts.options} series={charts.series} type="area" height={100} width={850}/>
                 </div>
 
                 <div  id="html-dist"></div>

@@ -1,41 +1,52 @@
 import { useContext, useEffect, useState } from "react";    
 import ModalTransaction from "./Modal/ModalTransaction";
-import { MdOutlineDoubleArrow } from "react-icons/md";
 import Loader from "../../../../Components/Loader/Loader";
-import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../../../Authentication/Authentication";
+import axios from "axios";
 
-const DepositeTable = () => {
-    const [localData, setLocalData] = useState('');
+const DepositeTable = ({uniqueValue,tab}) => {
     const [openModal, setOpenModal] = useState(false);
+    const [uniqueId, setUniqueId] = useState();
+    const [loading, setLoading] = useState(true);
+    const [userReqData, setUserReqData] = useState([]);
     const [dataList, setDataList] = useState(null);
+    const { requestFilterId } = useContext(AuthContext);
+
     const activeTab = 'deposit';
 
-    const { reload } = useContext(AuthContext);
-
-    // 
+    // Retrieve userId from localStorage and set it in the context
     useEffect(() => {
         const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
-        setLocalData(authurId);
-    }, [reload]);
+        setUniqueId(authurId);
+        
+    }, []);
+
+    //  geting users Transaction request
+
+    useEffect(() => {
+        if (!uniqueId) return
+        const getingUserResquestInfo = async () => {
+            const response = await axios.get(`http://localhost:5000/transactionReqDopsite?authurId=${uniqueId}`);
+            setUserReqData(response?.data);
+            setLoading(false)
+
+        }
+        getingUserResquestInfo()
+ 
+    }, [uniqueId, tab , uniqueValue]);
 
 
-    console.log(localData)
+    //   filter data here
+    
+    const dataFilter = Array.isArray(userReqData?.queryDepositeData) ? userReqData?.queryDepositeData?.filter(item => item._id !== requestFilterId) : userReqData?.queryDepositeData;
 
-    // 
-    const { isLoading, data, refetch } = useQuery({
-        queryKey: ['QueryDataDeposite'],
-        queryFn: () =>
-            fetch(`https://sever.win-pay.xyz/transactionReqDopsite?authurId=${localData}`).then((res) =>
-                res.json(),
-            ),
-        refetchInterval: 2000, // Refresh every 2 seconds
-    });
+
 
     const handleModal = (item) => {
         setDataList(item);
         setOpenModal(true);
     };
+
 
     return (
         <div className="">
@@ -51,14 +62,14 @@ const DepositeTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading ? (
+                        {loading ? (
                             <tr>
                                 <td colSpan="5">
                                     <Loader />
                                 </td>
                             </tr>
                         ) : (
-                            data?.queryDepositeData?.map((item, i) => (
+                            dataFilter?.map((item, i) => (
                                 <tr key={i} onClick={() => handleModal(item)} className={`${i % 2 === 0 ? 'bg-[#2f2f2f]' : 'bg-[#393939]'} hover:bg-black/20 cursor-pointer transition duration-300`}>
                                     <td className="py-2 md:px-6 px-3 md:pl-7 border-b border-gray-700">
                                         <img
@@ -82,7 +93,7 @@ const DepositeTable = () => {
                     </tbody>
                 </table>
             </div>
-            {openModal && <ModalTransaction setOpenModal={setOpenModal} activeTab={activeTab} openModal={openModal} item={dataList} data={data} />}
+            {openModal && <ModalTransaction setOpenModal={setOpenModal} activeTab={activeTab} openModal={openModal} item={dataList} data={userReqData} />}
         </div>
     );
 };

@@ -4,7 +4,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import toast from "react-hot-toast";
 
 export const SubAdminUpdateModal = ({ item, openUpdateModal, setOpenUpdateModal }) => {
-    console.log(item);
+
     const {
         register,
         handleSubmit,
@@ -12,8 +12,8 @@ export const SubAdminUpdateModal = ({ item, openUpdateModal, setOpenUpdateModal 
     } = useForm();
 
     const onSubmit = (data) => {
-        console.log(data);
-        // axios.post("https://sever.win-pay.xyz/insertSubAdmin", data, {
+
+        // axios.post("http://localhost:5000/insertSubAdmin", data, {
         //     headers: {
         //         "Content-Type": "application/json",
         //     },

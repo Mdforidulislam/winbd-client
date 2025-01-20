@@ -43,11 +43,10 @@ const PaymentInstruction = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         try {
-            const response = await axios.post('https://sever.win-pay.xyz/insertPayInstraction', formData);
+            const response = await axios.post('http://localhost:5000/insertPayInstraction', formData);
             const finalData = await response.data;
-            console.log(finalData);
+
         } catch (error) {
             console.error('Error submitting form:', error);
         }

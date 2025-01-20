@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { GrInProgress } from "react-icons/gr";
-import { GrCompliance } from "react-icons/gr";
+
 import { FaFlag } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { FaCheck } from "react-icons/fa";
 
 const ModalProgress = ({ historyModal, showProgress }) => {
     const { date, requestStatus, time, transactionType, statusNote } = historyModal;
-    console.log(historyModal?.requestStatus);
+ 
     const [showOrder1, setShowOrder1] = useState(false);
     const [showOrder2, setShowOrder2] = useState(false);
     const [showOrder3, setShowOrder3] = useState(false);

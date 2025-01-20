@@ -7,6 +7,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Loader from '../../../../Components/Loader/Loader';
+import ToggleSwitch from '../../../../Components/ToggleSwitch/ToggleSwitch';
 
 const PaymentNumber = ({ paymentType, activeTab }) => {
     const [selectedOption, setSelectedOption] = useState([]);
@@ -20,12 +21,26 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
     const [activeId, setActiveId] = useState([]);
     const [status, setStatus] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [subAdminInfo,setSubAdminInfo] = useState({})
 
     useEffect(() => {
-        const authurId = JSON.parse(localStorage.getItem("userData"))?.uniqueId;
-        setLocalData(authurId);
+        const authurId = JSON.parse(localStorage.getItem("userData"));
+
+        setLocalData(authurId?.uniqueId);
         setActiveId(JSON.parse(localStorage.getItem("activeId")) || []);
     }, []);
+
+    useEffect(()=>{
+      
+            let x = setTimeout(async() => {
+                const reponse = await axios.get(`http://localhost:5000/getingSingleSubAdmin?uniqueId=${localData}`)
+                setSubAdminInfo(reponse.data.data);
+            }, 1000);
+
+            ()=> clearTimeout(x);
+    },[localData])
+
+ 
 
     const handleDropdownClick = (index) => {
         setDropdownOpen((prevState) => prevState.map((open, i) => (i === index ? !open : false)));
@@ -41,7 +56,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true);
             try {
-                const { data: serverData } = await axios.get(`https://sever.win-pay.xyz/getingPaymentmethod`, {
+                const { data: serverData } = await axios.get(`http://localhost:5000/getingPaymentmethod`, {
                     params: {
                         uniqueId: localData,
                         paymentType,
@@ -75,7 +90,11 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         const formValues = {
             Logo,
             depositeChannel,
-            note: newNote,
+            note: newNote === "" ? {
+                    title: "",
+                    list:[],
+                    remainder:""
+            } : newNote,
             number: e.target.number.value || newId.number,
             status: status[index] || newId.status,
             transactionMethod,
@@ -84,7 +103,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         };
 
         try {
-            const { data: res } = await axios.patch('https://sever.win-pay.xyz/updatePaymentMethod', formValues);
+            const { data: res } = await axios.patch('http://localhost:5000/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
                 toast.success(res.message);
             }
@@ -94,6 +113,18 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         }
     };
 
+    const handlePaymentSwitch =async (id, type) =>{
+
+        const response = await axios.put(`http://localhost:5000/updatePaymentPermission?id=${id}&type=${type}`);
+
+    }
+
+    //1 bydefault on manual 
+    // if fast time not data insert so open modal for geting data payment if already data insert dont' need 
+    // if one enalbe one of off 
+
+
+    
     return (
         <>
             {loading ? (
@@ -157,6 +188,20 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
                                         </span>
                                         <FaRegCheckCircle className='text-[18px]' />
                                     </button>
+                                </div>
+                            </div>
+
+                            {/* Payment system Availbe section */}
+                            <div className={`flex justify-around  ${subAdminInfo?.paymentPermissions?.some((item)=> item.type === "automatic" && item.allowed) ? "" : "hidden" }`}>
+                               
+                                <div className='flex gap-3'>
+                                    {
+                                       data?.activePayMethod?.map((item,index)=>(
+                                         <div key={`${data.id}-${item.type}`} onClick={()=>handlePaymentSwitch(data?.id,item?.type)}>
+                                             <ToggleSwitch   tooltip={item.type} initialState={item.allowed} /> 
+                                         </div>
+                                       )) 
+                                    }
                                 </div>
                             </div>
                         </form>

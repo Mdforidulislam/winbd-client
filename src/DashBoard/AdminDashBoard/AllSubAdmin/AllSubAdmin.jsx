@@ -5,7 +5,7 @@ import Loader from "../../../Components/Loader/Loader";
 import { ModalSub } from "./SubAdminModal/ModalSub";
 import { Pagination } from "../../../Components/Shared/Pagination";
 import { MdOutlineDoubleArrow } from "react-icons/md";
-import { SubAdminUpdateModal } from "./SubAdminModal/openUpdateModal";
+import { AllUserModal } from "../../../Components/Modals/AllUserModal";
 
 const AllSubAdmin = () => {
   const [search, setSearch] = useState(""); // set search data here
@@ -45,6 +45,8 @@ const AllSubAdmin = () => {
     setData(item);
     setOpenUpdateModal(true);
   };
+
+
 
   return (
     <div className="w-full max-w-[1000px] mx-auto">
@@ -103,7 +105,8 @@ const AllSubAdmin = () => {
       </div>
       <Pagination storeData={dataSubAdmin} setPageNumbers={setPageNumber} />
       {openModal && <ModalSub openModal={openModal} setOpenModal={setOpenModal} />}
-      {openUpdateModal && <SubAdminUpdateModal openUpdateModal={openUpdateModal} setOpenUpdateModal={setOpenUpdateModal} item={data} />}
+      {openUpdateModal && <AllUserModal setOpenModal={setOpenUpdateModal} openModal={openUpdateModal} item={data}/>}
+     
     </div>
   );
 };

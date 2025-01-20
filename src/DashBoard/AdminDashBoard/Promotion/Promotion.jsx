@@ -22,7 +22,7 @@ const Promotion = () => {
         timeType: 'allTime'
     });
 
-    console.log(formData);
+
 
 
 
@@ -31,7 +31,7 @@ const Promotion = () => {
         // Fetch campaigns data on component mount
         const fetchCampaigns = async () => {
             try {
-                const response = await axios.get('https://sever.win-pay.xyz/getingPromotininfo');
+                const response = await axios.get('http://localhost:5000/getingPromotininfo');
                 setCampaigns(response.data.getingPromotionList);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
@@ -77,9 +77,8 @@ const Promotion = () => {
     };
 
     const handleSave = async () => {
-        console.log('Form Data:', formData);
         try {
-            const response = await axios.post('https://sever.win-pay.xyz/promtionOfferinser', formData);
+            const response = await axios.post('http://localhost:5000/promtionOfferinser', formData);
             setCampaigns([...campaigns, response.data]);
             if (response.data.message === 'Successfully inserted promotion data') {
                 toast.success('Campaign Added successfully');
@@ -93,9 +92,9 @@ const Promotion = () => {
 
     const handleUpdate = async () => {
         if (!currentId) return;
-        console.log('Form Data:', formData);
+
         try {
-            const response = await axios.put(`https://sever.win-pay.xyz/updatePromotionData?id=${currentId}`, formData);
+            const response = await axios.put(`http://localhost:5000/updatePromotionData?id=${currentId}`, formData);
             setCampaigns(campaigns.map(campaign => campaign._id === currentId ? response.data : campaign));
             clearForm();
             if (response.data.message === 'Successfully updated promotion') {
@@ -109,9 +108,9 @@ const Promotion = () => {
 
     const handleDelete = async () => {
         if (!currentId) return;
-        console.log('Form Data:', formData);
+
         try {
-            const response = await axios.delete(`https://sever.win-pay.xyz/deletedPromtion?id=${currentId}`);
+            const response = await axios.delete(`http://localhost:5000/deletedPromtion?id=${currentId}`);
             setCampaigns(campaigns.filter(campaign => campaign._id !== currentId));
             clearForm();
             if (response.data.message === 'Successfully deleted promotion') {

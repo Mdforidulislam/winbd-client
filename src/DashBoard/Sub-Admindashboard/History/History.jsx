@@ -31,7 +31,7 @@ const History = () => {
     //     if (!localData) return;
 
     //     setLoading(true);
-    //     let url = `https://sever.win-pay.xyz/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+    //     let url = `http://localhost:5000/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
     //     if (selectedDate) {
     //         url += `&date=${selectedDate.toISOString().split('T')[0]}`;
     //     }
@@ -79,7 +79,7 @@ const History = () => {
             if (!localData) return;
 
             setLoading(true);
-            let url = `https://sever.win-pay.xyz/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+            let url = `http://localhost:5000/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
     
             if (selectedDate) {
                 url += `&date=${selectedDate.toISOString().split('T')[0]}`;
@@ -107,7 +107,7 @@ const History = () => {
         setShowDatePicker(!showDatePicker);
     };
 
-    console.log(storeData);
+
 
     return (
         <div className="">

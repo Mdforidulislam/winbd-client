@@ -6,7 +6,7 @@ import '../style.css';
 const DepositeChennel = () => {
     const [depositeChanel, setDepositeChanel] = useState("cashout");
     const { slectedPayment, userDepositeChanel, activeTab } = useContext(AuthContext);
-    console.log(slectedPayment);
+
     // Update user deposite channel in context whenever it changes
     useEffect(() => {
         if (depositeChanel) {
@@ -20,9 +20,12 @@ const DepositeChennel = () => {
             setDepositeChanel(slectedPayment[0]);
         }
     }, [slectedPayment]);
+
     const order = ['cashout', 'sendmony', 'payment'];
 
     const sortedPayment = slectedPayment.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+
+
 
     return (
         <div className="bg-[#343333] h-auto pt-3 pb-4 px-3">

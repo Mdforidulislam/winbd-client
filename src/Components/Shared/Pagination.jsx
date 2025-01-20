@@ -1,59 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import React, { useState } from 'react';
+
 
 export const Pagination = ({ totalPages , setPageNumbers }) => {
     const [pageNumber, setPageNumber] = useState(0);
-    const pageNumbers = totalPages ;
+    const [currentSet, setCurrentSet] = useState(0);
     // set paginatio nnumber
+
+    const pagesPerSet = 4;
+    const pageNumbers = Math.ceil(totalPages)// Adjust as needed
+    const totalSets = Math.ceil(totalPages / pagesPerSet);
     
-    useEffect(() => {
-        if (pageNumber) {
-            setPageNumbers(pageNumber);
-        }
-    }, [pageNumber, setPageNumbers]);
-
     const updatePageNumber = (num) => {
-        if (num >= 0 && num < pageNumbers) {
-            setPageNumber(num);
+
+        if (num > totalPages - 1 || num < 0) {
+          return setPageNumber(0);
         }
-    };
-
-    console.log(pageNumber);
-
-    const handlePageClick = (num) => () => {
-        updatePageNumber(num);
-    };
+        
+      setPageNumber(num);
+      setPageNumbers(pageNumber);
+    
+        // Update the current set if the page number goes out of the current set range
+        const newSet = Math.floor(num / pagesPerSet);
+        if (newSet !== currentSet) {
+          setCurrentSet(newSet);
+        }
+      };
+    
+      const handlePreviousSet = () => {
+        if (currentSet > 0) {
+          setCurrentSet(currentSet - 1);
+          setPageNumber((currentSet - 1) * pagesPerSet);
+        }
+      };
+    
+      const handleNextSet = () => {
+        if (currentSet < totalSets - 1) {
+          setCurrentSet(currentSet + 1);
+          setPageNumber(currentSet * pagesPerSet + pagesPerSet);
+        }
+      };
+    
+      const startPage = currentSet * pagesPerSet;
+      const endPage = Math.min(startPage + pagesPerSet, totalPages);
 
     return (
-        <div className='flex select-none justify-center items-center gap-3 md:gap-5 my-5'>
-            {/* Left Arrow */}
-            <div 
-                onClick={() => updatePageNumber(pageNumber - 1)} 
-                className='hover:scale-110 scale-100 transition-all duration-200 cursor-pointer hover:bg-DarkGreen p-2 rounded-full'
-            >
-                <IoIosArrowBack className="text-white text-2xl" />
-            </div>
+        <div className="flex select-none justify-center items-center bg-white shadow-lg rounded-sm w-fit mx-auto">
+      {/* Left arrow */}
+      <div
+        onClick={handlePreviousSet}
+        className={`transition-all py-2 px-3 text-sm border-r duration-200 cursor-pointer p-2 rounded-md flex hover:bg-gray-200 items-center ${currentSet === 0 ? 'invisible' : ''}`}
+      >
+        <svg className="w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 7L10 12L15 17" stroke="#0284C7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Previous
+      </div>
 
-            {/* Page Numbers */}
-            <div className='flex justify-center items-center gap-2'>
-                {Array.from({ length: pageNumbers }, (_, i) => (
-                    <div 
-                        key={i} 
-                        onClick={handlePageClick(i)}
-                        className={`cursor-pointer hover:scale-110 scale-100 transition-all duration-200 py-[9px] px-[18px] ${pageNumber === i ? 'bg-DarkGreen text-white' : 'bg-DarkGreen'} border-DarkGreen font-semibold text-white rounded-full`}
-                    >
-                        {i + 1}
-                    </div>
-                ))}
-            </div>
+      <div className="flex justify-center items-center">
+        {Array.from({ length: endPage - startPage }, (_, index) => startPage + index).map((item) => (
+          <div
+            onClick={() => updatePageNumber(item)}
+            className={`cursor-pointer text-sm transition-all border-r border-l duration-200 px-4 ${
+              pageNumber === item ? 'bg-green-600 text-white' : 'bg-white hover:bg-gray-200'
+            } font-semibold text-gray-700 py-[8px]`}
+            key={item}
+          >
+            {item + 1}
+          </div>
+        ))}
+      </div>
 
-            {/* Right Arrow */}
-            <div 
-                onClick={() => updatePageNumber(pageNumber + 1)} 
-                className='hover:scale-110 scale-100 transition-all duration-200 cursor-pointer hover:bg-DarkGreen p-2 rounded-full'
-            >
-                <IoIosArrowForward className="text-white text-2xl" />
-            </div>
-        </div>
+      {/* Right arrow */}
+      <div
+        onClick={handleNextSet}
+        className={`transition-all py-2 px-3 text-sm duration-200 cursor-pointer border-l rounded-md flex hover:bg-gray-200 items-center ${currentSet === totalSets - 1 ? 'invisible' : ''}`}
+      >
+        Next
+        <svg className="w-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 7L15 12L10 17" stroke="#0284C7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    </div>
     );
 };

@@ -1,19 +1,15 @@
 import { Link } from 'react-router-dom';
-import confirmImg from '../../../../public/confirmImg.png'
 import { useEffect, useState } from 'react';
-import { TbCurrencyTaka } from 'react-icons/tb';
-import { MdLocalHospital } from 'react-icons/md';
 import { Player } from '@lottiefiles/react-lottie-player';
 import confrim from '../../../../public/confirm.json'
-import { IoIosArrowBack } from 'react-icons/io';
 const ConfirmMsg = () => {
     const [localDat, setLocalData] = useState({}); // set data 
     const [userName, setUserName] = useState('')
-    console.log(localDat);
+
     useEffect(() => {
         const getingSubmInfo = localStorage.getItem('userTransaction');
         const convertParsData = JSON.parse(getingSubmInfo)
-        console.log(convertParsData);
+    ;
         setLocalData(convertParsData);
         const userInfo = localStorage.getItem('userData'); // seting user data
 

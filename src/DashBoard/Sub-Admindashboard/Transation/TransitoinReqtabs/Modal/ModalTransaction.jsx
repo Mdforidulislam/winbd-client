@@ -1,13 +1,14 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { IoCloseSharp } from "react-icons/io5";
-import bkash from '../../../../../../public/bkash.png';
-import nagad from '../../../../../../public/nagad.png';
-import rocket from '../../../../../../public/rocket.jpg';
-import React, { useState } from "react";
+import bkash from '/bkash.png';
+import nagad from '/nagad.png';
+import rocket from '/rocket.jpg';
+import React, { useContext, useState } from "react";
 import { FaCheck, FaRegCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { AiOutlineDelete } from "react-icons/ai";
+import { AuthContext } from "../../../../../Authentication/Authentication";
 
 const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => {
   const [status, setStatus] = useState(null);
@@ -18,7 +19,9 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
   const [isCopiedTrx, setIsCopiedTrx] = useState(false);
   const [showTransactionImageModal, setShowTransactionImageModal] = useState(false); // State to manage the visibility of the Transaction Image modal
 
-  console.log(item);
+  const { setRequestFilterId } = useContext(AuthContext);
+
+
   const handleChange = (event) => {
     const uppercaseValue = event.target.value.toUpperCase();
     setTransactionId(uppercaseValue);
@@ -31,9 +34,12 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
 
     try {
       let response;
-      const transactionFeedbackUrl = `https://sever.win-pay.xyz/transactionFeedback?id=${item?._id}`;
+      const transactionFeedbackUrl = `http://localhost:5000/transactionFeedback?id=${item?._id}`;
       const params = new URLSearchParams();
       params.append('note', note);
+      params.append('tnxtype', item?.transactionType);
+      params.append('userName', item?.userName);
+
 
       if (item?.transactionType === 'deposite') {
         params.append('status', status);
@@ -45,7 +51,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
       }
 
       const data = response.data;
-      console.log(data, status, transactionId, note);
+
 
       if (data.message === 'Request status updated successfully' || data.message === 'Transaction ID updated successfully') {
         Swal.fire({
@@ -56,6 +62,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
           timer: 1500
         });
         setOpenModal(false);
+        setRequestFilterId(item?._id)
       } else {
         Swal.fire({
           icon: "error",
@@ -94,8 +101,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
 
   // deleted turnover here
   const handleActionDeletedTurnover = async (id) => {
-    const deletedResponse = await axios.delete(`https://sever.win-pay.xyz/turnoverdeleted?id=${id}`);
-    console.log(deletedResponse);
+    const deletedResponse = await axios.delete(`http://localhost:5000/turnoverdeleted?id=${id}`);
+
     if (deletedResponse.data.message === "Successfully deleted the turnover") {
       toast.success(deletedResponse.data.message);
     } else {
@@ -103,7 +110,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
     }
   }
 
-  console.log(data)
+
 
   return (
     <div className="flex items-center justify-start">
@@ -324,9 +331,19 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
               ) : null
               }
               {item.requestStatus === 'verify' ? (
-                <div className="w-full flex justify-between gap-5 px-1">
-                  <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
-                  <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
+                <div className="w-full">
+                    <input
+                    className="w-full mb-4 py-2 px-3 text-white rounded bg-GlobalGray focus:outline-none text-[12px]"
+                    name="tnxid"
+                    type="text"
+                    placeholder="Transaction id"
+                    value={transactionId}
+                    onChange={handleChange}
+                  />
+                  <div className="w-full flex justify-between gap-5 px-1">
+                    <button type="submit" onClick={() => setStatus("Approved")} className="bg-green-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Approved</button>
+                    <button type="submit" onClick={() => setStatus("Rejected")} className="bg-red-500 md:py-3 py-[2px] text-[10px] text-white tracking-wider font-medium md:text-sm rounded-sm md:rounded-md w-full">Rejected</button>
+                 </div>
                 </div>
               ) : null
               }

@@ -2,7 +2,6 @@ import { Pagination } from '../../../Components/Shared/Pagination';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaSearch } from 'react-icons/fa';
-import { MdOutlineDoubleArrow } from 'react-icons/md';
 import Loader from '../../../Components/Loader/Loader';
 import { AllUserModal } from '../../../Components/Modals/AllUserModal';
 
@@ -15,7 +14,8 @@ const AllUsers = () => {
     const [loading, setLoading] = useState(true);
     const [totalPages, setUserTotalPages] = useState(); // set userLength here 
 
-
+ 
+    
     const uniqueId = JSON.parse(localStorage.getItem('userData'))?.uniqueId;
     const handleActionSearchButton = async (event) => {
         event.preventDefault();
@@ -27,15 +27,15 @@ const AllUsers = () => {
     //rejected updated code from foridul bhai so need to do it again
     const userDataget = async () => {
         try {
-            const userSearch = await axios(`https://sever.win-pay.xyz/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
+            const userSearch = await axios(`http://localhost:5000/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
             const getuserData = userSearch?.data?.userInfo;
             const totalPages = userSearch?.data?.totalPages;
             setUserTotalPages(totalPages);
-            console.log(userSearch);
+
             setStoreData(getuserData);
             setLoading(false);
         } catch (error) {
-            console.log(error);
+
             setLoading(false);
         }
     };

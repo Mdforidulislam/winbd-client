@@ -44,15 +44,15 @@ const ForgetPassword = () => {
         }
 
         try {
-            const response = await axios.put(`https://sever.win-pay.xyz/passwordForgotuser?userName=${formData.userId}&newPassword=${formData.password}`, {
+            const response = await axios.put(`http://localhost:5000/passwordForgotuser?userName=${formData.userId}&newPassword=${formData.password}`, {
                 userName: formData.userId,
                 newPassword: formData.password
             });
 
-            console.log(response.data);
+
             if (response.data.message === 'Password updated successfully') {
                 toast.success('Password updated successfully')
-                console.log('Password updated successfully');
+
             } else {
                 console.error('Failed to update password');
                 toast.error('Failed to update password')

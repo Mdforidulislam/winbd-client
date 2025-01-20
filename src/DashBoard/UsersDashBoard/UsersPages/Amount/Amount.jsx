@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../Authentication/Authentication";
 import { BsInfoCircleFill } from "react-icons/bs";
@@ -9,6 +9,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { FaCheckCircle } from "react-icons/fa";
 import Modal from "./Modal";
 import toast, { Toaster } from "react-hot-toast";
+import { useIsExiteAutomation } from "../../../../Hooks/useCheckIsExiteAutomation";
 
 const Amount = ({ number, withdraw, deposite }) => {
 
@@ -28,9 +29,9 @@ const Amount = ({ number, withdraw, deposite }) => {
     const [userPhoneNumber, setUserPhoneNumber] = useState();
     const [payMehtod, setPayMethod] = useState(''); // set the paymehtod bydefualt store
     const [selectedAmount, setSelectedAmount] = useState(null);
+    const [automationPayInfo,setAutomationPayinfo] = useState({})
 
     const navigate = useNavigate();
-
     const { userAmountInfo, handleAction, error, channel, activeTab, paymentMethod, setSlectedPayment } = useContext(AuthContext); // recive the amount 
     userAmountInfo(sumAmount); // total sum of amount 
 
@@ -59,6 +60,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [sumAmount, channel, isInteracted]);
 
 
+   
 
     // ================= geting Amount===================
     useEffect(() => {
@@ -83,7 +85,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     //handle next button
     useEffect(() => {
         if (sumAmount) {
-            console.log('access deposit value');
+
             if (activeTab === 'deposit') {
                 if (sumAmount < 200 || sumAmount > 25000) {
                     setCustomError('Please select an amount above 200 or below 25000')
@@ -129,25 +131,27 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     // geting paymethod from localstore
     useEffect(() => {
-        const seltedPayment = JSON.parse(localStorage.getItem('payMethod'));
-        setPayMethod(seltedPayment);
+        const seltedPayment = localStorage.getItem('payMethod');
+        const parsPayment = JSON.parse(seltedPayment)
+        setPayMethod(parsPayment);
     }, []);
+
     // ===================================== vaildation isProcessgcing and number channel ===========================
     useEffect(() => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://sever.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`http://localhost:5000/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
-                console.log(paymentMethod);
+                console.log(convert)
                 if (convert?.processingMessage) {
-                    setIsProccessing(convert?.processingMessage); // ispocessing transaction for vlidation message
+                    setIsProccessing(convert?.processingMessage);
                 }
-                if (convert?.paymentMethods.length > 0) {
-                    setAvailbePayment(convert?.paymentMethods); // set the availabe the method validation 
+                if (convert?.paymentMethods?.length > 0) {
+                    setAvailbePayment(convert?.paymentMethods); 
                     const dataString = JSON.stringify(convert?.paymentMethods);
-                    localStorage.setItem('paymentMethods', dataString); // set the data to database 
-                    console.log(convert?.paymentMethods);
+                    localStorage.setItem('paymentMethods', dataString); 
+                 
                 }
                 if (convert?.userPhoneNumber) {
                     setUserPhoneNumber(convert?.userPhoneNumber)
@@ -160,24 +164,73 @@ const Amount = ({ number, withdraw, deposite }) => {
         fetchData();
     }, [author, userName, paymentMethod]);
 
-    // next button here 
+    
+
+    useEffect(()=>{
+       setTimeout(() => {
+        const promotion    = localStorage.getItem("promotion");
+        function getingLocalStoreData (key){
+          const data =   localStorage.getItem(key)
+          if(data !== "undefined"){
+            return JSON.parse(data)
+          }else{
+            return null
+          }
+        }
+
+     setAutomationPayinfo(
+            {
+                userName:  getingLocalStoreData("userData")?.userName,
+                transactionType: paymentMethod,
+                amount: sumAmount,
+                userNumber:getingLocalStoreData("userPhoneNumber"),
+                authoreNumber: getingLocalStoreData("authorPhoneNumber"),
+                paymentMethod: getingLocalStoreData("payMethod"),
+                paymentChannel: channel,
+                authorId: getingLocalStoreData("userData")?.authorId,
+                offers: [{ title: promotion || '' }],
+            }
+        )
+       }, 1000);
+
+    },[sumAmount,paymentMethod,channel])
+
     const handleNextButtonClick = () => {
-        setProcessing(true);
-        setTimeout(() => {
-            setProcessing(false);
-            handleAction(sumAmount);
 
-            if (isProcessgcingMass) {
-                toast(isProcessgcingMass);
-                return;
-            }
+            const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
+            console.log(response, 'hooks return value');
+            if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'){
+                        (async()=>{
+                            try {
 
-            if (activeTab === 'deposit') {
-                navigate('/profile/confirmpay');
-            } else if (activeTab === 'withdraw') {
-                navigate('/profile/confirmpay');
+                                const response = await axios.post("http://localhost:5000/bkash-payment-create", automationPayInfo,);
+                                // Handle the response
+                                    window.location.href = response.data.redirectURL;
+                                } catch (error) {
+                                        // Handle any errors
+                                        console.error("Payment Error:", error.response?.data || error.message);
+                                }
+                        })()
+            } else if(response[0].type?.toLowerCase() === "manual"){
+                setProcessing(true);
+                let x =  setTimeout(() => {
+                        setProcessing(false);
+                        handleAction(sumAmount);
+            
+                        if (isProcessgcingMass) {
+                            toast(isProcessgcingMass);
+                            return;
+                        }
+            
+                        if (activeTab === 'deposit') {
+                            navigate('/profile/confirmpay');
+                        } else if (activeTab === 'withdraw') {
+                            navigate('/profile/confirmpay');
+                        }
+                    }, 500);
+            
+                    ()=> clearTimeout(x);
             }
-        }, 500);
     };
 
     //  sum all the amount here 
@@ -203,7 +256,12 @@ const Amount = ({ number, withdraw, deposite }) => {
         setIsInteracted(true);
     };
 
+    // // handle the payment automatically here
+    // const handleResuPaymentAutomatically = async() => { 
 
+    //  
+    //  }
+    
 
     //  find a node here 
     useEffect(() => {
@@ -225,10 +283,10 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if the payment method is included
         const isIncluded = availablePayment?.some(payment => payment.transactionMethod === paymentMethod || '');
         const findNumber = availablePayment?.find(item => item.transactionMethod === paymentMethod && item?.depositeChannel === channel);
-        console.log(channel, 'echk the chanel');
+
         const numberGeting = findNumber?.number;
         localStorage.setItem('authorPhoneNumber', JSON.stringify(numberGeting || ''));
-        console.log(numberGeting);
+
         if (!isIncluded) {
             const timer = setTimeout(() => {
                 // Prevent modal from opening on initial load
@@ -246,13 +304,12 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [availablePayment, paymentMethod, isFirstLoad, channel]);
 
 
-
     // viwe channel mathod availble
     useEffect(() => {
         let channelList = [];
         const channelView = availablePayment?.forEach((item) => {
             if (item.transactionMethod === paymentMethod) {
-                console.log('accesss');
+ 
                 channelList.push(item?.depositeChannel)
             }
 
@@ -260,7 +317,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         setSlectedPayment(channelList)
     }, [availablePayment, setSlectedPayment, paymentMethod]);
 
-    console.log(isModalOpen);
+
 
 
     const resetSumAmount = () => {
@@ -268,7 +325,6 @@ const Amount = ({ number, withdraw, deposite }) => {
         setSelectedAmount(null);
         setCustomError('')
     };
-
 
     return (
         <div className="bg-[#343333] h-auto pt-3 pb-4 px-3">
@@ -410,8 +466,8 @@ const Amount = ({ number, withdraw, deposite }) => {
             }
 
             {/* button  here */}
-            <div className="mt-3">
-                <button
+            <div className="mt-3 flex  gap-2">
+                 <button
                     onClick={handleNextButtonClick}
                     className={`${!requiredAmount ? 'bg-[#0A3E2D] text-opacity-100' : 'bg-[#0D6152]'} text-white justify-center flex w-full py-2 rounded-sm`}
                     disabled={!requiredAmount}

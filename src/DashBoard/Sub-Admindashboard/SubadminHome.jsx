@@ -11,7 +11,7 @@ const SubadminHome = () => {
                 </div>
             </div>
             <SubadminCard />
-            <div className="hidden md:flex gap-4 mt-5 mb-10">
+            <div className="block md:flex gap-4 mt-5 mb-10">
                 {/* <SubadminChart />
                 <SubadminPiechart /> */}
             </div>

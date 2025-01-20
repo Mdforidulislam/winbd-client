@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 
-const GlobalModal = ({item}) => {
-    const [openModal, setOpenModal] = useState(false);
-    const { password, phoneNumber, role, subAdmin, uniqueId } = item;
+const GlobalModal = ({item , openUpdateModal}) => {
+    const [openModal, setOpenModal] = useState(openUpdateModal);
+
+    const  { password, phoneNumber, role, subAdmin, uniqueId } = item;
     return (
         <div className=" w-full h-full">
                 <button onClick={() => setOpenModal(true)} className=""><span className="text-white text-3xl cursor-pointer"><CgProfile /></span></button>
         <div className={`fixed z-[100] flex items-center justify-center  ${openModal ? 'opacity-1 visible' : 'invisible opacity-0'} inset-0 bg-black/20 backdrop-blur-sm duration-100`}>
                 <div className={`absolute max-w-md rounded-lg  p-3 pb-5 text-center drop-shadow-2xl  ${openModal ? 'scale-1 opacity-1 duration-300' : 'scale-0 opacity-0 duration-150'} `}>
-                    
-                   
-                    
                     {/* modal content here  */}
                     <div className="space-y-4 bg-GlobalGray  py-3 w-full px-20 ">
                         {/*  icons here  */}

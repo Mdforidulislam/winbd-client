@@ -105,7 +105,7 @@ const UpdateModal = ({ setNewNote, setOpenModal, openModal, data }) => {
                                     onClick={addListItem}
                                     className="bg-[#17936C] flex justify-center items-center text-white py-1 px-2 text-sm rounded-sm hover:bg-[#127354] transition duration-200"
                                 >
-                                    Add <IoMdAdd />
+                                    Add 
                                 </button>
                             </div>
                             {/* last remainder title here */}

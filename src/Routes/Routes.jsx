@@ -5,20 +5,15 @@ import MainLayOut from "../MainLayOut/MainLayOut";
 import LogIn from "../Pages/Log-In/LogIn";
 import Register from "../Pages/Register/Register";
 import AdminDashboard from './../DashBoard/AdminDashBoard/AdminDashBoard';
-import SubadminHome from "../DashBoard/Sub-Admindashboard/SubadminHome";
-import Subnotifications from "../DashBoard/Sub-Admindashboard/Notification/Notifications";
 import TransitionReq from "../DashBoard/Sub-Admindashboard/Transation/TransitionReq";
 import UsersOutLet from "../DashBoard/UsersDashBoard/UsersLayout";
 import UserHome from "../DashBoard/UsersDashBoard/UsersPages/Home";
 import PrivetRouter from "../MainLayOut/PrivetRouter/PrivetRouter";
-
 import AllUsers from "../DashBoard/Sub-Admindashboard/UsersManagment/AllUsers";
-import AddNumber from "../DashBoard/Sub-Admindashboard/AddTransation/AddNumber";
 import AdminHome from './../DashBoard/AdminDashBoard/AdminHome/AdminHome';
 import AllSubAdmin from "../DashBoard/AdminDashBoard/AllSubAdmin/AllSubAdmin";
 import ConfirmPay from "../DashBoard/UsersDashBoard/UsersPages/ConfirmPay";
 import ReferralRegistrationPage from "../DashBoard/Sub-Admindashboard/RefferLink/ReferLink";
-import PaymentInstraction from "../DashBoard/AdminDashBoard/PaymentInstaction/PaymentInstraction";
 import ConfirmMsg from "../DashBoard/UsersDashBoard/UsersPages/ConfirmMsg";
 import ForgotPass from "../Pages/Log-In/ForgotPass/ForgotPass";
 import AddNumberPage from "../DashBoard/Sub-Admindashboard/AddTransation/AddNumberPage";
@@ -29,7 +24,6 @@ import AddLink from "../DashBoard/AdminDashBoard/AddLink/AddLink";
 import ForgetPassword from "../DashBoard/Sub-Admindashboard/ForgetPassword/ForgetPassword";
 import History from "../DashBoard/Sub-Admindashboard/History/History";
 import ResetPassword from "../DashBoard/UsersDashBoard/UsersPages/Profile/ResetPassword/ResetPassword";
-import Facebook from "../DashBoard/UsersDashBoard/Facebook";
 
 
 export const router = createBrowserRouter([
@@ -48,10 +42,6 @@ export const router = createBrowserRouter([
             {
                 path: "/forgotpassword",
                 element: <ForgotPass />,
-            },
-            {
-                path: "/test",
-                element: <Facebook />,
             }
         ]
     },

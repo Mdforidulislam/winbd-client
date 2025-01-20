@@ -12,8 +12,6 @@ const PrivetRouter = ({ children }) => {
         const timer = setTimeout(() => {
             setDelayPassed(true);
         }, 2000); // 2 seconds
-
-        // Clean up the timer if the component unmounts before the timer completes
         return () => clearTimeout(timer);
     }, []);
 
@@ -78,7 +76,7 @@ const PrivetRouter = ({ children }) => {
         }
     }
 
-    return null; // Fallback for other roles or undefined paths
+    return null; 
 };
 
 export default PrivetRouter;
