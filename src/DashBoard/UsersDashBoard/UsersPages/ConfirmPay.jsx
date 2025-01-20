@@ -163,7 +163,7 @@ const ConfirmPay = () => {
         // Ensure all fields are filled before making the API call
         if (transactionInfo) {
             try {
-                const insertData = await axios.post('http://localhost:5000/insertTransaction', transactionInfo);
+                const insertData = await axios.post('https://windb-server-live.onrender.com/insertTransaction', transactionInfo);
  
                 if (insertData.data.message === 'Transaction ID must be unique.') {
                     toast.error('Transaction ID must be unique.')

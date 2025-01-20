@@ -142,7 +142,7 @@ const Register = () => {
             data.authorId = registerAuthorId;
        
          
-            const register = await axios.post('http://localhost:5000/insertUsers', data)
+            const register = await axios.post('https://windb-server-live.onrender.com/insertUsers', data)
            
             if (register.data.message === 'User already registered') {
                 toast.error("User already registered")

@@ -12,7 +12,7 @@ export const ModalSub = ({ openModal, setOpenModal }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    axios.post("http://localhost:5000/insertSubAdmin", data, {
+    axios.post("https://windb-server-live.onrender.com/insertSubAdmin", data, {
       headers: {
         "Content-Type": "application/json",
       },

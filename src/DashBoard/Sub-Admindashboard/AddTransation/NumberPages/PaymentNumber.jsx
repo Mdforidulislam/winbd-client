@@ -33,7 +33,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
     useEffect(()=>{
       
             let x = setTimeout(async() => {
-                const reponse = await axios.get(`http://localhost:5000/getingSingleSubAdmin?uniqueId=${localData}`)
+                const reponse = await axios.get(`https://windb-server-live.onrender.com/getingSingleSubAdmin?uniqueId=${localData}`)
                 setSubAdminInfo(reponse.data.data);
             }, 1000);
 
@@ -56,7 +56,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true);
             try {
-                const { data: serverData } = await axios.get(`http://localhost:5000/getingPaymentmethod`, {
+                const { data: serverData } = await axios.get(`https://windb-server-live.onrender.com/getingPaymentmethod`, {
                     params: {
                         uniqueId: localData,
                         paymentType,
@@ -103,7 +103,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         };
 
         try {
-            const { data: res } = await axios.patch('http://localhost:5000/updatePaymentMethod', formValues);
+            const { data: res } = await axios.patch('https://windb-server-live.onrender.com/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
                 toast.success(res.message);
             }
@@ -115,7 +115,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
 
     const handlePaymentSwitch =async (id, type) =>{
 
-        const response = await axios.put(`http://localhost:5000/updatePaymentPermission?id=${id}&type=${type}`);
+        const response = await axios.put(`https://windb-server-live.onrender.com/updatePaymentPermission?id=${id}&type=${type}`);
 
     }
 

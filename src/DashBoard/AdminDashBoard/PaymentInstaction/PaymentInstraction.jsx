@@ -44,7 +44,7 @@ const PaymentInstruction = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/insertPayInstraction', formData);
+            const response = await axios.post('https://windb-server-live.onrender.com/insertPayInstraction', formData);
             const finalData = await response.data;
 
         } catch (error) {

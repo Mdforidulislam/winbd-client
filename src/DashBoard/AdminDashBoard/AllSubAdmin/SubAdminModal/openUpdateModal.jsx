@@ -13,7 +13,7 @@ export const SubAdminUpdateModal = ({ item, openUpdateModal, setOpenUpdateModal 
 
     const onSubmit = (data) => {
 
-        // axios.post("http://localhost:5000/insertSubAdmin", data, {
+        // axios.post("https://windb-server-live.onrender.com/insertSubAdmin", data, {
         //     headers: {
         //         "Content-Type": "application/json",
         //     },

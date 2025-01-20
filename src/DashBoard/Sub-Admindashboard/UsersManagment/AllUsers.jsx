@@ -27,7 +27,7 @@ const AllUsers = () => {
     //rejected updated code from foridul bhai so need to do it again
     const userDataget = async () => {
         try {
-            const userSearch = await axios(`http://localhost:5000/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
+            const userSearch = await axios(`https://windb-server-live.onrender.com/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
             const getuserData = userSearch?.data?.userInfo;
             const totalPages = userSearch?.data?.totalPages;
             setUserTotalPages(totalPages);
