@@ -19,7 +19,7 @@ const AllSubAdmin = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("https://winbd-server-test-2.vercel.app/getingDataSubAdmin", {
+        const res = await axios.get("https://winbd-server-test.vercel.app/getingDataSubAdmin", {
           params: {
             search: search,
             pageNumber: pageNumber

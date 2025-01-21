@@ -31,7 +31,7 @@ const WithDrawTalbe = (uniqueValue , tab) => {
     useEffect(() => {
         if (!uniqueId) return
         const getingUserResquestInfo = async () => {
-            const response = await axios.get(`https://winbd-server-test-2.vercel.app/transactionReqWith?authurId=${uniqueId}`);
+            const response = await axios.get(`https://winbd-server-test.vercel.app/transactionReqWith?authurId=${uniqueId}`);
             setUserReqData(response?.data);
             setLoading(false);
 
