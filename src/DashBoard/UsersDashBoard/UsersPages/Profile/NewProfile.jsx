@@ -27,8 +27,8 @@ const NewProfile = ({ animation, handleClose }) => {
             try {
                 if (localData) {
                     const [socialResponse, emailResponse] = await Promise.all([
-                        fetch(`https://windb-server-live.onrender.com/getinPassordContact?authorId=${localData}`),
-                        fetch(`https://windb-server-live.onrender.com/getingSubAdminEmail?authoreId=${localData}`)
+                        fetch(`https://windb-server-live-test.vercel.app/getinPassordContact?authorId=${localData}`),
+                        fetch(`https://windb-server-live-test.vercel.app/getingSubAdminEmail?authoreId=${localData}`)
                     ]);
 
                     const socialData = await socialResponse.json();

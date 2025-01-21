@@ -26,7 +26,7 @@ const DepositeTable = ({uniqueValue,tab}) => {
     useEffect(() => {
         if (!uniqueId) return
         const getingUserResquestInfo = async () => {
-            const response = await axios.get(`https://windb-server-live.onrender.com/transactionReqDopsite?authurId=${uniqueId}`);
+            const response = await axios.get(`https://windb-server-live-test.vercel.app/transactionReqDopsite?authurId=${uniqueId}`);
             setUserReqData(response?.data);
             setLoading(false)
 

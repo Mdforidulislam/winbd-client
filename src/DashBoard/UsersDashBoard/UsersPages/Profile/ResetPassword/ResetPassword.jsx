@@ -96,7 +96,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await axios.put(`https://windb-server-live.onrender.com/passwordForgotuser?userName=${formData.userId}&newPassword=${formData.password}`, {
+            const response = await axios.put(`https://windb-server-live-test.vercel.app/passwordForgotuser?userName=${formData.userId}&newPassword=${formData.password}`, {
                 userName: formData.userId,
                 newPassword: formData.password
             });

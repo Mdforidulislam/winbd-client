@@ -30,7 +30,7 @@ const Promotion = () => {
                     const parsedUser = JSON.parse(userData);
                     const userName = parsedUser?.userName;
                     if (userName) {
-                        const response = await axios.get(`https://windb-server-live.onrender.com/promotionOfferShow?userName=${userName}`);
+                        const response = await axios.get(`https://windb-server-live-test.vercel.app/promotionOfferShow?userName=${userName}`);
                         const promotionData = response.data;
             
                         setPromotion(promotionData);

@@ -34,7 +34,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
 
     try {
       let response;
-      const transactionFeedbackUrl = `https://windb-server-live.onrender.com/transactionFeedback?id=${item?._id}`;
+      const transactionFeedbackUrl = `https://windb-server-live-test.vercel.app/transactionFeedback?id=${item?._id}`;
       const params = new URLSearchParams();
       params.append('note', note);
       params.append('tnxtype', item?.transactionType);
@@ -101,7 +101,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
 
   // deleted turnover here
   const handleActionDeletedTurnover = async (id) => {
-    const deletedResponse = await axios.delete(`https://windb-server-live.onrender.com/turnoverdeleted?id=${id}`);
+    const deletedResponse = await axios.delete(`https://windb-server-live-test.vercel.app/turnoverdeleted?id=${id}`);
 
     if (deletedResponse.data.message === "Successfully deleted the turnover") {
       toast.success(deletedResponse.data.message);

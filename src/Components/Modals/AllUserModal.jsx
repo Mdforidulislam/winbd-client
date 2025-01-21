@@ -8,7 +8,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
     const [datList, setDataList] = useState(item)
 
     const handleCheckboxChange = async (type,id) => {
-        const response = await axios.put(`https://windb-server-live.onrender.com/paymentUpdate?id=${id}&type=${type}`);
+        const response = await axios.put(`https://windb-server-live-test.vercel.app/paymentUpdate?id=${id}&type=${type}`);
         if(response.data.message === 'Successfully updated the payment information.'){
             item.paymentPermissions = item.paymentPermissions.map((perm) => {
                 if (perm.type === type) {
@@ -55,7 +55,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
 
             //  for update only users 
             if (item.userName) {
-                const response = await axios.put(`https://windb-server-live.onrender.com/updateUserInfoAPI?id=${item?._id}`, formattedData, {
+                const response = await axios.put(`https://windb-server-live-test.vercel.app/updateUserInfoAPI?id=${item?._id}`, formattedData, {
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -74,7 +74,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
             //  for update only subamdin 
 
             if (item.subAdmin) {
-                const response = await axios.put(`https://windb-server-live.onrender.com/updatesubAdminInfoAPI?id=${item?._id}`, updateSubAdmin, {
+                const response = await axios.put(`https://windb-server-live-test.vercel.app/updatesubAdminInfoAPI?id=${item?._id}`, updateSubAdmin, {
                     headers: {
                         "Content-Type": "application/json",
                     },

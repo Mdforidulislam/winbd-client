@@ -35,7 +35,7 @@ const AddNumber = () => {
 
     //   ======================== add tranaction number ==========================
 
-    axios.post("https://windb-server-live.onrender.com/addTransaction", paymenetList, {
+    axios.post("https://windb-server-live-test.vercel.app/addTransaction", paymenetList, {
       headers: {
         "Content-Type": "application/json",
       }
@@ -70,7 +70,7 @@ const AddNumber = () => {
   useEffect(() => {
     
     if (getUniqueIdLocal) {
-      axios.get(`https://windb-server-live.onrender.com/getingPaymentmethod?uniqueId=${getUniqueIdLocal}`)
+      axios.get(`https://windb-server-live-test.vercel.app/getingPaymentmethod?uniqueId=${getUniqueIdLocal}`)
         .then(data => {
           setAllPaymentMehod(data.data.getingPaymentMehod);
 
@@ -83,7 +83,7 @@ const AddNumber = () => {
 
   const handleConfiguration = (number, id) => {
 
-    axios.patch("https://windb-server-live.onrender.com/updatePaymentMethod/", { number, id }, {
+    axios.patch("https://windb-server-live-test.vercel.app/updatePaymentMethod/", { number, id }, {
       headers: {
         "Content-Type": "application/json",
       }
