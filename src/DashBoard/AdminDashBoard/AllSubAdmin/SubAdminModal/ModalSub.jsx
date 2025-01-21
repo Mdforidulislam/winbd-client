@@ -12,7 +12,7 @@ export const ModalSub = ({ openModal, setOpenModal }) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    axios.post("https://windb-server-live-test.vercel.app/insertSubAdmin", data, {
+    axios.post("https://winbd-server-test-2.vercel.app/insertSubAdmin", data, {
       headers: {
         "Content-Type": "application/json",
       },

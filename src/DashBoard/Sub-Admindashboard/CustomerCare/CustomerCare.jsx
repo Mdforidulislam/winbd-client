@@ -18,8 +18,8 @@ const AdminCustomerCare = () => {
         const fetchData = async () => {
             try {
                 const [socialResponse, emailResponse] = await Promise.all([
-                    axios.get(`https://windb-server-live-test.vercel.app/getSocialMFPF`, { params: { authorId: authId } }),
-                    axios.get(`https://windb-server-live-test.vercel.app/getingSubAdminEmail`, { params: { authoreId: authId } })
+                    axios.get(`https://winbd-server-test-2.vercel.app/getSocialMFPF`, { params: { authorId: authId } }),
+                    axios.get(`https://winbd-server-test-2.vercel.app/getingSubAdminEmail`, { params: { authoreId: authId } })
                 ]);
                 setData(socialResponse?.data?.data?.socialMediaLinks || {});
                 setEmailData(emailResponse.data?.getngEmail?.email || '');
@@ -44,7 +44,7 @@ const AdminCustomerCare = () => {
                 }
             };
 
-            const response = await axios.put(`https://windb-server-live-test.vercel.app/insertSocialMFPF`, updatedData, { params: { authorId } });
+            const response = await axios.put(`https://winbd-server-test-2.vercel.app/insertSocialMFPF`, updatedData, { params: { authorId } });
  
 
             if (response.data.message === 'Operation successful') {
@@ -68,7 +68,7 @@ const AdminCustomerCare = () => {
 
 
 
-            const response = await axios.put(`https://windb-server-live-test.vercel.app/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
+            const response = await axios.put(`https://winbd-server-test-2.vercel.app/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
 
             if (response.data.message === "Email updated successfully") {
                 setEmailData(link);

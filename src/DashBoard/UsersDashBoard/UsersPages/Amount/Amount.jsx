@@ -141,7 +141,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://windb-server-live-test.vercel.app/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`https://winbd-server-test-2.vercel.app/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(convert)
                 if (convert?.processingMessage) {
@@ -203,7 +203,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                         (async()=>{
                             try {
 
-                                const response = await axios.post("https://windb-server-live-test.vercel.app/bkash-payment-create", automationPayInfo,);
+                                const response = await axios.post("https://winbd-server-test-2.vercel.app/bkash-payment-create", automationPayInfo,);
                                 // Handle the response
                                     window.location.href = response.data.redirectURL;
                                 } catch (error) {

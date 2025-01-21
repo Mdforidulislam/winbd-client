@@ -33,7 +33,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
     useEffect(()=>{
       
             let x = setTimeout(async() => {
-                const reponse = await axios.get(`https://windb-server-live-test.vercel.app/getingSingleSubAdmin?uniqueId=${localData}`)
+                const reponse = await axios.get(`https://winbd-server-test-2.vercel.app/getingSingleSubAdmin?uniqueId=${localData}`)
                 setSubAdminInfo(reponse.data.data);
             }, 1000);
 
@@ -56,7 +56,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true);
             try {
-                const { data: serverData } = await axios.get(`https://windb-server-live-test.vercel.app/getingPaymentmethod`, {
+                const { data: serverData } = await axios.get(`https://winbd-server-test-2.vercel.app/getingPaymentmethod`, {
                     params: {
                         uniqueId: localData,
                         paymentType,
@@ -103,7 +103,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
         };
 
         try {
-            const { data: res } = await axios.patch('https://windb-server-live-test.vercel.app/updatePaymentMethod', formValues);
+            const { data: res } = await axios.patch('https://winbd-server-test-2.vercel.app/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
                 toast.success(res.message);
             }
@@ -115,7 +115,7 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
 
     const handlePaymentSwitch =async (id, type) =>{
 
-        const response = await axios.put(`https://windb-server-live-test.vercel.app/updatePaymentPermission?id=${id}&type=${type}`);
+        const response = await axios.put(`https://winbd-server-test-2.vercel.app/updatePaymentPermission?id=${id}&type=${type}`);
 
     }
 

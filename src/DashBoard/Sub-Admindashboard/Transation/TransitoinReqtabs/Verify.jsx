@@ -37,7 +37,7 @@ const VerifyTab = ({ activeTab  , uniqueValue}) => {
 
         if(!uniqueId) return
         const getingUserResquestInfo = async () => {
-            const response = await axios.get(`https://windb-server-live-test.vercel.app/getingVerifydata?authoreId=${uniqueId}`);
+            const response = await axios.get(`https://winbd-server-test-2.vercel.app/getingVerifydata?authoreId=${uniqueId}`);
             if (Array.isArray(response?.data?.queryVerifyData)) {
                 setUserReqData(response?.data?.queryVerifyData);
                 }

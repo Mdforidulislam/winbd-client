@@ -163,7 +163,7 @@ const ConfirmPay = () => {
         // Ensure all fields are filled before making the API call
         if (transactionInfo) {
             try {
-                const insertData = await axios.post('https://windb-server-live-test.vercel.app/insertTransaction', transactionInfo);
+                const insertData = await axios.post('https://winbd-server-test-2.vercel.app/insertTransaction', transactionInfo);
  
                 if (insertData.data.message === 'Transaction ID must be unique.') {
                     toast.error('Transaction ID must be unique.')
