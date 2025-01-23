@@ -16,7 +16,7 @@ export const FromCreadiencial = () => {
   // Handle form submission
   const onSubmit = async (info) => {
 
-    const {data} = await axios.post("http://localhost:5000/marchent-add",{
+    const {data} = await axios.post("https://winbd-server-test.vercel.app/marchent-add",{
       marchentinfo : info
     });
 
@@ -24,7 +24,7 @@ export const FromCreadiencial = () => {
 
     if(data?.data?.message === "Merchant already exists"){
       console.log('Merchant already exists');
-      const {data} = await axios.put("http://localhost:5000/marchent-update",{
+      const {data} = await axios.put("https://winbd-server-test.vercel.app/marchent-update",{
         marchentinfo: info
       });
 
@@ -46,7 +46,7 @@ export const FromCreadiencial = () => {
         const userId = JSON.parse(response)?.uniqueId || "defaultUser";
   
         // Make the API call
-        const { data } = await axios.get(`http://localhost:5000/margent-get?marchent_Id=${userId}`);
+        const { data } = await axios.get(`https://winbd-server-test.vercel.app/margent-get?marchent_Id=${userId}`);
         console.log(data, 'Check if data exists or not!');
   
         // Dynamically reset form fields with default and dynamic values

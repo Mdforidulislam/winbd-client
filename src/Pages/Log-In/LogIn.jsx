@@ -23,7 +23,7 @@ const LogIn = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/getingDynamicallyUrl');
+        const res = await axios.get('https://winbd-server-test.vercel.app/getingDynamicallyUrl');
         setRedirectUrl(res.data.data[0].redirectUrl);
       } catch (error) {
         console.error('Error fetching the data:', error);

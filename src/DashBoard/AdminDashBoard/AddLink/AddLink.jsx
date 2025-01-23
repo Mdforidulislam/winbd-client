@@ -12,7 +12,7 @@ const AddLink = () => {
         setLocalData(authurId);
         const fetchDynamicUrl = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/getingDynamicallyUrl');
+                const response = await axios.get('https://winbd-server-test.vercel.app/getingDynamicallyUrl');
                 if (response.data.data.length > 0) {
                     setLink(response.data.data[0].redirectUrl);
                 }
@@ -27,7 +27,7 @@ const AddLink = () => {
     const handleUpdateCustomerCareNumber = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.patch('http://localhost:5000/insertDynamiceUrl', {
+            const response = await axios.patch('https://winbd-server-test.vercel.app/insertDynamiceUrl', {
                 uniqueId: localData,
                 redirectUrl: link
             });

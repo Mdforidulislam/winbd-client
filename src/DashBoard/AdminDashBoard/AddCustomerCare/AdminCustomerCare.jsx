@@ -14,7 +14,7 @@ const AdminCustomerCare = () => {
         setLocalData(authurId);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/getSocialMFPF?authorId=${authurId}`);
+                const response = await axios.get(`https://winbd-server-test.vercel.app/getSocialMFPF?authorId=${authurId}`);
                 setData(response.data.data.socialMediaLinks || {});
 
             } catch (error) {
@@ -35,7 +35,7 @@ const AdminCustomerCare = () => {
                     [platform]: { link }
                 }
             };
-            await axios.put(`http://localhost:5000/insertSocialMFPF?authorId=${localData}`, updatedData);
+            await axios.put(`https://winbd-server-test.vercel.app/insertSocialMFPF?authorId=${localData}`, updatedData);
             toast.success('Link Updated successfully');
             //due
             //data is updated successfully but showing error in the console
