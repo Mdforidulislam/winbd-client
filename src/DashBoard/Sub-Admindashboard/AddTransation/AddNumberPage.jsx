@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AgentNumber from "./NumberPages/AgentNumber";
 import PaymentNumber from "./NumberPages/PaymentNumber";
 import PersonalNumber from "./NumberPages/PersonalNumber";
+import { FromCreadiencial } from "../../../Components/Shared/FromCreadientCial";
 
 
 const tabs = [
@@ -17,6 +18,7 @@ const AddNumberPage = () => {
     const handleTabClick = (tabId) => {
         setActiveTab(tabId);
     };
+
 
     return (
         <div className="bg-GlobalDarkGray md:py-2">
@@ -43,6 +45,10 @@ const AddNumberPage = () => {
                         {React.cloneElement(tab.component, { paymentType: tab.paymentType, activeTab: activeTab })}
                     </div>
                 ))}
+            </div>
+            {/*  add creadientcial info */}
+            <div>
+               <FromCreadiencial/>
             </div>
         </div >
     );

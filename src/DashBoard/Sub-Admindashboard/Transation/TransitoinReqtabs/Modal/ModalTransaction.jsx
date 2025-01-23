@@ -34,7 +34,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
 
     try {
       let response;
-      const transactionFeedbackUrl = `https://winbd-server-test.vercel.app/transactionFeedback?id=${item?._id}`;
+      const transactionFeedbackUrl = `http://localhost:5000/transactionFeedback?id=${item?._id}`;
       const params = new URLSearchParams();
       params.append('note', note);
       params.append('tnxtype', item?.transactionType);
@@ -101,7 +101,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
 
   // deleted turnover here
   const handleActionDeletedTurnover = async (id) => {
-    const deletedResponse = await axios.delete(`https://winbd-server-test.vercel.app/turnoverdeleted?id=${id}`);
+    const deletedResponse = await axios.delete(`http://localhost:5000/turnoverdeleted?id=${id}`);
 
     if (deletedResponse.data.message === "Successfully deleted the turnover") {
       toast.success(deletedResponse.data.message);
@@ -109,7 +109,6 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
       toast.success(deletedResponse.data.message);
     }
   }
-
 
 
   return (
@@ -129,6 +128,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
             <div className="">
               <span onClick={() => setOpenModal(false)} className="absolute right-0 top-0 md:top-1 md:right-2 rounded-md text-white cursor-pointer text-2xl bg-red-600"><IoCloseSharp /></span>
             </div>
+
+      
 
             <div className="w-full pr-5 flex justify-between text-[10px] text-white md:text-sm border border-x-transparent border-t-transparent pb-2 border-b border-gray-200/30">
               <div className="flex items-center gap-4">
@@ -167,6 +168,8 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
                   )}
                 </div>
               </div>
+
+
               <div className="flex flex-col items-end justify-end pb-0.5">
                 {item?.amount && (
                   <div className="flex justify-center items-center gap-2 mb-[2px] relative">
@@ -229,6 +232,20 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
                 </div>
               )
             }
+
+
+        {/* icon of auto pay */}
+          <div className="w-full h-full ml-0 mt-0 ">
+           {
+            item?.autoPay && (
+              <div className="text-xl text-white mt-0 ml-0 ">
+                <h1>Auto Payment</h1>
+               
+              </div>
+            )
+           }
+        </div>
+
 
             {/* number show here authore and user */}
             <div className="flex justify-between w-full text-white">
@@ -351,6 +368,7 @@ const ModalTransaction = ({ item, setOpenModal, openModal, activeTab ,data}) => 
             </form>
           </div>
         </div>
+       
       </div >
 
       {/* Transaction Image Modal */}

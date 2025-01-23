@@ -18,8 +18,8 @@ const AdminCustomerCare = () => {
         const fetchData = async () => {
             try {
                 const [socialResponse, emailResponse] = await Promise.all([
-                    axios.get(`https://winbd-server-test.vercel.app/getSocialMFPF`, { params: { authorId: authId } }),
-                    axios.get(`https://winbd-server-test.vercel.app/getingSubAdminEmail`, { params: { authoreId: authId } })
+                    axios.get(`http://localhost:5000/getSocialMFPF`, { params: { authorId: authId } }),
+                    axios.get(`http://localhost:5000/getingSubAdminEmail`, { params: { authoreId: authId } })
                 ]);
                 setData(socialResponse?.data?.data?.socialMediaLinks || {});
                 setEmailData(emailResponse.data?.getngEmail?.email || '');
@@ -44,9 +44,8 @@ const AdminCustomerCare = () => {
                 }
             };
 
-            const response = await axios.put(`https://winbd-server-test.vercel.app/insertSocialMFPF`, updatedData, { params: { authorId } });
+            const response = await axios.put(`http://localhost:5000/insertSocialMFPF`, updatedData, { params: { authorId } });
  
-
             if (response.data.message === 'Operation successful') {
                 setData(updatedData.socialMediaLinks);
                 toast.success(`${platform} link updated successfully`);
@@ -66,9 +65,7 @@ const AdminCustomerCare = () => {
                 email: link
             };
 
-
-
-            const response = await axios.put(`https://winbd-server-test.vercel.app/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
+            const response = await axios.put(`http://localhost:5000/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
 
             if (response.data.message === "Email updated successfully") {
                 setEmailData(link);

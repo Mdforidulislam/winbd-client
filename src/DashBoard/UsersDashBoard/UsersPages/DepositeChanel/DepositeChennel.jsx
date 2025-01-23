@@ -5,7 +5,7 @@ import '../style.css';
 
 const DepositeChennel = () => {
     const [depositeChanel, setDepositeChanel] = useState("cashout");
-    const { slectedPayment, userDepositeChanel, activeTab } = useContext(AuthContext);
+    const { slectedPayment, userDepositeChanel, activeTab ,paymentMethod } = useContext(AuthContext);
 
     // Update user deposite channel in context whenever it changes
     useEffect(() => {
@@ -21,10 +21,16 @@ const DepositeChennel = () => {
         }
     }, [slectedPayment]);
 
+
+
     const order = ['cashout', 'sendmony', 'payment'];
+    const sortedPayment = slectedPayment.sort((a, b) =>{
+        if( paymentMethod =="bkash"){
+           return  order.indexOf(b) - order.indexOf(a)
+        }
+        return  order.indexOf(a) - order.indexOf(b)
 
-    const sortedPayment = slectedPayment.sort((a, b) => order.indexOf(a) - order.indexOf(b));
-
+    });
 
 
     return (
@@ -37,7 +43,7 @@ const DepositeChennel = () => {
                         className={`relative border pt-[4px] pb-[7px] px-3 rounded-sm ${depositeChanel === item ? 'text-CustomYellow border-[#FFE43C] border ' : 'text-white'} hover:border-[#FFE43C] text-[12.5px]`}
                         onClick={() => setDepositeChanel(item)}
                     >
-                        <div className={`${item === 'cashout' ? 'absolute h-[14px] w-[14px] rounded-[2px] left-0 top-1 bg-green-500 px-[2px] pt-[1px] pb-[3px]' : 'hidden'} `}>
+                        <div className={`${item === sortedPayment[0] ? 'absolute h-[14px] w-[14px] rounded-[2px] left-0 top-1 bg-green-500 px-[2px] pt-[1px] pb-[3px]' : 'hidden'} `}>
                             <img className="h-full w-full object-contain" src="https://img.b112j.com/bj/h5/assets/images/icon-set/icon-recommond.svg?v=1716890719883" alt="" />
                         </div>
                         {item === 'cashout' ? 'CashOut' : item === 'sendmony' ? 'Send Money' : item === 'payment' ? 'Payment' : item}

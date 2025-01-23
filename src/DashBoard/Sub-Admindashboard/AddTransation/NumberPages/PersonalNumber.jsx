@@ -41,7 +41,7 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setLoading(true);
             try {
-                const { data } = await axios.get(`https://winbd-server-test.vercel.app/getingPaymentmethod`, {
+                const { data } = await axios.get(`http://localhost:5000/getingPaymentmethod`, {
                     params: { uniqueId: localData, paymentType }
                 });
                 setStoreData(data);
@@ -74,7 +74,7 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
             authorId: localData
         };
         try {
-            const { data: res } = await axios.patch('https://winbd-server-test.vercel.app/updatePaymentMethod', formValues);
+            const { data: res } = await axios.patch('http://localhost:5000/updatePaymentMethod', formValues);
             if (res.message === 'Successfully processed payment method') {
                 toast.success(res.message);
             }

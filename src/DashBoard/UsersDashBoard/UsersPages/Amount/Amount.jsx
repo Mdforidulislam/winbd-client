@@ -141,7 +141,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://winbd-server-test.vercel.app/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`http://localhost:5000/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(convert)
                 if (convert?.processingMessage) {
@@ -164,7 +164,6 @@ const Amount = ({ number, withdraw, deposite }) => {
         fetchData();
     }, [author, userName, paymentMethod]);
 
-    
 
     useEffect(()=>{
        setTimeout(() => {
@@ -181,9 +180,9 @@ const Amount = ({ number, withdraw, deposite }) => {
      setAutomationPayinfo(
             {
                 userName:  getingLocalStoreData("userData")?.userName,
-                transactionType: paymentMethod,
+                transactionType: getingLocalStoreData("userTransaction")?.type,
                 amount: sumAmount,
-                userNumber:getingLocalStoreData("userPhoneNumber"),
+                userNumber: getingLocalStoreData("userPhoneNumber"),
                 authoreNumber: getingLocalStoreData("authorPhoneNumber"),
                 paymentMethod: getingLocalStoreData("payMethod"),
                 paymentChannel: channel,
@@ -195,15 +194,15 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     },[sumAmount,paymentMethod,channel])
 
+    const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
+   
     const handleNextButtonClick = () => {
 
-            const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
-            console.log(response, 'hooks return value');
             if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'){
                         (async()=>{
                             try {
 
-                                const response = await axios.post("https://winbd-server-test.vercel.app/bkash-payment-create", automationPayInfo,);
+                                const response = await axios.post("http://localhost:5000/bkash-payment-create", automationPayInfo,);
                                 // Handle the response
                                     window.location.href = response.data.redirectURL;
                                 } catch (error) {

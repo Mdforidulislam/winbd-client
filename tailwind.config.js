@@ -25,7 +25,10 @@ export default {
       fontFamily: {
         'bengali-serif': ['Noto Serif Bengali', 'serif'],
         'bengali': ['Noto Sans Bengali', 'sans-serif']
-      }
+      },
+
+     
+
     },
   },
   plugins: [],

@@ -22,15 +22,13 @@ const ConfirmMsg = () => {
     return (
         < div className="w-full min-h-screen p-1 px-2 relative flex flex-col justify-start items-center bg-gradient-to-t from-emerald-700 to-emerald-600" >
 
-            <div className='-mt-16'>
-                {/* <Player
-                    src={confrim}
-                    className="player"
-                    loop
-                    autoplay
-                /> */}
+            <div className='mt-16'>
+                <h1 className='text-2xl font-bold text-LightGreen'>Payment Successful ✅</h1>
+                <div className='w-fll h-full flex justify-center items-center mt-10'>
+                    <img className='w-[200px] h-auto animate-bounce' src="https://cdn-icons-png.flaticon.com/512/148/148767.png" alt="" />
+                </div>
             </div>
-            <div className='px-4 flex flex-col items-center gap-6 -mt-40'>
+            <div className='px-4 flex flex-col items-center gap-6 mt-24'>
                 <p className="font-bengali text-white font-semibold text-[1.118rem] text-center">
                     অভিনন্দন ! আপনার {localDat.type === 'withdraw' ? 'উত্তলন' : 'পেমেন্ট'} রিকোয়েস্ট {localDat.amount}৳ গ্রহণ করা হয়েছে। যাচাইক্রমে আগামী ৫ মিনিটের মধ্যে আপনার একাউন্টে ব্যালেন্স এড হয়ে যাবে।
                 </p>
