@@ -11,7 +11,7 @@ export const FromCreadiencial = () => {
     setValue,
   } = useForm();
 
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Handle form submission
   const onSubmit = async (info) => {
@@ -30,8 +30,6 @@ export const FromCreadiencial = () => {
 
       console.log(data)
     }
-
-
 
     // Close modal after submitting data
     setIsModalOpen(false);
@@ -99,25 +97,7 @@ export const FromCreadiencial = () => {
 
             <h2 className="text-xl font-semibold mb-6 text-center text-white">User Form</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              {/* Marchent ID */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300">
-                  Merchant ID
-                </label>
-                <Controller
-                  name="marchent_Id"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      type="text"
-                      placeholder="Enter Merchant ID"
-                      className="w-full p-3 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white bg-gray-700"
-                    />
-                  )}
-                />
-              </div>
-
+         
               {/* Username Field */}
               <div>
                 <label className="block text-sm font-medium text-gray-300">

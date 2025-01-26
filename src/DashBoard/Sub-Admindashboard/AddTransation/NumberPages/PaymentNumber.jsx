@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Loader from '../../../../Components/Loader/Loader';
 import ToggleSwitch from '../../../../Components/ToggleSwitch/ToggleSwitch';
-import FormModal from '../../../../Components/Shared/Modal';
+
 
 const PaymentNumber = ({ paymentType, activeTab }) => {
     const [selectedOption, setSelectedOption] = useState([]);
@@ -40,8 +40,6 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
 
             ()=> clearTimeout(x);
     },[localData])
-
- 
 
     const handleDropdownClick = (index) => {
         setDropdownOpen((prevState) => prevState.map((open, i) => (i === index ? !open : false)));
@@ -196,9 +194,6 @@ const PaymentNumber = ({ paymentType, activeTab }) => {
                                          </div>
                                        )) 
                                     }
-                                    <div>
-                                    <FormModal method={data.transactionMethod} />
-                                    </div>
                                 </div>
                             </div>
                         </form>
