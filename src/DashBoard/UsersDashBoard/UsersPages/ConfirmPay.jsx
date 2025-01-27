@@ -4,7 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { FaRegCopy, FaCheck, FaCheckCircle } from "react-icons/fa";
-import bkash from '/rocket.jpg';
+import bkash from '/bkash.png';
 import nagad from '/nagad.png';
 import rocket from '/rocket.jpg';
 import two from '/two.png';
@@ -239,6 +239,8 @@ const ConfirmPay = () => {
             });
     };
 
+    console.log(localDat?.paymentMethod)
+    console.log(localDat?.channel)
 
     return (
         <div className="relative flex flex-col items-center gap-3 w-full py-2 px-2 bg-[#424242] min-h-screen">
@@ -259,12 +261,12 @@ const ConfirmPay = () => {
                                         src={`${localDat?.paymentMethod === 'bkash' ? bkash :
                                             localDat?.paymentMethod === 'nogod' ? nagad :
                                                 localDat?.paymentMethod === 'rocket' ? rocket : ''}`}
-                                        alt=""
+                                        alt="img"
                                         className="h-full w-full object-contain"
                                     />
                                 </div>
                             )}
-                            <h1 className="text-2xl mb-1 text-white capitalize font-bold">{localDat?.paymentMethod} <span className="capitalize">{localDat?.channel}</span></h1>
+                            <h1 className="text-2xl mb-1 text-white capitalize font-bold">{localDat?.paymentMethod} <span className="capitalize">{localDat?.channel === "sendmony" ? "Send Money" : localDat?.channel}</span></h1>
                         </div>
                         <div className="text-white my-2">
                             <h1 className={`${localDat?.type === 'withdraw' ? 'hidden' : 'px-10 text-white text-center capitalize w-full'}`}>Please pay to the account below within <span className="text-red-600">{minute}</span> min <span className="text-red-600">{second}</span> sec.</h1>
