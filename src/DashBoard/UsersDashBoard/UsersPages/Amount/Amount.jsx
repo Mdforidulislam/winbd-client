@@ -199,6 +199,7 @@ const Amount = ({ number, withdraw, deposite }) => {
     const handleNextButtonClick = () => {
 
             if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'){
+                setProcessing(true);
                         (async()=>{
                             try {
 

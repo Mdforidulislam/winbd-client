@@ -26,11 +26,11 @@ const Modal = () => {
           <div className="relative group">
             <img
               className="size-[40px] bg-slate-500 object-cover rounded-full w-[33px] h-[33px]"
-              src="https://source.unsplash.com/300x300/?profile"
+              src="https://static.vecteezy.com/system/resources/previews/024/183/502/non_2x/male-avatar-portrait-of-a-young-man-with-a-beard-illustration-of-male-character-in-modern-color-style-vector.jpg"
               alt="avatar navigate ui"
             />
-            {/* <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 border-[3px]"></span> */}
-            {/* <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 animate-ping"></span> */}
+            {/* <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 border-[3px]"></span>
+            <span className="size-2 bg-DarkGreen absolute rounded-full bottom-2 right-0 animate-ping"></span> */}
           </div>
         </div>
 

@@ -36,15 +36,15 @@ const PaymentMethod = () => {
             className={`py-[7%] ${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-[0.1875rem] flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-40 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
           >
             <div className="relative h-full w-full flex flex-col justify-center items-center">
-              <div className={`h-[1.6rem] w-[4.5rem]`}>
+              <div className={`h-[1.6rem] w-[3rem]`}>
                 <img
-                  className={`h-full w-full ${item?.title === 'surecash' ? 'object-cover' : 'object-contain'}`}
+                  className={`h-full w-full ${item?.title === 'surecash' || "nogoad" ? 'object-cover' : 'object-contain'}`}
                   src={item?.img}
                   alt=""
                 />
               </div>
 
-              <h1 onClick={() => setPaymentType(item?.title)} className={`${paymentType === item?.title ? 'text-CustomYellow' : 'text-white'} mt-1 hover:text-Customborder-CustomYellow text-[0.820rem]`}>{item?.title === 'bkash' ? 'bKash' : item?.title === 'rocket' ? 'Rocket' : item?.title === 'nogod' ? 'Nagad' : item?.title === 'upay' ? 'Upay' : item?.title === 'surecash' ? 'SureCash' : item?.title === 'okwallet' ? 'OKWallet' : item?.title}</h1>
+              <h1 onClick={() => setPaymentType(item?.title)} className={`${paymentType === item?.title ? 'text-CustomYellow' : 'text-white'} mt-1 hover:text-Customborder-CustomYellow text-[0.820rem]`}>{item?.title === 'bkash' ? 'bkash' : item?.title === 'rocket' ? 'Rocket' : item?.title === 'nogod' ? 'Nagad' : item?.title === 'upay' ? 'Upay' : item?.title === 'surecash' ? 'SureCash' : item?.title === 'okwallet' ? 'OKWallet' : item?.title}</h1>
 
               {optionValue === 'এক্সট্রা ১.৫% ডিপোজিট বোনাস' && activeTab === 'deposit' && (
                 <div className="absolute -top-[5px] -right-[3px]">
@@ -65,7 +65,7 @@ const PaymentMethod = () => {
       {
         activeTab !== 'withdraw' && (
           <button className="text-black text-[0.75rem] px-[2rem] rounded-[0.15rem] py-2 bg-CustomYellow">
-            {paymentType === 'bkash' ? 'bKash' : paymentType === 'rocket' ? 'Rocket' : paymentType === 'nogod' ? 'Nagad' : paymentType === 'upay' ? 'Upay' : paymentType === 'surecash' ? 'SureCash' : paymentType === 'okwallet' ? 'OKWallet' : paymentType} payment
+            {paymentType === 'bkash' ? 'bkash' : paymentType === 'rocket' ? 'Rocket' : paymentType === 'nogod' ? 'Nagad' : paymentType === 'upay' ? 'Upay' : paymentType === 'surecash' ? 'SureCash' : paymentType === 'okwallet' ? 'OKWallet' : paymentType} payment
           </button>
         )
       }
