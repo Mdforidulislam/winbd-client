@@ -49,6 +49,8 @@ const AllUsers = () => {
         setOpenModal(true);
     };
 
+    console.log(storeData,'check the blog here !~')
+
     return (
         <div className='md:my-8'>
             <div className='flex justify-center'>

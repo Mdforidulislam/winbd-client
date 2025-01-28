@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => {
     const [datList, setDataList] = useState(item)
 
+    console.log('check the data modal ', item)
+
     const handleCheckboxChange = async (type,id) => {
         const response = await axios.put(`https://winbd-server-test.vercel.app/paymentUpdate?id=${id}&type=${type}`);
         if(response.data.message === 'Successfully updated the payment information.'){
@@ -60,7 +62,8 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
                         "Content-Type": "application/json",
                     },
                 });
-    
+                
+                console.log('respone',response)
 
                 if (response.data.message === 'Successfully updated the user') {
                     toast.success('User Successfully Updated');
@@ -83,6 +86,8 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
                 if (response.data.message === 'Successfully updated the user') {
                     toast.success('User Successfully Updated');
                     setOpenModal(false);
+
+                    console.log(response)
                 } else {
                     toast.error('User already exists');
                 }
@@ -157,7 +162,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
                                 <div className="p-4">
                                     <h1 className="text-left text-white font-serif mb-5 text-lg">Payment Method Available</h1>
                                     <div className="flex flex-wrap gap-10">
-                                        {item?.paymentPermissions.map((permission, index) => (
+                                        {item?.paymentPermissions?.map((permission, index) => (
                                         <div
                                             key={index}
                                             className="flex flex-col items-center justify-center gap-2 bg-gray-800 p-4 rounded-lg w-[120px] shadow-md"
