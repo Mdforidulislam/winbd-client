@@ -27,7 +27,7 @@ const AllUsers = () => {
     //rejected updated code from foridul bhai so need to do it again
     const userDataget = async () => {
         try {
-            const userSearch = await axios(`https://winbd-server-test.vercel.app/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
+            const userSearch = await axios(`https://server.winpay.online/getinguse?uniqueId=${uniqueId}&searchValue=${searchData}&pageNumber=${pageNumber}`);
             const getuserData = userSearch?.data?.userInfo;
             const totalPages = userSearch?.data?.totalPages;
             setUserTotalPages(totalPages);

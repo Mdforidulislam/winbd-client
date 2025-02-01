@@ -26,7 +26,7 @@ const DepositeTable = ({uniqueValue,tab}) => {
     useEffect(() => {
         if (!uniqueId) return
         const getingUserResquestInfo = async () => {
-            const response = await axios.get(`https://winbd-server-test.vercel.app/transactionReqDopsite?authurId=${uniqueId}`);
+            const response = await axios.get(`https://server.winpay.online/transactionReqDopsite?authurId=${uniqueId}`);
             setUserReqData(response?.data);
             setLoading(false)
 

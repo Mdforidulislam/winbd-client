@@ -22,7 +22,7 @@ const ForgotPass = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://winbd-server-test.vercel.app/getinPassordContact?authorId=${localDat}`);
+                const response = await fetch(`https://server.winpay.online/getinPassordContact?authorId=${localDat}`);
                 //due
                 //have to set authorId dnamically
                 if (!response.ok) {
