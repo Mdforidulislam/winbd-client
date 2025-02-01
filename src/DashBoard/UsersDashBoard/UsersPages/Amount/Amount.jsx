@@ -141,6 +141,8 @@ const Amount = ({ number, withdraw, deposite }) => {
         // Check if all necessary data is available
         const fetchData = async () => {
             try {
+
+
                 const response = await fetch(`https://server.winpay.online/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(convert)
@@ -196,42 +198,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
    
-    const handleNextButtonClick = () => {
-
-            if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'){
-                setProcessing(true);
-                        (async()=>{
-                            try {
-
-                                const response = await axios.post("https://server.winpay.online/bkash-payment-create", automationPayInfo,);
-                                // Handle the response
-                                    window.location.href = response.data.redirectURL;
-                                } catch (error) {
-                                        // Handle any errors
-                                        console.error("Payment Error:", error.response?.data || error.message);
-                                }
-                        })()
-            } else if(response[0].type?.toLowerCase() === "manual"){
-                setProcessing(true);
-                let x =  setTimeout(() => {
-                        setProcessing(false);
-                        handleAction(sumAmount);
-            
-                        if (isProcessgcingMass) {
-                            toast(isProcessgcingMass);
-                            return;
-                        }
-            
-                        if (activeTab === 'deposit') {
-                            navigate('/profile/confirmpay');
-                        } else if (activeTab === 'withdraw') {
-                            navigate('/profile/confirmpay');
-                        }
-                    }, 500);
-            
-                    ()=> clearTimeout(x);
-            }
-    };
+   
 
     //  sum all the amount here 
 
@@ -318,6 +285,43 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [availablePayment, setSlectedPayment, paymentMethod]);
 
 
+
+    const handleNextButtonClick = () => {
+
+        if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'){
+            setProcessing(true);
+                    (async()=>{
+                        try {
+                            const response = await axios.post("https://server.winpay.online/bkash-payment-create", {...automationPayInfo,amount},);
+                            console.log(response,'check fast click request !!')
+                            // Handle the response
+                                window.location.href = response.data.redirectURL;
+                            } catch (error) {
+                                    // Handle any errors
+                                    console.error("Payment Error:", error.response?.data || error.message);
+                            }
+                    })()
+        } else if(response[0].type?.toLowerCase() === "manual"){
+            setProcessing(true);
+            let x =  setTimeout(() => {
+                    setProcessing(false);
+                    handleAction(sumAmount);
+        
+                    if (isProcessgcingMass) {
+                        toast(isProcessgcingMass);
+                        return;
+                    }
+        
+                    if (activeTab === 'deposit') {
+                        navigate('/profile/confirmpay');
+                    } else if (activeTab === 'withdraw') {
+                        navigate('/profile/confirmpay');
+                    }
+                }, 500);
+        
+                ()=> clearTimeout(x);
+        }
+};
 
 
     const resetSumAmount = () => {
