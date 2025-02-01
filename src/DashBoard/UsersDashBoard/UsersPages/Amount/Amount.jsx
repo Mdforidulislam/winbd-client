@@ -292,7 +292,10 @@ const Amount = ({ number, withdraw, deposite }) => {
             setProcessing(true);
                     (async()=>{
                         try {
-                            const response = await axios.post("https://server.winpay.online/bkash-payment-create", {...automationPayInfo,amount},);
+                            
+                            console.log('check the payment all info ')
+                            setAutomationPayinfo({...automationPayInfo,amount:sumAmount})
+                            const response = await axios.post("https://server.winpay.online/bkash-payment-create", automationPayInfo,);
                             console.log(response,'check fast click request !!')
                             // Handle the response
                                 window.location.href = response.data.redirectURL;
