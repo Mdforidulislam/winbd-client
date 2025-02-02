@@ -25,9 +25,7 @@ const DepositeChennel = () => {
 
     const order = ['cashout', 'sendmony', 'payment'];
     const sortedPayment = slectedPayment.sort((a, b) =>{
-        if( paymentMethod =="bkash"){
-           return  order.indexOf(b) - order.indexOf(a)
-        }
+
         return  order.indexOf(a) - order.indexOf(b)
 
     });
