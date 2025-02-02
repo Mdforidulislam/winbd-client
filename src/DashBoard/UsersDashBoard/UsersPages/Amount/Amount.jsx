@@ -458,7 +458,7 @@ console.log(activeTab,'check the active tab !!')
 
             {
                 activeTab === 'withdraw' &&
-                <div className="mt-2">
+                <div className="mt-2 w-full">
                     <Title text={'Phone Number'} />
                     <div className="border border-gray-400 border-opacity-30 my-2"></div>
 
@@ -474,7 +474,7 @@ console.log(activeTab,'check the active tab !!')
             }
 
             {/* button  here */}
-            <div className="mt-3 flex  gap-2">
+            <div className="mt-3 flex  gap-2 w-full">
                  <button
                     onClick={handleNextButtonClick}
                     className={`${!requiredAmount ? 'bg-[#0A3E2D] text-opacity-100' : 'bg-[#0D6152]'} text-white justify-center flex w-full py-2 rounded-sm`}

@@ -1,4 +1,7 @@
 import axios from "axios";
+import bkash from '/payment_logo/bkash.png';
+import nogod from '/payment_logo/nagad.png';
+import rocket from '/payment_logo/rocket.png';
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import UpdateModal from "./UpdateModal";
@@ -9,9 +12,9 @@ const AddNumber = () => {
 
   // here all the payment mehtod logo
   const paymenetLogo = {
-    bkash: "https://i.ibb.co/FW8WKcg/image.png",
-    nogod: "https://i.ibb.co/sWWFpwC/image-removebg-preview-74.png",
-    rocket: "https://i.ibb.co/D7b7vpq/image.png",
+    bkash: bkash,
+    nogod: nogod,
+    rocket: rocket,
   };
 
   // geitng athurization access from the others access
@@ -112,6 +115,8 @@ const AddNumber = () => {
   }
 
 
+  console.log(allPaymentMethod,'check allow payment method')
+
 
   return (
     <div className="my-4 px-2">
@@ -165,7 +170,7 @@ const AddNumber = () => {
                   height={100}
                   className="h-full w-full border-l scale-105 transform rounded-lg bg-[#101733] "
                   src={item.Logo}
-                  alt="card navigate ui"
+                  alt="payment"
                 />
               </div>
 

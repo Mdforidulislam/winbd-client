@@ -23,7 +23,7 @@ const WithDraw = () => {
       <div className="mt-2 flex-shrink-0">
         <PaymentMethod number={3} />
       </div>
-      <div className="mt-2 flex-grow flex">
+      <div className="mt-2">
         <Amount withdraw='withdraw' />
       </div>
     </div>

@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import bkash from '/payment_logo/bkash.png';
+import nogod from '/payment_logo/nagad.png';
+import rocket from '/payment_logo/rocket.png';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { FaCheck, FaRegCheckCircle } from 'react-icons/fa';
 import { RxCross2 } from "react-icons/rx";
@@ -90,7 +93,7 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
                 <Loader />
             ) : (
                 <div className="text-white grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-                    {storeData?.map((data, index) => (
+                    {storeData?.filter((item)=> item?.transactionMethod === "bkash" || item?.transactionMethod === "nogod" || item?.transactionMethod === "rocket"  )?.map((data, index) => (
                         <form
                             onClick={() => setNewId(data)}
                             onSubmit={handleUpdatePayment}
@@ -99,7 +102,7 @@ const PersonalNumber = ({ paymentType, activeTab }) => {
                             className="bg-GlobalGray p-4 rounded-md shadow-md text-center relative"
                         >
                             <div className="flex h-12 gap-2 relative">
-                                <img src={data?.Logo} alt="" />
+                                <img src={data?.transactionMethod === "bkash" ? bkash :data?.transactionMethod === "nogod" ? nogod : rocket } alt="" />
                                 <input
                                     className="w-full py-2 px-3 text-sm rounded bg-GlobalDarkGray focus:outline-none"
                                     name="number"
