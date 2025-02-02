@@ -285,10 +285,11 @@ const Amount = ({ number, withdraw, deposite }) => {
     }, [availablePayment, setSlectedPayment, paymentMethod]);
 
 console.log(automationPayInfo,'checkthe ammount is exite!!')
+console.log(activeTab,'check the active tab !!')
 
     const handleNextButtonClick = () => {
 
-        if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'){
+        if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'  && activeTab === 'deposit'){
             setProcessing(true);
                     (async()=>{
                         try {
@@ -302,7 +303,7 @@ console.log(automationPayInfo,'checkthe ammount is exite!!')
                                     console.error("Payment Error:", error.response?.data || error.message);
                             }
                     })()
-        } else if(response[0].type?.toLowerCase() === "manual"){
+        } else {
             setProcessing(true);
             let x =  setTimeout(() => {
                     setProcessing(false);
