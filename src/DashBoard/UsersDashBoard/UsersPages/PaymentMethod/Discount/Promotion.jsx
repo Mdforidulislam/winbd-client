@@ -30,7 +30,7 @@ const Promotion = () => {
                     const parsedUser = JSON.parse(userData);
                     const userName = parsedUser?.userName;
                     if (userName) {
-                        const response = await axios.get(`https://server.win-pay.xyz/promotionOfferShow?userName=${userName}`);
+                        const response = await axios.get(`https://server.winpay.online/promotionOfferShow?userName=${userName}`);
                         const promotionData = response.data;
             
                         setPromotion(promotionData);

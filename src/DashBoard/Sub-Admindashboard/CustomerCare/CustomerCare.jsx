@@ -18,8 +18,8 @@ const AdminCustomerCare = () => {
         const fetchData = async () => {
             try {
                 const [socialResponse, emailResponse] = await Promise.all([
-                    axios.get(`https://server.win-pay.xyz/getSocialMFPF`, { params: { authorId: authId } }),
-                    axios.get(`https://server.win-pay.xyz/getingSubAdminEmail`, { params: { authoreId: authId } })
+                    axios.get(`https://server.winpay.online/getSocialMFPF`, { params: { authorId: authId } }),
+                    axios.get(`https://server.winpay.online/getingSubAdminEmail`, { params: { authoreId: authId } })
                 ]);
                 setData(socialResponse?.data?.data?.socialMediaLinks || {});
                 setEmailData(emailResponse.data?.getngEmail?.email || '');
@@ -44,7 +44,7 @@ const AdminCustomerCare = () => {
                 }
             };
 
-            const response = await axios.put(`https://server.win-pay.xyz/insertSocialMFPF`, updatedData, { params: { authorId } });
+            const response = await axios.put(`https://server.winpay.online/insertSocialMFPF`, updatedData, { params: { authorId } });
  
             if (response.data.message === 'Operation successful') {
                 setData(updatedData.socialMediaLinks);
@@ -65,7 +65,7 @@ const AdminCustomerCare = () => {
                 email: link
             };
 
-            const response = await axios.put(`https://server.win-pay.xyz/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
+            const response = await axios.put(`https://server.winpay.online/updateSubAdminEmail`, updatedData, { params: { authoreId: authorId } });
 
             if (response.data.message === "Email updated successfully") {
                 setEmailData(link);

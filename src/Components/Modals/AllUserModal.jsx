@@ -10,7 +10,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
     console.log('check the data modal ', item)
 
     const handleCheckboxChange = async (type,id) => {
-        const response = await axios.put(`https://server.win-pay.xyz/paymentUpdate?id=${id}&type=${type}`);
+        const response = await axios.put(`https://server.winpay.online/paymentUpdate?id=${id}&type=${type}`);
         if(response.data.message === 'Successfully updated the payment information.'){
             item.paymentPermissions = item.paymentPermissions.map((perm) => {
                 if (perm.type === type) {
@@ -57,7 +57,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
 
             //  for update only users 
             if (item.userName) {
-                const response = await axios.put(`https://server.win-pay.xyz/updateUserInfoAPI?id=${item?._id}`, formattedData, {
+                const response = await axios.put(`https://server.winpay.online/updateUserInfoAPI?id=${item?._id}`, formattedData, {
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -77,7 +77,7 @@ export const AllUserModal = ({ item, setOpenModal, openModal, userDataget }) => 
             //  for update only subamdin 
 
             if (item.subAdmin) {
-                const response = await axios.put(`https://server.win-pay.xyz/updatesubAdminInfoAPI?id=${item?._id}`, updateSubAdmin, {
+                const response = await axios.put(`https://server.winpay.online/updatesubAdminInfoAPI?id=${item?._id}`, updateSubAdmin, {
                     headers: {
                         "Content-Type": "application/json",
                     },

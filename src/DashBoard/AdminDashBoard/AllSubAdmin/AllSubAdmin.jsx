@@ -19,7 +19,7 @@ const AllSubAdmin = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("https://server.win-pay.xyz/getingDataSubAdmin", {
+        const res = await axios.get("https://server.winpay.online/getingDataSubAdmin", {
           params: {
             search: search,
             pageNumber: pageNumber

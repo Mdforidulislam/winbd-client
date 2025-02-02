@@ -143,7 +143,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             try {
 
 
-                const response = await fetch(`https://server.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`https://server.winpay.online/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(convert)
                 if (convert?.processingMessage) {
@@ -296,7 +296,7 @@ console.log(activeTab,'check the active tab !!')
                     (async()=>{
                         try {
 
-                            const response = await axios.post("https://server.win-pay.xyz/bkash-payment-create", automationPayInfo,);
+                            const response = await axios.post("https://server.winpay.online/bkash-payment-create", automationPayInfo,);
                             console.log(response,'check fast click request !!')
                             // Handle the response
                                 window.location.href = response.data.redirectURL;

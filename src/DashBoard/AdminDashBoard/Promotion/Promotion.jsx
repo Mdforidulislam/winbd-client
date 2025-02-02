@@ -31,7 +31,7 @@ const Promotion = () => {
         // Fetch campaigns data on component mount
         const fetchCampaigns = async () => {
             try {
-                const response = await axios.get('https://server.win-pay.xyz/getingPromotininfo');
+                const response = await axios.get('https://server.winpay.online/getingPromotininfo');
                 setCampaigns(response.data.getingPromotionList);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
@@ -78,7 +78,7 @@ const Promotion = () => {
 
     const handleSave = async () => {
         try {
-            const response = await axios.post('https://server.win-pay.xyz/promtionOfferinser', formData);
+            const response = await axios.post('https://server.winpay.online/promtionOfferinser', formData);
             setCampaigns([...campaigns, response.data]);
             if (response.data.message === 'Successfully inserted promotion data') {
                 toast.success('Campaign Added successfully');
@@ -94,7 +94,7 @@ const Promotion = () => {
         if (!currentId) return;
 
         try {
-            const response = await axios.put(`https://server.win-pay.xyz/updatePromotionData?id=${currentId}`, formData);
+            const response = await axios.put(`https://server.winpay.online/updatePromotionData?id=${currentId}`, formData);
             setCampaigns(campaigns.map(campaign => campaign._id === currentId ? response.data : campaign));
             clearForm();
             if (response.data.message === 'Successfully updated promotion') {
@@ -110,7 +110,7 @@ const Promotion = () => {
         if (!currentId) return;
 
         try {
-            const response = await axios.delete(`https://server.win-pay.xyz/deletedPromtion?id=${currentId}`);
+            const response = await axios.delete(`https://server.winpay.online/deletedPromtion?id=${currentId}`);
             setCampaigns(campaigns.filter(campaign => campaign._id !== currentId));
             clearForm();
             if (response.data.message === 'Successfully deleted promotion') {

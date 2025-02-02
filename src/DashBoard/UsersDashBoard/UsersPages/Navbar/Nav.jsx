@@ -17,7 +17,7 @@ const Nav = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get('https://server.win-pay.xyz/getingDynamicallyUrl');
+                const res = await axios.get('https://server.winpay.online/getingDynamicallyUrl');
                 setRedirectUrl(res.data.data[0].redirectUrl);
             } catch (error) {
                 console.error('Error fetching the data:', error);

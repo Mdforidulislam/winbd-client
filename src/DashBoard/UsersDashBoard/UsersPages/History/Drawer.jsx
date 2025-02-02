@@ -20,7 +20,7 @@ const Drawer = ({ isOpen, onClose }) => {
   useEffect(() => {
     const getingSearchValue = async () => {
       if (userName) {
-        const getingResponse = await axios.get(`https://server.win-pay.xyz/userHistory?userName=${encodeURIComponent(userName)}`);
+        const getingResponse = await axios.get(`https://server.winpay.online/userHistory?userName=${encodeURIComponent(userName)}`);
         const userSearchData = getingResponse?.data?.data;
         setUserSearchData(userSearchData);
       }
@@ -68,7 +68,7 @@ const Drawer = ({ isOpen, onClose }) => {
         .map(item => `searchList=${encodeURIComponent(item)}`)
         .join('&');
 
-      const getingResponse = await axios.get(`https://server.win-pay.xyz/userHistory?userName=${encodeURIComponent(userName)}&${queryString}`);
+      const getingResponse = await axios.get(`https://server.winpay.online/userHistory?userName=${encodeURIComponent(userName)}&${queryString}`);
       const userSearchData = getingResponse.data.data;
 
       setUserSearchData(userSearchData);

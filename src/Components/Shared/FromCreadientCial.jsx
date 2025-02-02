@@ -16,7 +16,7 @@ export const FromCreadiencial = () => {
   // Handle form submission
   const onSubmit = async (info) => {
 
-    const {data} = await axios.post("https://server.win-pay.xyz/marchent-add",{
+    const {data} = await axios.post("https://server.winpay.online/marchent-add",{
       marchentinfo : info
     });
 
@@ -24,7 +24,7 @@ export const FromCreadiencial = () => {
 
     if(data?.data?.message === "Merchant already exists"){
       console.log('Merchant already exists');
-      const {data} = await axios.put("https://server.win-pay.xyz/marchent-update",{
+      const {data} = await axios.put("https://server.winpay.online/marchent-update",{
         marchentinfo: info
       });
 
@@ -44,7 +44,7 @@ export const FromCreadiencial = () => {
         const userId = JSON.parse(response)?.uniqueId || "defaultUser";
   
         // Make the API call
-        const { data } = await axios.get(`https://server.win-pay.xyz/margent-get?marchent_Id=${userId}`);
+        const { data } = await axios.get(`https://server.winpay.online/margent-get?marchent_Id=${userId}`);
         console.log(data, 'Check if data exists or not!');
   
         // Dynamically reset form fields with default and dynamic values
