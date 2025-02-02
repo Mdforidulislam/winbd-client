@@ -31,7 +31,7 @@ const History = () => {
     //     if (!localData) return;
 
     //     setLoading(true);
-    //     let url = `https://server.winpay.online/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+    //     let url = `https://server.win-pay.xyz/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
     //     if (selectedDate) {
     //         url += `&date=${selectedDate.toISOString().split('T')[0]}`;
     //     }
@@ -79,7 +79,7 @@ const History = () => {
             if (!localData) return;
 
             setLoading(true);
-            let url = `https://server.winpay.online/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
+            let url = `https://server.win-pay.xyz/getingHistory?authorId=${localData}&pageNumber=${pageNumber}`;
     
             if (selectedDate) {
                 url += `&date=${selectedDate.toISOString().split('T')[0]}`;

@@ -143,7 +143,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             try {
 
 
-                const response = await fetch(`https://server.winpay.online/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`https://server.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(convert)
                 if (convert?.processingMessage) {
@@ -196,7 +196,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
     },[sumAmount,paymentMethod,channel])
 
-    const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
+   
    
    
 
@@ -287,14 +287,16 @@ const Amount = ({ number, withdraw, deposite }) => {
 console.log(automationPayInfo,'checkthe ammount is exite!!')
 console.log(activeTab,'check the active tab !!')
 
+    const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
+    
     const handleNextButtonClick = () => {
 
-        if(response[0].type === "automation" && paymentMethod?.toLowerCase() === 'bkash'  && activeTab === 'deposit'){
+        if(response[0]?.type === "automation" && paymentMethod?.toLowerCase() === 'bkash'  && activeTab === 'deposit'){
             setProcessing(true);
                     (async()=>{
                         try {
 
-                            const response = await axios.post("https://server.winpay.online/bkash-payment-create", automationPayInfo,);
+                            const response = await axios.post("https://server.win-pay.xyz/bkash-payment-create", automationPayInfo,);
                             console.log(response,'check fast click request !!')
                             // Handle the response
                                 window.location.href = response.data.redirectURL;

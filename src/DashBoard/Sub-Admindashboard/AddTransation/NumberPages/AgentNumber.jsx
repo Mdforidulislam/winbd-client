@@ -40,7 +40,7 @@ const AgentNumber = ({ paymentType, activeTab }) => {
         const fetchAgentData = async () => {
             setState(prevState => ({ ...prevState, loading: true }));
             try {
-                const { data: serverData } = await axios.get(`https://server.winpay.online/getingPaymentmethod?uniqueId=${state.localData}&paymentType=${paymentType}`);
+                const { data: serverData } = await axios.get(`https://server.win-pay.xyz/getingPaymentmethod?uniqueId=${state.localData}&paymentType=${paymentType}`);
                 const data = serverData || [];
                 const options = data.map(item => item.status || null);
                 setState(prevState => ({
@@ -101,7 +101,7 @@ const AgentNumber = ({ paymentType, activeTab }) => {
         };
 
         try {
-            const { data: response } = await axios.patch('https://server.winpay.online/updatePaymentMethod', formValues);
+            const { data: response } = await axios.patch('https://server.win-pay.xyz/updatePaymentMethod', formValues);
             if (response.message === 'Successfully processed payment method') {
                 toast.success(response.message);
             }
