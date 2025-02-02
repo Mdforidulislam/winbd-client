@@ -168,7 +168,7 @@ const Amount = ({ number, withdraw, deposite }) => {
 
 
     useEffect(()=>{
-       setTimeout(() => {
+
         const promotion    = localStorage.getItem("promotion");
         function getingLocalStoreData (key){
           const data =   localStorage.getItem(key)
@@ -192,7 +192,7 @@ const Amount = ({ number, withdraw, deposite }) => {
                 offers: [{ title: promotion || '' }],
             }
         )
-       }, 1000);
+       
 
     },[sumAmount,paymentMethod,channel])
 
@@ -284,7 +284,7 @@ const Amount = ({ number, withdraw, deposite }) => {
         setSlectedPayment(channelList)
     }, [availablePayment, setSlectedPayment, paymentMethod]);
 
-
+console.log(automationPayInfo,'checkthe ammount is exite!!')
 
     const handleNextButtonClick = () => {
 
@@ -292,9 +292,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             setProcessing(true);
                     (async()=>{
                         try {
-                            
-                            console.log('check the payment all info ')
-                            setAutomationPayinfo({...automationPayInfo,amount:sumAmount})
+
                             const response = await axios.post("https://server.winpay.online/bkash-payment-create", automationPayInfo,);
                             console.log(response,'check fast click request !!')
                             // Handle the response

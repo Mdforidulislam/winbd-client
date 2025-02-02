@@ -2,6 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../Authentication/Authentication";
 import Discount from "./Discount/Discount";
 import Title from "../../../../Components/Titile/Title";
+import bkash from '../../../../../public/payment_logo/bkash.png';
+import rocket from '../../../../../public/payment_logo/rocket.png';
+import nogod from '../../../../../public/payment_logo/nagad.png';
 
 const PaymentMethod = () => {
   const [method, setMehod] = useState([]); // store the all paymentmethod use for show data
@@ -36,12 +39,13 @@ const PaymentMethod = () => {
             className={`py-[7%] ${paymentType === item?.title ? 'relative border-CustomYellow border text-Customborder-CustomYellow rounded-[0.1875rem] flex w-full h-full items-center justify-center' : 'border border-gray-400 border-opacity-40 rounded-sm flex w-full h-full items-center justify-center hover:border-CustomYellow '}`}
           >
             <div className="relative h-full w-full flex flex-col justify-center items-center">
-              <div className={`h-[1.7rem] w-[4rem]`}>
+              <div className={` w-[3rem] h-full`}>
                 <img
-                  className={`h-full w-full ${item?.title === 'surecash' || "nogoad" ? 'object-cover' : 'object-contain'}`}
-                  src={item?.img}
+                  className={`h-full w-full `}
+                  src={item?.title === "bkash" ? bkash : item?.title === "rocket" ? rocket :  nogod }
                   alt=""
                 />
+           
               </div>
 
               <h1 onClick={() => setPaymentType(item?.title)} className={`${paymentType === item?.title ? 'text-CustomYellow' : 'text-white'} mt-1 hover:text-Customborder-CustomYellow text-[0.820rem]`}>{item?.title === 'bkash' ? 'bkash' : item?.title === 'rocket' ? 'Rocket' : item?.title === 'nogod' ? 'Nagad' : item?.title === 'upay' ? 'Upay' : item?.title === 'surecash' ? 'SureCash' : item?.title === 'okwallet' ? 'OKWallet' : item?.title}</h1>

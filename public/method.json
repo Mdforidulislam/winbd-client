@@ -18,20 +18,5 @@
         "title": "nogod",
         "descrip": "may be work",
         "id": 3
-    },
-    {
-        "img": "https://okwallet.com.bd/images/bs-img.png",
-        "title": "okwallet",
-        "offer": "+15%"
-    },
-    {
-        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNp6XDtVOAwywc8atfpk3VciloA7_6Ojv3fQ&s",
-        "title": "surecash",
-        "offer": "+15%"
-    },
-    {
-        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjyrgZITyr6hwVLiG70rQLSLmMBLVKhKcyKg&s",
-        "title": "upay",
-        "offer": "+15%"
     }
 ]
