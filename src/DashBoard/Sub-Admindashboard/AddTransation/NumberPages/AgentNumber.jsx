@@ -39,6 +39,8 @@ const AgentNumber = ({ paymentType, activeTab }) => {
         }));
     }, []);
 
+
+    
     useEffect(() => {
         const fetchAgentData = async () => {
             setState(prevState => ({ ...prevState, loading: true }));
