@@ -291,7 +291,7 @@ console.log(activeTab,'check the active tab !!')
     
     const handleNextButtonClick = () => {
 
-        if(response[0]?.type === "automation" && paymentMethod?.toLowerCase() === 'bkash'  && activeTab === 'deposit'){
+        if(response[0] && response[0]?.type === "automation" && paymentMethod?.toLowerCase() === 'bkash'  && activeTab === 'deposit'){
             setProcessing(true);
                     (async()=>{
                         try {
