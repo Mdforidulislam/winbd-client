@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import bkash from '/bkash.png';
-import nagad from '/nagad.png';
-import rocket from '/rocket.jpg';
+import bkash from '/payment_logo/bkash.png';
+import nagad from '/payment_logo/nagad.png';
+import rocket from '/payment_logo/rocket.png';
 import ModalTransaction from "./Modal/ModalTransaction";
 import Loader from "../../../../Components/Loader/Loader";
 

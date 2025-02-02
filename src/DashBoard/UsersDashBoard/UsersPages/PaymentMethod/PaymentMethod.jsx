@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react";
+import bkash from '/payment_logo/bkash.png';
+import nogod from '/payment_logo/nagad.png';
+import rocket from '/payment_logo/rocket.png';
 import { AuthContext } from "../../../../Authentication/Authentication";
 import Discount from "./Discount/Discount";
 import Title from "../../../../Components/Titile/Title";
-import bkash from '../../../../../public/payment_logo/bkash.png';
-import rocket from '../../../../../public/payment_logo/rocket.png';
-import nogod from '../../../../../public/payment_logo/nagad.png';
+
+
 
 const PaymentMethod = () => {
   const [method, setMehod] = useState([]); // store the all paymentmethod use for show data

@@ -1,9 +1,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { IoCloseSharp } from "react-icons/io5";
-import bkash from '/bkash.png';
-import nagad from '/nagad.png';
-import rocket from '/rocket.jpg';
+import bkash from '/payment_logo/bkash.png';
+import nagad from '/payment_logo/nagad.png';
+import rocket from '/payment_logo/rocket.png';
 import React, { useContext, useState } from "react";
 import { FaCheck, FaRegCopy } from "react-icons/fa";
 import toast from "react-hot-toast";
