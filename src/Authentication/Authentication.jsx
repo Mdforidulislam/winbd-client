@@ -27,6 +27,52 @@ const Authentication = ({ children }) => {
   const [discount, setDiscount] = useState(); // set discount from promotion offer 
   const [reload, setReload] = useState(null); // set reload here 
   const [requestFilterId, setRequestFilterId] = useState(); // set the transaction request  status id could be update or approve or rejected 
+  const [newVersion, setNewVersion] = useState(null);
+
+  // ----------------------- browser issue fix ----------------------------------
+  const CASH_KEY = 'APP_VERSION';
+
+  useEffect(() => {
+    const checkVersion = async () => {
+      try {
+        // Fetch the version from the public folder
+        const response = await fetch('/version.json');
+        const data = await response.json();
+        
+        const version = data.version;
+        setNewVersion(version);
+
+        // Retrieve stored version from localStorage
+        const storedVersion = localStorage.getItem(CASH_KEY);
+
+        if (storedVersion && storedVersion !== version) {
+          clearCacheAndReload();
+        }
+
+        // Store the new version in localStorage for future checks
+        localStorage.setItem(CASH_KEY, version);
+
+      } catch (error) {
+        console.error('Error checking app version:', error);
+      }
+    };
+
+    // Call the check version function on component mount
+    checkVersion();
+  }, []);
+
+  const clearCacheAndReload = () => {
+    if ('caches' in window) {
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cache) => {
+          caches.delete(cache); // Delete all caches
+        });
+      });
+    }
+
+    // Force reload to ensure the latest version is fetched after clearing the cache
+    window.location.reload(true);
+  };
 
   //==================== ahutentication data ============================ 
 

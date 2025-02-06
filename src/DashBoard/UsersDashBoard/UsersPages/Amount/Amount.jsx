@@ -287,45 +287,49 @@ const Amount = ({ number, withdraw, deposite }) => {
 console.log(automationPayInfo,'checkthe ammount is exite!!')
 console.log(activeTab,'check the active tab !!')
 
-    const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
+const response =  useIsExiteAutomation(channel,paymentMethod, availablePayment);
     
-    const handleNextButtonClick = () => {
+const handleNextButtonClick = () => {
+    if (response && response[0]?.type === "automation" && paymentMethod?.toLowerCase() === 'bkash' && activeTab === 'deposit') {
+        setProcessing(true);
+        (async () => {
+            // Async code placeholder
+            try{
 
-        if(response && response[0]?.type === "automation" && paymentMethod?.toLowerCase() === 'bkash'  && activeTab === 'deposit'){
-            setProcessing(true);
-                    (async()=>{
-                        try {
+                const response = await axios.post('https://server.winpay.online/bkash-payment-create', automationPayInfo);
 
-                            const response = await axios.post("https://server.winpay.online/bkash-payment-create", automationPayInfo,);
-                            console.log(response,'check fast click request !!')
-                            // Handle the response
-                                window.location.href = response.data.redirectURL;
-                            } catch (error) {
-                                    // Handle any errors
-                                    console.error("Payment Error:", error.response?.data || error.message);
-                            }
-                    })()
-        } else {
-            setProcessing(true);
-            let x =  setTimeout(() => {
-                    setProcessing(false);
-                    handleAction(sumAmount);
-        
-                    if (isProcessgcingMass) {
-                        toast(isProcessgcingMass);
-                        return;
-                    }
-        
-                    if (activeTab === 'deposit') {
-                        navigate('/profile/confirmpay');
-                    } else if (activeTab === 'withdraw') {
-                        navigate('/profile/confirmpay');
-                    }
-                }, 500);
-        
-                ()=> clearTimeout(x);
-        }
+                window.location.href = response.data.data;
+                console.log(response,'check the response')
+
+            }catch(error){
+                console.error('Error:', error);
+                
+            }
+        })();
+    } else {
+        setProcessing(true);
+        let x = setTimeout(() => {
+            setProcessing(false);
+            handleAction(sumAmount);
+
+            if (isProcessgcingMass) {
+                toast(isProcessgcingMass);
+                return;
+            }
+
+            // Ensure the correct condition for navigation
+            if (activeTab === 'deposit' || activeTab === 'withdraw') {
+                console.log('Navigating to: /profile/confirmpay');
+                navigate('/profile/confirmpay');
+            }
+        }, 500);
+
+        // Cleanup the timeout
+        return () => clearTimeout(x);
+    }
 };
+
+
 
 
     const resetSumAmount = () => {
