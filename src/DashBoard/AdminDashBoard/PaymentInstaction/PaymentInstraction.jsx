@@ -44,7 +44,7 @@ const PaymentInstruction = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://server.winpay.online/insertPayInstraction', formData);
+            const response = await axios.post('https://server.win-pay.xyz/insertPayInstraction', formData);
             const finalData = await response.data;
 
         } catch (error) {

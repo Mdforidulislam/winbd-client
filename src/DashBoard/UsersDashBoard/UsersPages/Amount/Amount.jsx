@@ -105,9 +105,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             }
         }
     }, [sumAmount, activeTab])
-
     //  geting dall the info here
-
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem('userData'));
@@ -143,7 +141,7 @@ const Amount = ({ number, withdraw, deposite }) => {
             try {
 
 
-                const response = await fetch(`https://server.winpay.online/showPaymentNumber?author=${author}&userName=${userName}`);
+                const response = await fetch(`https://server.win-pay.xyz/showPaymentNumber?author=${author}&userName=${userName}`);
                 const convert = await response.json();
                 console.log(convert)
                 if (convert?.processingMessage) {
@@ -296,7 +294,7 @@ const handleNextButtonClick = () => {
             // Async code placeholder
             try{
 
-                const response = await axios.post('https://server.winpay.online/bkash-payment-create', automationPayInfo);
+                const response = await axios.post('https://server.win-pay.xyz/bkash-payment-create', automationPayInfo);
 
                 window.location.href = response.data.data;
                 console.log(response,'check the response')

@@ -38,7 +38,7 @@ const AddNumber = () => {
 
     //   ======================== add tranaction number ==========================
 
-    axios.post("https://server.winpay.online/addTransaction", paymenetList, {
+    axios.post("https://server.win-pay.xyz/addTransaction", paymenetList, {
       headers: {
         "Content-Type": "application/json",
       }
@@ -73,7 +73,7 @@ const AddNumber = () => {
   useEffect(() => {
     
     if (getUniqueIdLocal) {
-      axios.get(`https://server.winpay.online/getingPaymentmethod?uniqueId=${getUniqueIdLocal}`)
+      axios.get(`https://server.win-pay.xyz/getingPaymentmethod?uniqueId=${getUniqueIdLocal}`)
         .then(data => {
           setAllPaymentMehod(data.data.getingPaymentMehod);
 
@@ -86,7 +86,7 @@ const AddNumber = () => {
 
   const handleConfiguration = (number, id) => {
 
-    axios.patch("https://server.winpay.online/updatePaymentMethod/", { number, id }, {
+    axios.patch("https://server.win-pay.xyz/updatePaymentMethod/", { number, id }, {
       headers: {
         "Content-Type": "application/json",
       }

@@ -31,7 +31,7 @@ const WithDrawTalbe = (uniqueValue , tab) => {
     useEffect(() => {
         if (!uniqueId) return
         const getingUserResquestInfo = async () => {
-            const response = await axios.get(`https://server.winpay.online/transactionReqWith?authurId=${uniqueId}`);
+            const response = await axios.get(`https://server.win-pay.xyz/transactionReqWith?authurId=${uniqueId}`);
             setUserReqData(response?.data);
             setLoading(false);
 

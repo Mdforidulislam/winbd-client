@@ -14,7 +14,7 @@ const AdminCustomerCare = () => {
         setLocalData(authurId);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://server.winpay.online/getSocialMFPF?authorId=${authurId}`);
+                const response = await axios.get(`https://server.win-pay.xyz/getSocialMFPF?authorId=${authurId}`);
                 setData(response.data.data.socialMediaLinks || {});
 
             } catch (error) {
@@ -35,7 +35,7 @@ const AdminCustomerCare = () => {
                     [platform]: { link }
                 }
             };
-            await axios.put(`https://server.winpay.online/insertSocialMFPF?authorId=${localData}`, updatedData);
+            await axios.put(`https://server.win-pay.xyz/insertSocialMFPF?authorId=${localData}`, updatedData);
             toast.success('Link Updated successfully');
             //due
             //data is updated successfully but showing error in the console

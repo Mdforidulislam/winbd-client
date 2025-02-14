@@ -13,7 +13,7 @@ export const SubAdminUpdateModal = ({ item, openUpdateModal, setOpenUpdateModal 
 
     const onSubmit = (data) => {
 
-        // axios.post("https://server.winpay.online/insertSubAdmin", data, {
+        // axios.post("https://server.win-pay.xyz/insertSubAdmin", data, {
         //     headers: {
         //         "Content-Type": "application/json",
         //     },
